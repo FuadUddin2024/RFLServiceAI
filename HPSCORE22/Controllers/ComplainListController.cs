@@ -1,0 +1,119 @@
+﻿using CSWMS.Models;
+using CSWMS.Models.ViewModel;
+using CSWMS.Repositories;
+using Microsoft.AspNetCore.Mvc;
+
+namespace CSWMS.Controllers
+{
+    public class ComplainListController : Controller
+    {
+        private readonly ComplainListRepository _complainListRepository;
+        private readonly ZoneRepository _ZoneDetails;
+        private readonly CompanyRepository _CompanyDetails;
+        private readonly AssignRepository _AssignList;
+        private readonly SuperVisorRepository _SuperVisor;
+        private readonly Repositories.StatusRepository _StatusDetails;
+        public ComplainListController(ComplainListRepository complainListRepository,
+            ZoneRepository Zones, CompanyRepository Company,AssignRepository AssingList,
+            SuperVisorRepository SuperVisor, Repositories.StatusRepository StatusDetails)
+        {
+            _complainListRepository = complainListRepository;
+            _ZoneDetails = Zones;
+            _CompanyDetails = Company;
+            _AssignList = AssingList;
+            _SuperVisor = SuperVisor;
+            _StatusDetails = StatusDetails;
+        }
+
+        public IActionResult ComplainListData()
+        {
+            ComplainViewModel ComplainViewModel = new ComplainViewModel();
+            ComplainViewModel.AssignModel=new AssignModel();
+            ComplainViewModel.ZoneList = _ZoneDetails.GetALlZoneistForAssing();
+          //  ComplainViewModel.SuperVisorList = _SuperVisor.GetAllSuperVisorList();
+            ComplainViewModel.CompanyList = _CompanyDetails.GetALLCompany();
+           ComplainViewModel.StatusList = _StatusDetails.GetALLStatus();
+            return View(ComplainViewModel);
+        }
+
+        [HttpPost]
+        public JsonResult GetAllComplainList()
+        {
+            var data = _complainListRepository.GetALlComplainListForAssing();
+
+            return Json(new
+            {
+                complainList = data
+            });
+        }
+        [HttpGet]
+        public JsonResult GetComplainSingle(string id)
+        {
+            var data = _complainListRepository.GetAllComplainList(id);
+            return Json(new
+            {
+                complainList = data
+            });
+        }
+        [HttpGet]
+        public JsonResult GetZoneWiseSupervisor(int zoneId)
+        {
+            var data = _SuperVisor.GetAllSuperVisorList().Where(x=>x.ZoneId== zoneId).ToList();
+            return Json(new
+            {
+                SupervisorList = data
+            });
+        }
+        [HttpPost]
+        public IActionResult SaveAssignData(ComplainViewModel CompalinViewModel)
+        {
+            var AssignDataFrom = CompalinViewModel.AssignModel;
+            if (ModelState.IsValid)
+            {
+                if (AssignDataFrom.TicketID > 0)
+                {
+                    var AssingData = _AssignList.GetAllComplainList(AssignDataFrom.TicketID.ToString()).FirstOrDefault();
+                    if (AssingData != null)
+                    {
+                        TempData["ERRORMSG"] = "This Ticket ID is already exists for assign, please update this Ticket ID.";
+                    }
+                    else
+                    {
+                        AssignDataFrom.AssignDate = DateTime.Now;
+                        AssignDataFrom.IsAssign = false;
+                        AssignDataFrom.EntryDate = DateTime.Now;
+                        AssignDataFrom.EntryBy =  HttpContext.Session.GetString("USER_TEXT") ?? "Admin";
+                        var AssingID= _AssignList.InsertAssign(AssignDataFrom);
+                        if(AssingID>0)
+                        {
+                            var data = _complainListRepository.GetAllComplainList(AssignDataFrom.TicketID.ToString()).FirstOrDefault();
+                            data.SendAssign= true;
+                            var UpdatedData= _complainListRepository.UpdateComplain(data);
+                            if (UpdatedData)
+                            {
+                                TempData["SuccessMSG"] = "Successfully Inserted.";
+                            }
+                            else
+                            {
+                                TempData["ERRORMSG"] = "!!!! ERROR !!!";
+                            }
+                        }
+                        else
+                        {
+                            TempData["ERRORMSG"] = "!!!! ERROR !!!";
+                        }
+                    }
+                }
+                else
+                {
+                    TempData["ERRORMSG"] = "!!!! ERROR !!!";
+                }
+            }
+            else
+            {
+                TempData["ERRORMSG"] = "!!!! ERROR !!!";
+            }
+            return RedirectToAction("ComplainListData", "ComplainList");
+        }
+    }
+}

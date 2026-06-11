@@ -1,0 +1,90 @@
+﻿using CSWMS.Interface;
+using CSWMS.Models;
+using CSWMS.Utility;
+using QCMS.Services;
+using System.Data;
+using System.Data.SqlClient;
+namespace CSWMS.Repositories
+{
+    using Microsoft.Data.SqlClient;
+    using System.Data;
+
+    public class AssignRepository: IAssignRepository
+    {
+        private readonly DatabaseService _db;
+
+        public AssignRepository(DatabaseService db)
+        {
+            _db = db;
+        }
+
+        public List<AssignModel> GetAllComplainList(string ticketCode)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection Connection = _db.GetConnection())
+            {
+                Connection.Open();
+
+                using (SqlCommand Command = new SqlCommand("SP_GetAssingByTicketCode", Connection))
+                {
+                    Command.CommandType = CommandType.StoredProcedure;
+                    Command.CommandTimeout = 300;
+
+                    // Send parameter
+                    Command.Parameters.AddWithValue("@TicketCode", ticketCode);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(Command))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+
+            return ExtractData.Convert<AssignModel>(dt).ToList();
+        }
+        public int InsertAssign(AssignModel AssingModel)
+        {
+            int assignId = 0;
+
+            using (SqlConnection connection = _db.GetConnection())
+            {
+                connection.Open();
+
+                using (SqlCommand cmd = new SqlCommand("SP_InsertAssign", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@TicketID", AssingModel.TicketID);
+                    cmd.Parameters.AddWithValue("@AssignDate", AssingModel.AssignDate);
+                    cmd.Parameters.AddWithValue("@FinishDate",
+                        AssingModel.FinishDate ?? (object)DBNull.Value);
+
+                    cmd.Parameters.AddWithValue("@CustomerName", AssingModel.CustomerName);
+                    cmd.Parameters.AddWithValue("@CustomerContactNo", AssingModel.CustomerContactNo);
+                    cmd.Parameters.AddWithValue("@CustomerAddress", AssingModel.CustomerAddress);
+                    cmd.Parameters.AddWithValue("@ProductName", AssingModel.ProductName);
+
+                    cmd.Parameters.AddWithValue("@StatusId", AssingModel.StatusId);
+                    cmd.Parameters.AddWithValue("@AssignZoneId", AssingModel.AssignZoneId);
+                    cmd.Parameters.AddWithValue("@SupervisorId", AssingModel.SupervisorId);
+                    cmd.Parameters.AddWithValue("@CompanyId", AssingModel.CompanyId);
+
+                    cmd.Parameters.AddWithValue("@IsAssign", AssingModel.IsAssign);
+
+                    cmd.Parameters.AddWithValue("@EntryBy", AssingModel.EntryBy);
+                    cmd.Parameters.AddWithValue("@EntryDate", AssingModel.EntryDate);
+
+                    cmd.Parameters.AddWithValue("@Remarks",
+                        string.IsNullOrEmpty(AssingModel.Remarks)
+                        ? (object)DBNull.Value
+                        : AssingModel.Remarks);
+
+                    assignId = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+
+            return assignId;
+        }
+    }
+}

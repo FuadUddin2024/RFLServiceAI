@@ -1,0 +1,20 @@
+﻿<!--JQuery-->
+<script src="~/jquery/jquery-3.6.0.min.js"></script>
+<script>
+	function fromhideshow()
+	{
+		var btn=document.getElementById("customebutton");
+		var x = document.getElementById("customerform");
+		if (x.style.display === "none") {
+			x.style.display = "block";
+			btn.innerText = "Cancle";
+			btn.classList.remove("btn-success");
+			btn.classList.add("btn-danger");
+		} else {
+			x.style.display = "none";
+			btn.innerText = "ADD +";
+			btn.classList.add("btn-success");
+			btn.classList.remove("btn-danger");
+		}
+	}
+</script>

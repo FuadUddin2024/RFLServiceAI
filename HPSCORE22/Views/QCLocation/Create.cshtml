@@ -1,0 +1,79 @@
+﻿@model QCMS.Models.QC_Location
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<div class="container mt-4">
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            @(string.IsNullOrEmpty(Model.LOCATION_ID) ? "Add Location" : "Edit Location")
+        </div>
+
+        <div class="card-body">
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
+
+            <form method="post" asp-action="Save">
+
+                <input asp-for="LOCATION_ID" type="hidden" />
+
+                <div class="mb-3">
+                    <label class="form-label">Company</label>
+                    <select asp-for="COMPANY_ID" class="form-control select2">
+                        <option value="">-- Select Company --</option>
+
+                        @foreach (var c in ViewBag.CompanyList)
+                        {
+                            <option value="@c.COMPANY_ID">
+                                @c.COMPANY_NAME
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-2">
+                    <label>Name</label>
+                    <input asp-for="LOCATION_NAME" class="form-control" />
+                </div>
+
+                <div class="mb-2">
+                    <label>Short Name</label>
+                    <input asp-for="LOCATION_SHORT_NAME" class="form-control" />
+                </div>
+
+              @*   <div class="mb-2">
+                    <label>Active</label>
+                    <select asp-for="IS_ACTIVE" class="form-control">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div> *@
+
+                <button class="btn btn-success">Save</button>
+                <a asp-area="" asp-controller="QCLocation" asp-action="index" class="btn btn-secondary">Back</a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('.select2').select2({
+            placeholder: "🔍 Search Company",
+            allowClear: true,
+            width: '100%'
+        });
+
+    });
+</script>

@@ -1,0 +1,119 @@
+﻿@model IEnumerable<QCMS.Models.QC_Location>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<div class="container mt-4">
+
+    <!-- 🔹 Header (Same as Company) -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="fw-bold">📍 Location List</h3>
+        <a asp-area="" asp-controller="QCLocation" asp-action="Create" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle"></i> Add Location
+        </a>
+    </div>
+
+    <!-- 🔹 Success Message -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- 🔹 Card Layout (Same as Company) -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <table id="locationTable" class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Location ID</th>
+                        <th>Company</th>
+                        <th>Name</th>
+                        <th>Short Name</th>
+                        <th>Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.LOCATION_ID</td>
+                            <td>@item.COMPANY_NAME</td>
+                            <td>@item.LOCATION_NAME</td>
+                            <td>@item.LOCATION_SHORT_NAME</td>
+                            <td>
+                                <span class="badge @(item.IS_ACTIVE == 1 ? "bg-success" : "bg-secondary")">
+                                    @(item.IS_ACTIVE == 1 ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <a asp-area=""
+                                   asp-controller="QCLocation"
+                                   asp-action="Create"
+                                   asp-route-id="@item.LOCATION_ID"
+                                   class="btn btn-sm btn-warning me-1">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a asp-area=""
+                                   asp-controller="QCLocation"
+                                   asp-action="Delete"
+                                   asp-route-id="@item.LOCATION_ID"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirmDelete()">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#locationTable').DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 25, 50],
+            ordering: true,
+            searching: true,
+            paging: true,
+            info: true,
+            autoWidth: false,
+            responsive: true, // ✅ better UI
+
+            language: {
+                search: "🔍 Search:",
+                lengthMenu: "Show _MENU_ entries",
+                zeroRecords: "No matching locations found",
+                info: "Showing _START_ to _END_ of _TOTAL_ locations",
+                infoEmpty: "No data available"
+            },
+
+            columnDefs: [
+                { orderable: false, targets: 5 } // action column
+            ]
+        });
+    });
+
+    function confirmDelete() {
+        return confirm("⚠️ Are you sure you want to delete?");
+    }
+</script>

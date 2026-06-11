@@ -1,0 +1,370 @@
+﻿@model CSWMS.Models.ViewModel.ComplainViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .assignlable
+    {
+        font-size: 14px;
+    }
+    .modal-dialog
+    {
+        max-width:730px !important ;
+    }
+
+    table.dataTable {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper {
+        overflow-x: auto;
+    }
+</style>
+<partial name="~/Views/Shared/PartialView/_CSSCDNLink.cshtml" />
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<div class="container">
+    <div class="row">
+        <div class="" style="display:flex;justify-content:center;align-content:center;">
+            <input type="text" placeholder="Search By Ticket ID For Editing" />
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>YOOOOOOOOOOO</h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+
+                    <table id="example1" class="table table-bordered table-striped w-100">
+                        <thead class="table-info">
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Customer Name</th>
+                                <th>Contact No</th>
+                                <th>Location</th>
+                                <th>Product Name</th>
+                                <th>Problem Name</th>
+                                <th>Complain Date</th>
+                                <th>Assign Tasks</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ✅ ASSIGN MODAL (BOOTSTRAP 5) -->
+<div class="modal fade" id="assignModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            @using (Html.BeginForm("SaveAssignData", "ComplainList", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
+        {
+            <div class="modal-header">
+                    <h5 class="modal-title">
+                        Assign Setup
+                    </h5>
+            </div>
+
+            <div class="modal-body">
+
+                <input type="hidden" id="ticketId" />
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Ticket ID</label>
+                            @Html.TextBoxFor(m => m.AssignModel.TicketID, new { @class = "form-control", @readonly = "readonly", id = "txtTicketID" })
+                       @*  <input type="text" id="ticketDisplay" class="form-control" disabled /> *@
+                    </div>
+
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Customer Name</label>
+                            @Html.TextBoxFor(m => m.AssignModel.CustomerName, new { @class = "form-control",id = "txtcustomername" })
+                       @*  <input type="text" id="customerName" class="form-control" disabled /> *@
+                    </div>
+
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Product Name</label>
+                            @Html.TextBoxFor(m => m.AssignModel.ProductName, new { @class = "form-control", id = "txtproductname" })
+                       @*  <input type="text" id="productName" class="form-control" disabled /> *@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Assign Zone <span style="color:red;">*</span></label>
+                            @Html.DropDownListFor(
+                            m => m.AssignModel.AssignZoneId,
+                                                new SelectList(Model.ZoneList, "ZoneId", "ZoneName"),
+                                                "Select Zone",
+                                                new { @class = "form-control", id = "AssingedZone" }
+                                                )
+                        @Html.ValidationMessageFor(m => m.AssignModel.AssignZoneId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Customer ContactNo</label>
+                        @Html.TextBoxFor(m => m.AssignModel.CustomerContactNo, new { @class = "form-control", id = "txtContactNumber" })
+                      @*   <input type="text" id="productName" class="form-control" disabled /> *@
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Assign Company <span style="color:red;">*</span></label>
+                        @Html.DropDownListFor(
+                                                m => m.AssignModel.CompanyId,
+                                                new SelectList(Model.CompanyList, "CompanyId", "CompanyName"),
+                                                "Select Company",
+                                                new { @class = "form-control" }
+                                                )
+                       @*  <input type="text" id="productName" class="form-control" disabled /> *@
+                        @Html.ValidationMessageFor(m => m.AssignModel.CompanyId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Location</label>
+                       @*  <input type="text" id="productName" class="form-control" disabled /> *@
+                        @Html.TextBoxFor(m => m.AssignModel.CustomerAddress, new { @class = "form-control", id = "txtlocationname" })
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Assign Supervisor <span style="color:red;">*</span></label>
+                        @Html.DropDownListFor(
+                                                m => m.AssignModel.SupervisorId,
+                                                new SelectList(Model.SuperVisorList, "SupervisorId", "SupervisorName"),
+                                                "Select SuperVisor",
+                                                new { @class = "form-control", id = "AssingedZonesupervisor" }
+                                                )
+                        @Html.ValidationMessageFor(m => m.AssignModel.SupervisorId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Status <span style="color:red;">*</span></label>
+                        @Html.DropDownListFor(
+                                                m => m.AssignModel.StatusId,
+                                                new SelectList(Model.StatusList, "StatusId", "StatusName"),
+                                                "Select Status",
+                                                new { @class = "form-control" }
+                                                )
+                        @Html.ValidationMessageFor(m => m.AssignModel.StatusId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Finish Date <span style="color:red;">*</span></label>
+                        @Html.TextBoxFor(m => m.AssignModel.FinishDate, new { @class = "form-control", type = "date" })
+                      @*   <input type="date" id="productName" class="form-control" disabled /> *@
+                    </div>
+                  @*   <div class="col-md-4 mb-2">
+                        <label class="assignlable">Assign To</label>
+                        <select id="assignTo" class="form-control">
+                            <option value="1">Technician A</option>
+                            <option value="2">Technician B</option>
+                        </select>
+                    </div> *@
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Remarks</label>
+                            @Html.TextBoxFor(m => m.AssignModel.Remarks, new { @class = "form-control" })
+                     @*    <input type="text" id="productName" class="form-control" disabled /> *@
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" id="btnSaveAssign">Assign</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        }
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="~/js/jquery-3.7.1.min.js"></script>
+<script src="~/js/jquery.datatables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        LoadData();
+    });
+
+    function LoadData() {
+
+        var complainData = [];
+
+        if ($.fn.DataTable.isDataTable('#example1')) {
+            $('#example1').DataTable().destroy();
+        }
+
+        $.ajax({
+            url: '/ComplainList/GetAllComplainList',
+            type: 'POST',
+            success: function (data) {
+
+                $.each(data.complainList, function (key, value) {
+
+                    function formatDate(dateString) {
+                        if (!dateString) return "";
+
+                        const date = new Date(dateString);
+                        const day = date.getDate();
+                        const month = date.toLocaleString('default', { month: 'long' });
+                        const year = date.getFullYear();
+
+                        return `${day} ${month}, ${year}`;
+                    }
+
+                    var actionButton =
+                        '<button class="btn btn-primary btn-sm assign-btn" data-id="' + value.TicketID + '">' +
+                              '<i class="fas fa-user-plus" style="width: 70%;height: 15px;"></i>' +
+                        '</button>';
+
+                    complainData.push([
+                        value.TicketID,
+                        value.CustomerName,
+                        value.ContactNo,
+                        value.Location,
+                        value.ProductName,
+                        value.ProblemName,
+                        formatDate(value.EntryDate),
+                        actionButton
+                    ]);
+                });
+
+                $('#example1').DataTable({
+                    data: complainData,
+                    columns: [
+                        { title: "Ticket ID" },
+                        { title: "Customer Name" },
+                        { title: "Contact No" },
+                        { title: "Location" },
+                        { title: "Product Name" },
+                        { title: "Problem Name" },
+                        { title: "Complain Date" },
+                        { title: "Assign Tasks" }
+                    ],
+                    responsive: true,
+                    autoWidth: false,
+                    destroy: true
+                });
+            }
+        });
+    }
+
+    // ✅ OPEN MODAL + LOAD DATA
+  $(document).on('click', '.assign-btn', function () {
+
+        var id = $(this).data('id');
+
+        var modal = new bootstrap.Modal(document.getElementById('assignModal'));
+        modal.show();
+
+        $.ajax({
+            url: '/ComplainList/GetComplainSingle',
+            type: 'GET',
+            data: { id: id },
+            success: function (res) {
+                debugger;
+                console.log(res);
+                 var data = res.complainList[0];
+
+                    $('#txtTicketID').val(data.TicketID);
+                    $('#txtcustomername').val(data.CustomerName);
+                    $('#txtproductname').val(data.ProductName);
+                    $('#txtContactNumber').val(data.ContactNo);
+                    $('#txtlocationname').val(data.Location);
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+  $(document).on('change', '#AssingedZone', function () {
+
+        var zoneId = $(this).val();
+
+        $.ajax({
+            url: '/ComplainList/GetZoneWiseSupervisor',
+            type: 'GET',
+            data: { zoneId: zoneId },
+            dataType: 'json',
+            success: function (res) {
+
+                console.log(res);
+
+                var ddl = $('#AssingedZonesupervisor');
+                ddl.empty();
+                ddl.append('<option value="">Select Supervisor</option>');
+
+                    $.each(res.SupervisorList, function (i, item) {
+
+                        ddl.append(
+                            '<option value="' + item.SupervisorId + '">' +
+                            item.SupervisorName +
+                            '</option>'
+                        );
+                    });
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+</script>
+<script>
+    $('#btnSaveAssign').click(function () {
+
+        var errors = [];
+
+        $('.text-danger').text('');
+
+        if ($('#AssingedZone').val() == '') {
+            errors.push('Assign Zone is required');
+        }
+
+        if ($('#AssingedZonesupervisor').val() == '') {
+            errors.push('Supervisor is required');
+        }
+
+        if ($('#AssignModel_CompanyId').val() == '') {
+            errors.push('Company is required');
+        }
+
+        if ($('#AssignModel_StatusId').val() == '') {
+            errors.push('Status is required');
+        }
+
+        if ($('#AssignModel_FinishDate').val() == '') {
+            errors.push('Finish Date is required');
+        }
+        if (errors.length > 0) {
+
+            alert(errors.join('\n'));
+
+            return false; // modal remains open
+        }
+
+        $('#myForm').submit();
+
+    });
+</script>
+<style>
+    .fa-user-plus {
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .fa-user-plus:hover {
+        color: #0d6efd;
+        transform: scale(1.2);
+    }
+</style>

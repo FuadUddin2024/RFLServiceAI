@@ -1,0 +1,1794 @@
+﻿@{
+    ViewData["Title"] = "Service & Warranty Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- ================= INLINE PAGE CSS (NO SECTION) ================= -->
+<style>
+
+    /* ===== KPI CARDS START ===== */
+
+    .kpi-box {
+        min-height: 75px !important;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all .3s ease;
+        box-shadow: 0 3px 10px rgba(0,0,0,.08);
+        position: relative;
+    }
+
+    .kpi-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,.15);
+    }
+
+    .kpi-box .inner {
+        padding: 12px 15px;
+    }
+
+    .kpi-box h4 {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0;
+        color: #fff;
+    }
+
+    .kpi-box p {
+        margin: 2px 0 0;
+        font-size: 13px;
+        color: rgba(255,255,255,.9);
+        font-weight: 500;
+    }
+
+    /* Icon Watermark */
+    .kpi-box .icon {
+        position: absolute;
+        right: 12px;
+        top: 8px;
+        font-size: 38px;
+        opacity: .18;
+        color: #fff;
+    }
+
+    /* Custom Colors */
+
+    .bg-service {
+        background: linear-gradient(135deg,#2563eb,#1d4ed8);
+    }
+
+    .bg-tech {
+        background: linear-gradient(135deg,#475569,#334155);
+    }
+
+    .bg-supervisor {
+        background: linear-gradient(135deg,#16a34a,#15803d);
+    }
+
+    .bg-sla-total {
+        background: linear-gradient(135deg,#7c3aed,#5b21b6);
+    }
+
+    .bg-sla-last {
+        background: linear-gradient(135deg,#ea580c,#c2410c);
+    }
+
+    .bg-sla-this {
+        background: linear-gradient(135deg,#0891b2,#0e7490);
+    }
+    /* ===== KPI CARDS END ===== */
+
+    .kpi-box {
+        min-height: 110px;
+    }
+
+    .small-box h4 {
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .card-title {
+        font-weight: 600;
+    }
+
+    canvas {
+        max-height: 320px;
+    }
+
+    /* grouth */
+    .growth-circle {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        margin: 10px auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        color: #fff;
+        box-shadow: 0 3px 10px rgba(0,0,0,.15);
+    }
+
+    .growth-up {
+        background: #28a745;
+    }
+
+    .growth-down {
+        background: #dc3545;
+    }
+
+    .growth-icon {
+        font-size: 24px;
+        line-height: 20px;
+    }
+
+    .growth-value {
+        font-size: 18px;
+    }
+
+    .kpi-card table td,
+    .kpi-card table th {
+        padding: 8px;
+    }
+
+    .kpi-card .card-body {
+        min-height: 300px;
+    }
+
+    /* Managers CSS */
+
+    .operations {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .manager-card {
+        background: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+
+    .manager-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .manager-header img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+    }
+
+    .manager-stats {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .manager-stats div {
+        text-align: center;
+    }
+
+    .manager-stats span {
+        font-size: 12px;
+        color: #64748b;
+    }
+    
+    /*KPI Comparision*/
+    .card-body h2 {
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .table td,
+    .table th {
+        vertical-align: middle;
+    }
+
+    /* warranty style start */
+
+   /*  .warranty-card {
+        border-radius: 15px;
+        color: #fff;
+        padding: 18px;
+        position: relative;
+        overflow: hidden;
+        min-height: 75px !important;
+        transition: all .3s ease;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,.12);
+    }
+
+    .warranty-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,.18);
+    }
+
+    .warranty-card .icon {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        font-size: 40px;
+        opacity: .25;
+    }
+
+    .warranty-card h3 {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .warranty-card p {
+        margin: 5px 0 0;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .warranty-card .sub {
+        font-size: 12px;
+        opacity: .9;
+        margin-top: 10px;
+    }
+
+    .bg-total {
+        background: linear-gradient(135deg,#2563eb,#1e40af);
+    }
+
+    .bg-in {
+        background: linear-gradient(135deg,#16a34a,#15803d);
+    }
+
+    .bg-out {
+        background: linear-gradient(135deg,#dc2626,#991b1b);
+    }
+
+    .bg-percent {
+        background: linear-gradient(135deg,#7c3aed,#5b21b6);
+    }
+
+    .bg-found {
+        background: linear-gradient(135deg,#f59e0b,#d97706);
+    }
+
+    .bg-notfound {
+        background: linear-gradient(135deg,#475569,#334155);
+    } */
+
+    /* ================= Warranty Dashboard Style Start ================= */
+
+    .warranty-card {
+        border-radius: 12px;
+        color: #fff;
+        padding: 10px 14px;
+        position: relative;
+        overflow: hidden;
+        min-height: 65px !important;
+        transition: all .3s ease;
+        cursor: pointer;
+        box-shadow: 0 3px 10px rgba(0,0,0,.10);
+    }
+
+        .warranty-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0,0,0,.15);
+        }
+
+        /* Watermark Icon */
+        .warranty-card .icon {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+            font-size: 28px;
+            opacity: .18;
+            color: #fff;
+        }
+
+        /* Main Number */
+        .warranty-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        /* Title */
+        .warranty-card p {
+            margin: 2px 0 0;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        /* Subtitle */
+        .warranty-card .sub {
+            font-size: 10px;
+            opacity: .85;
+            margin-top: 3px;
+            line-height: 1.2;
+        }
+
+    /* Gradient Backgrounds */
+
+    .bg-total {
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+    }
+
+    .bg-in {
+        background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+
+    .bg-out {
+        background: linear-gradient(135deg, #dc2626, #991b1b);
+    }
+
+    .bg-percent {
+        background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    }
+
+    .bg-found {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .bg-notfound {
+        background: linear-gradient(135deg, #475569, #334155);
+    }
+
+    /* warranty style end */
+
+</style>
+
+<!-- ================= PAGE HEADER ================= -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-12 text-center">
+                <h3 class="m-0">Service & Warranty Dashboard</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<!-- ================= MAIN CONTENT ================= -->
+<section class="content">
+    <div class="container-fluid">
+
+        <!-- ================= KPI ROW ================= -->
+        @* <div class="row">
+
+            <div class="col-lg-2 col-6">
+                <div class="small-box bg-info kpi-box">
+                    <div class="inner">
+                        <h4 id="TotalServiceCenter">0</h4>
+                        <p>Total Service Center</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-6">
+                <div class="small-box bg-secondary kpi-box">
+                    <div class="inner">
+      
+                        <h4 id="TotalTechnician">0</h4>
+                        <p>Total Technicians</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-6">
+                <div class="small-box bg-success kpi-box">
+                    <div class="inner">
+
+                        <h4 id="TotalSupervisor">0</h4>
+                        <p>Total Supervisor</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-6">
+                <div class="small-box bg-primary kpi-box">
+                    <div class="inner">
+                        <h4 id="TotalSolvedPercentage">0</h4>
+                        <p>Total Solved SLA (%)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-6">
+                <div class="small-box bg-secondary kpi-box">
+                    <div class="inner">
+                        <h4 id="LastMonthSolvedPercentage">0</h4>
+                        <p>Last Month Solved SLA (%)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-6">
+                <div class="small-box bg-warning kpi-box">
+                    <div class="inner">
+                        <h4 id="ThisMonthSolvedPercentage">0</h4>
+                        <p>This Month Solved SLA (%)</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div> *@
+        <div class="row">
+
+            <!-- Service Center -->
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="kpi-box bg-service">
+                    <div class="inner">
+                        <h4 id="TotalServiceCenter">0</h4>
+                        <p>Total Service Center</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technician -->
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="kpi-box bg-tech">
+                    <div class="inner">
+                        <h4 id="TotalTechnician">0</h4>
+                        <p>Total Technicians</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Supervisor -->
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="kpi-box bg-supervisor">
+                    <div class="inner">
+                        <h4 id="TotalSupervisor">0</h4>
+                        <p>Total Supervisor</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total SLA -->
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="kpi-box bg-sla-total">
+                    <div class="inner">
+                        <h4 id="TotalSolvedPercentage">0%</h4>
+                        <p>Total Solved SLA</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Last Month SLA -->
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="kpi-box bg-sla-last">
+                    <div class="inner">
+                        <h4 id="LastMonthSolvedPercentage">0%</h4>
+                        <p>Last Month Solved  SLA</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-calendar-minus"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- This Month SLA -->
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="kpi-box bg-sla-this">
+                    <div class="inner">
+                        <h4 id="ThisMonthSolvedPercentage">0%</h4>
+                        <p>This Month Solved SLA</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </br>
+        <!-- ================= Managers ================= -->
+
+        @* <div class="container-fluid"> *@
+
+            <div class="row g-3">
+
+                <!-- Manager 1 -->
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                    <div class="manager-card">
+                        <div class="manager-header">
+                            <div>
+                                <h5>Md Riazul Islam</h5>
+                                <p>Operation Manager</p>
+                            </div>
+                        </div>
+
+                        <div class="manager-stats">
+                            <div>
+                                <h5>48</h5>
+                                <span>Technicians</span>
+                            </div>
+
+                            <div>
+                                <h5>354</h5>
+                                <span>Today's Jobs</span>
+                            </div>
+
+                            <div>
+                                <h5>62.9%</h5>
+                                <span>Success Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manager 2 -->
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                    <div class="manager-card">
+                        <div class="manager-header">
+                            <div>
+                                <h5>Md Nahidul Islam</h5>
+                                <p>Operation Manager</p>
+                            </div>
+                        </div>
+
+                        <div class="manager-stats">
+                            <div>
+                                <h5>44</h5>
+                                <span>Technicians</span>
+                            </div>
+
+                            <div>
+                                <h5>312</h5>
+                                <span>Today's Jobs</span>
+                            </div>
+
+                            <div>
+                                <h5>59.3%</h5>
+                                <span>Success Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manager 3 -->
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                    <div class="manager-card">
+                        <div class="manager-header">
+                            <div>
+                                <h5>Md Riazul Islam</h5>
+                                <p>Operation Manager</p>
+                            </div>
+                        </div>
+
+                        <div class="manager-stats">
+                            <div>
+                                <h5>48</h5>
+                                <span>Technicians</span>
+                            </div>
+
+                            <div>
+                                <h5>354</h5>
+                                <span>Today's Jobs</span>
+                            </div>
+
+                            <div>
+                                <h5>62.9%</h5>
+                                <span>Success Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manager 4 -->
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                    <div class="manager-card">
+                        <div class="manager-header">
+                            <div>
+                                <h5>Md Nahidul Islam</h5>
+                                <p>Operation Manager</p>
+                            </div>
+                        </div>
+
+                        <div class="manager-stats">
+                            <div>
+                                <h5>44</h5>
+                                <span>Technicians</span>
+                            </div>
+
+                            <div>
+                                <h5>312</h5>
+                                <span>Today's Jobs</span>
+                            </div>
+
+                            <div>
+                                <h5>59.3%</h5>
+                                <span>Success Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        @* </div> *@
+
+        <!-- ================= KPI COMPARISON ================= -->
+
+        <div class="row mt-3">
+
+            <!-- Total Tickets -->
+            <div class="col-lg-3">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Total Tickets</h3>
+                    </div>
+
+                    <div class="card-body text-center">
+
+                        @* <h2 id="ticketGrowth">0%</h2> *@
+                        <div id="ticketGrowthCircle" class="growth-circle growth-up">
+                            <div id="ticketArrow" class="growth-icon">↑</div>
+                            <div id="ticketGrowth" class="growth-value">0%</div>
+                        </div>
+
+                        @* <p>
+                            This:
+                            <b id="thisMonthTickets">0</b>
+                            &nbsp;&nbsp;
+                            Last:
+                            <b id="lastMonthTickets">0</b>
+                        </p> *@
+
+                        <hr />
+
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>Total</th>
+                                    <th>Last Month</th>
+                                    <th>This Month</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="totalTicketCount">0</td>
+                                    <td id="lastMonthTicketCount">0</td>
+                                    <td id="thisMonthTicketCount">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solved -->
+            <div class="col-lg-3">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Solved Tickets</h3>
+                    </div>
+
+                    <div class="card-body text-center">
+
+                        @* <h2 id="solvedGrowth">0%</h2> *@
+                        <div id="solvedGrowthCircle" class="growth-circle growth-up">
+                            <div id="solvedArrow" class="growth-icon">↑</div>
+                            <div id="solvedGrowth" class="growth-value">0%</div>
+                        </div>
+
+                       @*  <p>
+                            This:
+                            <b id="thisMonthSolved">0</b>
+                            &nbsp;&nbsp;
+                            Last:
+                            <b id="lastMonthSolved">0</b>
+                        </p> *@
+
+                        <hr />
+
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>Total</th>
+                                    <th>Last Month</th>
+                                    <th>This Month</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="totalSolved">0</td>
+                                    <td id="lastSolved">0</td>
+                                    <td id="thisSolved">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending -->
+            <div class="col-lg-3">
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <h3 class="card-title">Pending Tickets</h3>
+                    </div>
+
+                    <div class="card-body text-center">
+
+                        @* <h2 id="pendingGrowth">0%</h2> *@
+                        <div id="pendingGrowthCircle" class="growth-circle growth-up">
+                            <div id="pendingArrow" class="growth-icon">↑</div>
+                            <div id="pendingGrowth" class="growth-value">0%</div>
+                        </div>
+
+                        <hr />
+
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>Total</th>
+                                    <th>Last Month</th>
+                                    <th>This Month</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="totalPending">0</td>
+                                    <td id="lastPending">0</td>
+                                    <td id="thisPending">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cancel -->
+            <div class="col-lg-3">
+                <div class="card card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">Cancelled Tickets</h3>
+                    </div>
+
+                    <div class="card-body text-center">
+
+                        @* <h2 id="cancelGrowth">0%</h2> *@
+                        <div id="cancelGrowthCircle" class="growth-circle growth-up">
+                            <div id="cancelArrow" class="growth-icon">↑</div>
+                            <div id="cancelGrowth" class="growth-value">0%</div>
+                        </div>
+
+                        @* <p>
+                            This:
+                            <b id="thisMonthCancel">0</b>
+                            &nbsp;&nbsp;
+                            Last:
+                            <b id="lastMonthCancel">0</b>
+                        </p> *@
+
+                        <hr />
+
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>Total</th>
+                                    <th>Last Month</th>
+                                    <th>This Month</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                   @*  <td id="totalCancel">0</td>
+                                    <td id="lastCancel">0</td>
+                                    <td id="thisCancel">0</td> *@
+                                    <td>
+                                        <a href="javascript:void(0)"
+                                           id="totalCancel"
+                                           onclick="loadCancelledDetails('total')">
+                                            0
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <a href="javascript:void(0)"
+                                           id="lastCancel"
+                                           onclick="loadCancelledDetails('lastmonth')">
+                                            0
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        <a href="javascript:void(0)"
+                                           id="thisCancel"
+                                           onclick="loadCancelledDetails('thismonth')">
+                                            0
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= Today CHART ROW 1 ================= -->
+        <div class="row mt-3">
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ticket Status (Today)</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"> Last 30 Days Ticket Trend</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="ticketTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= Technician Performance CHART ROW 1 ================= -->
+        <div class="row mt-3">
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Top 10 Technician Performance (This Month)</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="techChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Lowest 10 Technician Performance (This Month)</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="bottomTechChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= Warranty Dashboard -WISE SERVICE ANALYSIS ================= -->
+        <div class="row mt-3">
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="warranty-card bg-total">
+                    <i class="fas fa-ticket-alt icon"></i>
+
+                    <h3 id="TotalTickets">0</h3>
+                    <p>Total Tickets</p>
+
+                    <div class="sub">
+                        Current Month Service Requests
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="warranty-card bg-in">
+                    <i class="fas fa-shield-alt icon"></i>
+
+                    <h3 id="InWarranty">0</h3>
+                    <p>In Warranty</p>
+
+                    <div class="sub">
+                        Free Service Eligible
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="warranty-card bg-out">
+                    <i class="fas fa-times-circle icon"></i>
+
+                    <h3 id="OutWarranty">0</h3>
+                    <p>Out Warranty</p>
+
+                    <div class="sub">
+                        Chargeable Service
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="warranty-card bg-percent">
+                    <i class="fas fa-chart-pie icon"></i>
+
+                    <h3 id="WarrantyPercentage">0%</h3>
+                    <p>Warranty Ratio</p>
+
+                    <div class="sub">
+                        In Warranty %
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="warranty-card bg-found">
+                    <i class="fas fa-search icon"></i>
+
+                    <h3 id="WarrantyFound">0</h3>
+                    <p>Warranty Found</p>
+
+                    <div class="sub">
+                        Barcode Matched
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="warranty-card bg-notfound">
+                    <i class="fas fa-exclamation-triangle icon"></i>
+
+                    <h3 id="WarrantyNotFound">0</h3>
+                    <p>Warranty Not Found</p>
+
+                    <div class="sub">
+                        Barcode Missing
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= PRODUCT-WISE SERVICE ANALYSIS ================= -->
+
+        <div class="row mt-3">
+
+            <div class="col-lg-6">
+
+                <div class="card">
+
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Last 30 Days Product-Wise Service Analysis (Top Seven)
+                        </h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered table-hover">
+
+                                <thead>
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Total Tickets</th>
+                                        <th>Solved</th>
+                                        <th>Pending</th>
+                                        <th>Cancelled</th>
+                                        <th>Avg Resolution Days</th>
+                                        <th> Solved SLA (%)</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="productWiseServiceAnalysisBody">
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Warranty Status (This Year)
+                        </h3>
+                    </div>
+
+                    <div class="card-body">
+                        <canvas id="warrantyChart"></canvas>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <!-- ================= Service Center or  Zone Wise Ticket Status ================= -->
+        <div class="row mt-3">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Service Center or  Zone Wise Ticket Status Analysis (This Month)</h3>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="zoneChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+       
+       
+
+    </div>
+</section>
+<!-- ===================== modal start ======================  -->
+<div class="modal fade"
+     id="cancelModal"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-xl">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger">
+
+                <h5 class="modal-title text-white">
+                    Cancelled Ticket Details
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <table class="table table-bordered table-striped">
+
+                    <thead>
+                        <tr>
+                            <th>Ticket No</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Entry Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="cancelDetailsBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ===================== modal end ======================  -->
+<!-- ================= SCRIPTS ================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    $(document).ready(function () {
+        loadDashboard();
+    });
+
+        function setPositiveGrowth(circleId, arrowId, textId, growth) {
+
+            $("#" + textId).text(Math.abs(growth) + "%");
+
+            if (growth >= 0) {
+                $("#" + circleId)
+                    .removeClass("growth-down")
+                    .addClass("growth-up");
+
+                $("#" + arrowId)
+                    .html("▲")
+                    .removeClass("arrow-down")
+                    .addClass("arrow-up");
+            }
+            else {
+                $("#" + circleId)
+                    .removeClass("growth-up")
+                    .addClass("growth-down");
+
+                $("#" + arrowId)
+                    .html("▼")
+                    .removeClass("arrow-up")
+                    .addClass("arrow-down");
+            }
+        }
+        function setNegativeGrowth(circleId, arrowId, textId, growth) {
+
+            $("#" + textId).text(Math.abs(growth) + "%");
+
+            if (growth > 0) {
+
+                // More complaints / pending / cancel
+                // BAD
+
+                $("#" + circleId)
+                    .removeClass("growth-up")
+                    .addClass("growth-down");
+
+                $("#" + arrowId)
+                    .html("▲")
+                    .removeClass("arrow-up")
+                    .addClass("arrow-down");
+            }
+            else {
+
+                // Reduced complaint / pending / cancel
+                // GOOD
+
+                $("#" + circleId)
+                    .removeClass("growth-down")
+                    .addClass("growth-up");
+
+                $("#" + arrowId)
+                    .html("▼")
+                    .removeClass("arrow-down")
+                    .addClass("arrow-up");
+            }
+        }
+
+    function loadDashboard() {
+
+        // ================= KPI =================
+        $.getJSON('@Url.Content("~/api/dashboard/kpi")', function (data) {
+            $("#totalTickets").text(data.TotalTickets);
+            $("#solvedTickets").text(data.Solved);
+            $("#pendingTickets").text(data.Pending);
+            $("#revenue").text(data.Revenue);
+            $("#avgSLA").text(data.AvgResolution);
+            $("#cancelTickets").text(data.Cancelled);
+            $("#totalAssign").text(data.TotalAssign);
+
+            $("#TotalTechnician").text(data.TotalTechnician);
+            $("#TotalSupervisor").text(data.TotalSupervisor);
+
+            $("#TotalServiceCenter").text(data.TotalServiceCenter);
+
+            $("#ThisMonthSolvedPercentage").text(
+                Number(data.ThisMonthSolvedPercentage).toFixed(2)
+            );
+
+            $("#LastMonthSolvedPercentage").text(
+                Number(data.LastMonthSolvedPercentage).toFixed(2)
+            );
+
+             $("#TotalSolvedPercentage").text(
+                Number(data.TotalSolvedPercentage).toFixed(2)
+            );
+
+             // Growth Circle
+
+             // Total Ticket
+            setNegativeGrowth(
+                "ticketGrowthCircle",
+                "ticketArrow",
+                "ticketGrowth",
+                data.TicketGrowth
+            );
+
+            // Solved
+            setPositiveGrowth(
+                "solvedGrowthCircle",
+                "solvedArrow",
+                "solvedGrowth",
+                data.SolvedGrowth
+            );
+
+            // Pending
+            setNegativeGrowth(
+                "pendingGrowthCircle",
+                "pendingArrow",
+                "pendingGrowth",
+                data.PendingGrowth
+            );
+
+            // Cancel
+            setNegativeGrowth(
+                "cancelGrowthCircle",
+                "cancelArrow",
+                "cancelGrowth",
+                data.CancelGrowth
+            );
+
+                // ================= TOTAL TICKET =================
+
+            // $("#ticketGrowth").html(
+            //     (data.TicketGrowth >= 0
+            //         ? data.TicketGrowth + "% ↑"
+            //         : Math.abs(data.TicketGrowth) + "% ↓")
+            // );
+            $("#ticketGrowth").html(
+            data.TicketGrowth >= 0
+                ? data.TicketGrowth.toFixed(2) + "% ↑"
+                : Math.abs(data.TicketGrowth).toFixed(2) + "% ↓"
+            );
+
+            $("#thisMonthTickets").text(data.ThisMonthTickets);
+            $("#lastMonthTickets").text(data.LastMonthTickets);
+
+            $("#totalTicketCount").text(data.TotalTickets);
+            $("#lastMonthTicketCount").text(data.LastMonthTickets);
+            $("#thisMonthTicketCount").text(data.ThisMonthTickets);
+
+            // ================= SOLVED =================
+
+            // $("#solvedGrowth").html(
+            //     (data.SolvedGrowth >= 0
+            //         ? data.SolvedGrowth + "% ↑"
+            //         : Math.abs(data.SolvedGrowth) + "% ↓")
+            // );
+            $("#solvedGrowth").html(
+            data.SolvedGrowth >= 0
+                ? data.SolvedGrowth.toFixed(2) + "% ↑"
+                : Math.abs(data.SolvedGrowth).toFixed(2) + "% ↓"
+            );
+
+            $("#thisMonthSolved").text(data.ThisMonthSolved);
+            $("#lastMonthSolved").text(data.LastMonthSolved);
+
+            $("#totalSolved").text(data.Solved);
+            $("#lastSolved").text(data.LastMonthSolved);
+            $("#thisSolved").text(data.ThisMonthSolved);
+
+                // ================= PENDING =================
+
+            $("#pendingGrowth").html(
+                (data.PendingGrowth >= 0
+                    ? data.PendingGrowth + "% ↑"
+                    : Math.abs(data.PendingGrowth) + "% ↓")
+            );
+
+            $("#totalPending").text(data.Pending);
+
+            $("#lastPending").text(data.LastMonthPending);
+
+            $("#thisPending").text(data.ThisMonthPending);
+
+            // ================= CANCEL =================
+
+            // $("#cancelGrowth").html(
+            //     (data.CancelGrowth >= 0
+            //         ? data.CancelGrowth + "% ↑"
+            //         : Math.abs(data.CancelGrowth) + "% ↓")
+            // );
+            $("#cancelGrowth").html(
+            data.CancelGrowth >= 0
+                ? data.CancelGrowth.toFixed(2) + "% ↑"
+                : Math.abs(data.CancelGrowth).toFixed(2) + "% ↓"
+            );
+
+            $("#thisMonthCancel").text(data.ThisMonthCancelled);
+            $("#lastMonthCancel").text(data.LastMonthCancelled);
+
+            $("#totalCancel").text(data.Cancelled);
+            $("#lastCancel").text(data.LastMonthCancelled);
+            $("#thisCancel").text(data.ThisMonthCancelled);
+
+        });
+
+        // ================= DAILY TREND =================
+        // $.getJSON('@Url.Content("~/api/dashboard/daily-trend")', function (data) {
+
+        //     new Chart($("#ticketTrendChart"), {
+        //         type: 'line',
+        //         data: {
+        //             labels: data.Labels,
+        //             datasets: [{
+        //                 label: 'Tickets',
+        //                 data: data.Values,
+        //                 borderColor: 'blue',
+        //                 fill: false,
+        //                 tension: 0.3
+        //             }]
+        //         }
+        //     });
+        // });
+
+        $.getJSON('@Url.Content("~/api/dashboard/daily-trend")', function (data) {
+
+            new Chart($("#ticketTrendChart"), {
+
+                type: 'line',
+
+                data: {
+                    labels: data.Labels,
+
+                    datasets: [
+                        {
+                            label: 'Total Tickets',
+                            data: data.TotalTickets,
+                            borderColor: '#0d6efd',
+                            backgroundColor: 'rgba(13,110,253,0.1)',
+                            fill: false,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Solved Tickets',
+                            data: data.SolvedTickets,
+                            borderColor: '#198754',
+                            backgroundColor: 'rgba(25,135,84,0.1)',
+                            fill: false,
+                            tension: 0.4
+                        }
+                    ]
+                },
+
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        });
+
+        // ================= STATUS =================
+        $.getJSON('@Url.Content("~/api/dashboard/status")', function (data) {
+
+            new Chart($("#statusChart"), {
+                type: 'pie',
+                data: {
+                    labels: ['Solved', 'Pending', 'Cancelled'],
+                    datasets: [{
+                        data: data.values, // controller returns anonymous { values = ... } -> lower-case OK
+                        backgroundColor: ['green', 'orange', 'red']
+                    }]
+                }
+            });
+        });
+
+        // ================= ZONE =================
+        // $.getJSON('@Url.Content("~/api/dashboard/zone")', function (data) {
+
+        //     new Chart($("#zoneChart"), {
+        //         type: 'bar',
+        //         data: {
+        //             labels: data.Labels,
+        //             datasets: [{
+        //                 label: 'Tickets',
+        //                 data: data.Values,
+        //                 backgroundColor: 'purple'
+        //             }]
+        //         }
+        //     });
+        // });
+
+            // ================= ZONE =================
+
+            $.getJSON('@Url.Content("~/api/dashboard/zone")', function (data) {
+
+                new Chart($("#zoneChart"), {
+
+                    type: 'bar',
+
+                    data: {
+
+                        labels: data.Labels,
+
+                        datasets: [
+
+                            {
+                                label: 'Total Tickets',
+                                data: data.TotalTickets,
+                                backgroundColor: '#0d6efd'
+                            },
+
+                            {
+                                label: 'Solved',
+                                data: data.Solved,
+                                backgroundColor: '#198754'
+                            },
+
+                            {
+                                label: 'Pending',
+                                data: data.Pending,
+                                backgroundColor: '#ffc107'
+                            },
+
+                            {
+                                label: 'Cancelled',
+                                data: data.Cancelled,
+                                backgroundColor: '#dc3545'
+                            }
+                        ]
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        },
+
+                        scales: {
+                            x: {
+                                stacked: false
+                            },
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                   
+                });
+
+            });
+
+        // ================= TOP TECH =================
+        // $.getJSON('@Url.Content("~/api/dashboard/technician")', function (data) {
+
+        //     new Chart($("#techChart"), {
+        //         type: 'bar',
+        //         data: {
+        //             labels: data.Labels,
+        //             datasets: [{
+        //                 label: 'Tickets',
+        //                 data: data.Values,
+        //                 backgroundColor: 'teal'
+        //             }]
+        //         }
+        //     });
+        // });
+
+              $.getJSON('@Url.Content("~/api/dashboard/technician")', function (data) {
+
+                new Chart($("#techChart"), {
+
+                    type: 'bar',
+
+                    data: {
+                        labels: data.Labels,
+
+                        datasets: [
+                            {
+                                label: 'Total Tickets',
+                                data: data.TotalTickets,
+                                backgroundColor: '#0d6efd'
+                            },
+                            {
+                                label: 'Solved',
+                                data: data.Solved,
+                                backgroundColor: '#198754'
+                            },
+                            {
+                                label: 'Pending',
+                                data: data.Pending,
+                                backgroundColor: '#ffc107'
+                            },
+                            {
+                                label: 'Cancelled',
+                                data: data.Cancelled,
+                                backgroundColor: '#dc3545'
+                            },
+                            {
+                                label: 'Solve Rate (%)',
+                                data: data.SolveRate,
+                                type: 'line',
+                                borderColor: '#000',
+                                backgroundColor: '#000',
+                                borderWidth: 3,
+                                tension: 0.3,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+
+                    options: {
+                        responsive: true,
+
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        },
+
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Ticket Count'
+                                }
+                            },
+
+                            y1: {
+                                beginAtZero: true,
+                                max: 100,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Solve Rate (%)'
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            }
+                        }
+                    }
+                });
+
+            });
+
+   
+        // ================= BOTTOM TECH =================
+        // $.getJSON('@Url.Content("~/api/dashboard/bottom-technician")', function (data) {
+
+        //     new Chart($("#bottomTechChart"), {
+        //         type: 'bar',
+        //         data: {
+        //             labels: data.Labels,
+        //             datasets: [{
+        //                 label: 'Tickets',
+        //                 data: data.Values,
+        //                 backgroundColor: '#dc3545' // Red
+        //             }]
+        //         }
+        //     });
+
+        // });
+
+                $.getJSON('@Url.Content("~/api/dashboard/bottom-technician")', function (data) {
+
+            new Chart($("#bottomTechChart"), {
+
+                type: 'bar',
+
+                data: {
+                    labels: data.Labels,
+
+                    datasets: [
+                        {
+                            label: 'Total Tickets',
+                            data: data.TotalTickets,
+                            backgroundColor: '#0d6efd'
+                        },
+                        {
+                            label: 'Solved',
+                            data: data.Solved,
+                            backgroundColor: '#198754'
+                        },
+                        {
+                            label: 'Pending',
+                            data: data.Pending,
+                            backgroundColor: '#ffc107'
+                        },
+                        {
+                            label: 'Cancelled',
+                            data: data.Cancelled,
+                            backgroundColor: '#dc3545'
+                        },
+                        {
+                            label: 'Solve Rate (%)',
+                            data: data.SolveRate,
+                            type: 'line',
+                            borderColor: '#000',
+                            backgroundColor: '#000',
+                            borderWidth: 3,
+                            tension: 0.3,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+
+                options: {
+                    responsive: true,
+
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Ticket Count'
+                            }
+                        },
+
+                        y1: {
+                            beginAtZero: true,
+                            max: 100,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Solve Rate (%)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+      // ================= PRODUCT-WISE SERVICE ANALYSIS =================
+
+      $.getJSON('@Url.Content("~/api/dashboard/product-wise-service-analysis")',function(data){
+        let html = "";
+
+        $.each(data, function(index, item)
+        {
+            html += `
+            <tr>
+                <td>${item.ItemName}</td>
+
+                <td>
+                    <span class="badge bg-primary">
+                        ${item.TotalTickets}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="badge bg-success">
+                        ${item.SolvedTickets}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="badge bg-warning">
+                        ${item.PendingTickets}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="badge bg-danger">
+                        ${item.ClosedOrCancelledTickets}
+                    </span>
+                </td>
+
+                <td>
+                    ${item.AvgResolutionDays.toFixed(1)}
+                </td>
+                <td>
+                    ${item.SolvedPercentage}
+                </td>
+            </tr>`;
+        });
+
+        $("#productWiseServiceAnalysisBody").html(html);
+      });
+
+      // ================= WARRANTY-WISE SERVICE ANALYSIS =================
+
+          $.getJSON('@Url.Content("~/api/dashboard/warranty-kpi")',function(data){
+            $("#TotalTickets")
+                .text(data.TotalTickets);
+
+            $("#InWarranty")
+                .text(data.InWarranty);
+
+            $("#OutWarranty")
+                .text(data.OutWarranty);
+
+            $("#WarrantyPercentage")
+                .text(data.WarrantyPercentage + "%");
+
+            $("#WarrantyNotFound")
+                .text(data.WarrantyNotFound);
+
+           $("#WarrantyFound")
+                .text(data.WarrantyFound);
+
+            $("#wExpiring")
+                .text(data.expiringSoon);
+        });
+
+        $.getJSON('/api/dashboard/warranty-chart', function(data){
+        new Chart(
+            $("#warrantyChart"),
+            {
+                type: 'doughnut',
+
+                data:
+                {
+                    labels:
+                    [
+                        'In Warranty',
+                        'Out Warranty'
+                    ],
+
+                    datasets:
+                    [{
+                        data:
+                        [
+                            data.InWarranty,
+                            data.OutWarranty
+                        ],
+
+                        backgroundColor:
+                        [
+                            'green',
+                            'red'
+                        ]
+                    }]
+                }
+            });
+        });
+
+    }
+
+
+
+        function loadCancelledDetails(type) {
+
+        $.getJSON(
+            '/api/dashboard/cancelled-details?type=' + type,
+            function (data) {
+
+                let rows = '';
+
+                $.each(data, function (i, item) {
+
+                    rows += `
+                        <tr>
+                            <td>${item.TicketCode}</td>
+                            <td>${item.CustomerName}</td>
+                            <td>${item.ItemName}</td>
+                            <td>${item.EntryDate}</td>
+                            <td>${item.StatusName}</td>
+                        </tr>`;
+                });
+
+                $("#cancelDetailsBody").html(rows);
+
+                $("#cancelModal").modal('show');
+            });
+    }
+
+</script>

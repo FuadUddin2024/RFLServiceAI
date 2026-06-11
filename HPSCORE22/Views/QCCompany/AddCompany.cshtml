@@ -1,0 +1,319 @@
+﻿
+<br />
+<div class="card card-outline card-primary shadow-sm">
+    <div class="card-header d-flex align-items-center">
+        <h3 class="card-title mb-0">
+            <i class="fas fa-vial mr-2"></i> Test Setup Form
+        </h3>
+    </div>
+
+    <form>
+        <div class="card-body">
+
+            <!-- Row 1 -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label><i class="fas fa-tag mr-1"></i> Test Name</label>
+                        <input type="text" class="form-control form-control-lg"
+                               placeholder="Enter Test Name">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label><i class="fas fa-balance-scale mr-1"></i> Unit</label>
+                        <select class="form-control form-control-lg">
+                            <option value="">Select Unit</option>
+                            <option>kg</option>
+                            <option>mm</option>
+                            <option>°C</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label><i class="fas fa-cogs mr-1"></i> Method</label>
+                        <select class="form-control">
+                            <option value="">Select Method</option>
+                            <option>Manual</option>
+                            <option>Automatic</option>
+                            <option>Digital</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label><i class="fas fa-arrow-down mr-1"></i> Min Value</label>
+                        <input type="number" class="form-control"
+                               placeholder="Enter Min Value">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label><i class="fas fa-arrow-up mr-1"></i> Max Value</label>
+                        <input type="number" class="form-control"
+                               placeholder="Enter Max Value">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer d-flex justify-content-between">
+            <div>
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="fas fa-save mr-1"></i> Submit
+                </button>
+                <button type="reset" class="btn btn-outline-secondary px-4">
+                    <i class="fas fa-undo mr-1"></i> Reset
+                </button>
+            </div>
+
+            <button type="button" class="btn btn-light">
+                <i class="fas fa-times mr-1"></i> Cancel
+            </button>
+        </div>
+    </form>
+</div>
+
+
+@* <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AdminLTE DataTable CRUD</title>
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.min.css">
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+
+    <!-- AdminLTE -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css">
+
+    <style>
+        body {
+            background: #f4f6f9;
+        }
+
+        .card {
+            border-radius: 10px;
+        }
+
+        .btn {
+            border-radius: 6px;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        .table td, .table th {
+            vertical-align: middle;
+        }
+    </style>
+
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+    <div class="container mt-4">
+
+        <!-- HEADER -->
+        <div class="d-flex justify-content-between mb-3">
+            <h3><i class="fas fa-vials text-primary"></i> Test Management</h3>
+
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#testModal">
+                <i class="fas fa-plus"></i> Add New
+            </button>
+        </div>
+
+        <!-- TABLE -->
+        <div class="card card-outline card-primary shadow-sm">
+            <div class="card-body">
+
+                <table id="example1" class="table table-hover table-bordered">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Test Name</th>
+                            <th>Unit</th>
+                            <th>Method</th>
+                            <th>Min</th>
+                            <th>Max</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Hardness Test</td>
+                            <td>kg</td>
+                            <td>Manual</td>
+                            <td>10</td>
+                            <td>100</td>
+                            <td class="text-center">
+                                <button class="btn btn-warning btn-sm editBtn">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm deleteBtn">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= MODAL ================= -->
+    <div class="modal fade" id="testModal">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- HEADER -->
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-vial mr-2"></i> Test Setup Form
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <!-- FORM -->
+                <form id="testForm">
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Test Name</label>
+                                <input type="text" id="testName" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Unit</label>
+                                <select id="unit" class="form-control">
+                                    <option>kg</option>
+                                    <option>mm</option>
+                                    <option>°C</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <label>Method</label>
+                                <select id="method" class="form-control">
+                                    <option>Manual</option>
+                                    <option>Automatic</option>
+                                    <option>Digital</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Min Value</label>
+                                <input type="number" id="min" class="form-control">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Max Value</label>
+                                <input type="number" id="max" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JS ================= -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
+
+    <script>
+        $(function () {
+
+            let table = $("#example1").DataTable({
+                responsive: true,
+                autoWidth: false
+            });
+
+            // ADD DATA
+            $("#testForm").submit(function(e){
+                e.preventDefault();
+
+                let name = $("#testName").val();
+                let unit = $("#unit").val();
+                let method = $("#method").val();
+                let min = $("#min").val();
+                let max = $("#max").val();
+
+                table.row.add([
+                    table.rows().count() + 1,
+                    name,
+                    unit,
+                    method,
+                    min,
+                    max,
+                    `<button class="btn btn-warning btn-sm editBtn">
+                        <i class="fas fa-edit"></i>
+                     </button>
+                     <button class="btn btn-danger btn-sm deleteBtn">
+                        <i class="fas fa-trash"></i>
+                     </button>`
+                ]).draw();
+
+                $("#testModal").modal('hide');
+                $("#testForm")[0].reset();
+            });
+
+            // DELETE ROW
+            $('#example1 tbody').on('click', '.deleteBtn', function () {
+                if(confirm("Are you sure?")){
+                    table.row($(this).parents('tr')).remove().draw();
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html> *@

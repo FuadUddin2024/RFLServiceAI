@@ -1,0 +1,386 @@
+﻿@{
+    Layout = "_Loginlayout";
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    /* Base Resets and Font */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden; /* default no scroll */
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        color: #334155;
+    }
+
+    /* Abstract shapes */
+    .blob {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        filter: blur(40px);
+        z-index: 0;
+    }
+
+    .blob-1 {
+        top: -10%;
+        left: -10%;
+    }
+
+    .blob-2 {
+        bottom: -10%;
+        right: -10%;
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    /* Layout Container */
+    main {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        max-width: 420px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Logo Section */
+    .header-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .logo-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logo-text {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: white;
+        letter-spacing: -0.025em;
+    }
+
+    /* Card Styling */
+    .signin-card {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .card-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .card-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-header p {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+    /* Form Styling */
+    .form-group {
+        margin-bottom: 1.5rem;
+        width: 100%;
+    }
+
+    label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 0.375rem;
+    }
+
+    .label-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        outline: none;
+        transition: all 0.2s;
+    }
+
+    input:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .password-container {
+        position: relative;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #94a3b8;
+        cursor: pointer;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+    }
+
+        .toggle-password:hover {
+            color: #475569;
+        }
+
+    .forget-link {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #f43f5e;
+        text-decoration: none;
+    }
+
+        .forget-link:hover {
+            color: #e11d48;
+        }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+        .checkbox-group input {
+            height: 1rem;
+            width: 1rem;
+            color: #6366f1;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin-left: 0.5rem;
+            margin-bottom: 0;
+            font-weight: 400;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+
+    .submit-btn {
+        width: 100%;
+        background-color: #6366f1;
+        color: white;
+        font-weight: 700;
+        padding: 0.875rem;
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.2);
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-bottom: 1.5rem;
+    }
+
+        .submit-btn:hover {
+            background-color: #4f46e5;
+        }
+
+    /* =========================
+           MOBILE RESPONSIVE FIXES
+           ========================= */
+    @@media (max-width: 640px), (max-height: 700px) {
+        body {
+            overflow-y: auto; /* allow scroll if needed */
+            align-items: flex-start;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        main {
+            max-width: 95%;
+            padding: 0.5rem;
+        }
+
+        .signin-card {
+            padding: 1.5rem 1rem;
+            border-radius: 0.75rem;
+        }
+
+        .card-header h1 {
+            font-size: 1.2rem;
+        }
+
+        .card-header p {
+            font-size: 0.75rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 0.6rem;
+            font-size: 0.8rem;
+        }
+
+        .submit-btn {
+            padding: 0.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-group {
+            margin-bottom: 1rem;
+        }
+
+        .blob {
+            width: 200px;
+            height: 200px;
+            filter: blur(25px);
+        }
+    }
+</style>
+
+<body>
+    <!-- Background Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <main data-purpose="login-container">
+        <!-- Logo Section -->
+        <div class="header-logo" data-purpose="header-logo">
+            <div class="logo-wrapper">
+                <div class="logo-icon">
+                    <svg fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 17L12 13L20 17L12 21L4 17Z" fill="white" fill-opacity="0.6"></path>
+                        <path d="M4 10L12 6L20 10L12 14L4 10Z" fill="white" fill-opacity="0.8"></path>
+                        <path d="M4 3L12 1L20 3L12 7L4 3Z" fill="white"></path>
+                    </svg>
+                </div>
+                <span class="logo-text">CSWMS</span>
+            </div>
+        </div>
+        <!-- Card Container -->
+        <section class="signin-card" data-purpose="signin-card">
+            <div class="card-header">
+                <h1>Sign In</h1>
+                <p style="margin-bottom: 0;">Central Service Warranty Software</p>
+            </div>
+            <!-- Login Form -->
+            <form id="loginForm">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label for="username">User Name</label>
+                    <input id="username" name="Username" placeholder="user name" required type="text" />
+                </div>
+
+                <div class="form-group">
+                    <div class="label-flex">
+                        <label for="password">Password</label>
+                       @*  <a class="forget-link" href="#" id="forgotLink">Forget password ?</a> *@
+                    </div>
+
+                    <div class="password-container">
+                        <input id="password" name="Password" placeholder="password" required type="password" />
+                        <button type="button" class="toggle-password">👁</button>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input id="remember" name="remember" type="checkbox" />
+                    <label for="remember">Remember password ?</label>
+                </div>
+
+                <button class="submit-btn" type="submit" id="btnLogin">Sign In</button>
+            </form>
+        </section>
+    </main>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                // Show/Hide Password
+                $('.toggle-password').on('click', function () {
+                    const input = $('#password');
+                    input.attr('type', input.attr('type') === 'password' ? 'text' : 'password');
+                });
+
+                // AJAX login
+                $('#loginForm').on('submit', function (e) {
+                    e.preventDefault();
+                    const $btn = $('#btnLogin');
+                    if ($btn.prop('disabled')) return;
+                    $btn.prop('disabled', true);
+
+                    const model = {
+                        Username: $('input[name="Username"]').val().trim(),
+                        Password: $('input[name="Password"]').val()
+                    };
+
+                    if (!model.Username || !model.Password) {
+                        Swal.fire("Missing Data", "Username and Password are required", "warning");
+                        $btn.prop('disabled', false);
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '@Url.Action("Login", "Accounts")',
+                        type: 'POST',
+                        headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                        data: model,
+                        success: function (res) {
+                            if (res.success) window.location.href = res.redirect;
+                            else Swal.fire("Login Failed", res.message, "error");
+                        },
+                        error: function () { Swal.fire("Error", "Server error", "error"); },
+                        complete: function () { $btn.prop('disabled', false); }
+                    });
+                });
+            });
+        </script>
+    }
+</body>
