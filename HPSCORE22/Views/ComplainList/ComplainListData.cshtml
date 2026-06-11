@@ -3,50 +3,161 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    .assignlable
-    {
-        font-size: 14px;
-    }
-    .modal-dialog
-    {
-        max-width:730px !important ;
+    body {
+        background: #f5f7fb;
     }
 
-    table.dataTable {
+    .dt-buttons.btn-group.flex-wrap {
+        display: none;
+    }
+    .table-container {
+        background: white;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.06);
+        margin-top: 20px;
+    }
+
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .table-header h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+    /* Header */
+    #example1 thead {
+        background: #1f2937;
+        color: white;
+    }
+
+        #example1 thead th {
+            padding: 16px;
+            border: none;
+        }
+
+    /* Rows */
+
+    #example1 tbody tr {
+        transition: .3s;
+    }
+
+        #example1 tbody tr:hover {
+            background: #f0f7ff;
+        }
+
+    #example1 tbody td {
+        padding: 15px;
+        vertical-align: middle;
+    }
+
+    /* Zebra */
+    #example1 tbody tr:nth-child(even) {
+        background: #fafafa;
+    }
+
+    /* Search */
+    .dataTables_filter input {
+        border-radius: 10px !important;
+        padding: 10px !important;
+        border: 1px solid #ddd !important;
+    }
+
+    /* Length */
+    .dataTables_length select {
+        border-radius: 8px;
+    }
+
+    /* Pagination */
+
+    .dataTables_paginate .paginate_button {
+        border-radius: 8px !important;
+        margin: 2px !important;
+    }
+
+        .dataTables_paginate .paginate_button.current {
+            background: #0d6efd !important;
+            color: white !important;
+            border: none !important;
+        }
+
+    /* Info */
+
+    .dataTables_info {
+        color: #777;
+    }
+
+    /* Buttons */
+
+    .action-btn {
+        border: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+    }
+
+    .edit {
+        background: #198754;
+        color: white;
+    }
+
+    .view {
+        background: #0dcaf0;
+    }
+
+    .delete {
+        background: #dc3545;
+        color: white;
+    }
+
+    .dataTables_scrollHeadInner {
         width: 100% !important;
     }
 
-    .dataTables_wrapper {
-        overflow-x: auto;
+    .table.table-bordered.table-striped.table-hover.w-100.dataTable.no-footer {
+        margin-left: -6px !important;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: center;
+        align-content: center ; 
+        background-color: cornflowerblue;
+    }
+
+    .assignlable
+    {
+        font-size:14px;
     }
 </style>
 <partial name="~/Views/Shared/PartialView/_CSSCDNLink.cshtml" />
 
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-<div class="container">
+@* <div class="container">
     <div class="row">
         <div class="" style="display:flex;justify-content:center;align-content:center;">
             <input type="text" placeholder="Search By Ticket ID For Editing" />
         </div>
     </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h1>YOOOOOOOOOOO</h1>
-        </div>
+</div> *@
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Compalin List</h3>
     </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-
-                    <table id="example1" class="table table-bordered table-striped w-100">
-                        <thead class="table-info">
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="table-responsive-custom">
+            <table id="example1" class="table table-bordered table-striped table-hover w-100">
+            </table>
+        </div>
+        @*  <table id="example1" class="table table-bordered table-striped">
+                        <thead>
                             <tr>
                                 <th>Ticket ID</th>
                                 <th>Customer Name</th>
@@ -58,14 +169,24 @@
                                 <th>Assign Tasks</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
-                    </table>
+                        <tbody>
 
-                </div>
-            </div>
-
-        </div>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Customer Name</th>
+                                <th>Contact No</th>
+                                <th>Location</th>
+                                <th>Product Name</th>
+                                <th>Problem Name</th>
+                                <th>Complain Date</th>
+                                <th>Assign Tasks</th>
+                            </tr>
+                        </tfoot>
+                    </table> *@
     </div>
+    <!-- /.card-body -->
 </div>
 
 <!-- ✅ ASSIGN MODAL (BOOTSTRAP 5) -->
@@ -82,7 +203,7 @@
 
             <div class="modal-body">
 
-                <input type="hidden" id="ticketId" />
+               @*  <input type="hidden" id="ticketId" /> *@
                 <div class="row">
                     <div class="col-md-4 mb-2">
                         <label class="assignlable">Ticket ID</label>
@@ -180,7 +301,7 @@
 
             <div class="modal-footer">
                 <button class="btn btn-success" type="button" id="btnSaveAssign">Assign</button>
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" style="background-color:red">Close</button>
             </div>
         }
         </div>
@@ -190,8 +311,198 @@
 <!-- Scripts -->
 <script src="~/js/jquery-3.7.1.min.js"></script>
 <script src="~/js/jquery.datatables.min.js"></script>
-
 <script>
+    $(document).ready(function () {
+
+        LoadData();
+
+    });
+
+    function LoadData() {
+
+        if ($.fn.DataTable.isDataTable('#example1')) {
+
+            $('#example1')
+                .DataTable()
+                .clear()
+                .destroy();
+
+            $('#example1').empty();
+        }
+
+        $.ajax({
+
+            url: '/ComplainList/GetAllComplainList',
+
+            type: 'POST',
+
+            dataType: 'json',
+
+            success: function (res) {
+
+                $('#example1').DataTable({
+
+                    data: res.complainList || [],
+
+                    responsive: true,
+
+                    scrollX: true,
+
+                    autoWidth: false,
+
+                    processing: true,
+
+                    destroy: true,
+
+                    pageLength: 10,
+
+                    lengthChange: false,
+
+                    ordering: true,
+
+                    searching: true,
+
+                    info: true,
+
+                    paging: true,
+
+                    columns: [
+
+                        {
+                            title: "Ticket ID",
+                            data: "TicketID",
+                            defaultContent: ""
+                        },
+
+                        {
+                            title: "Customer Name",
+                            data: "CustomerName",
+                            defaultContent: ""
+                        },
+
+                        {
+                            title: "Contact No",
+                            data: "ContactNo",
+                            defaultContent: ""
+                        },
+
+                        {
+                            title: "Location",
+                            data: "Location",
+                            defaultContent: ""
+                        },
+
+                        {
+                            title: "Product Name",
+                            data: "ProductName",
+                            defaultContent: ""
+                        },
+
+                        {
+                            title: "Problem Name",
+                            data: "ProblemName",
+                            defaultContent: ""
+                        },
+
+                        {
+                            title: "Complain Date",
+
+                            data: "EntryDate",
+
+                            defaultContent: "",
+
+                            render: function (data) {
+
+                                if (!data)
+                                    return "";
+
+                                var d = new Date(data);
+
+                                return d.toLocaleDateString(
+                                    "en-GB",
+                                    {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric"
+                                    }
+                                );
+                            }
+                        },
+
+                        {
+                            title: "Assign",
+
+                            data: "TicketID",
+
+                            orderable: false,
+
+                            searchable: false,
+
+                            className: "text-center",
+
+                            render: function (data) {
+
+                                return `
+                                    <button
+                                        class="btn btn-primary btn-sm assign-btn"
+                                        data-id="${data}">
+                                        <i class="fas fa-user-plus"></i>
+                                    </button>
+                                `;
+                            }
+                        }
+
+                    ],
+
+                    dom:
+                        "<'row mb-3'<'col-lg-6 col-md-8 col-sm-12'f>>" +
+                        "<'row'<'col-12'tr>>" +
+                        "<'row mt-3'<'col-lg-6 col-md-12'i><'col-lg-6 col-md-12'p>>",
+
+                    language: {
+
+                        search: "",
+
+                        searchPlaceholder:
+                            "Search complaint...",
+
+                        emptyTable:
+                            "No complaints found",
+
+                        zeroRecords:
+                            "No matching data",
+
+                        info:
+                            "Showing _START_ to _END_ of _TOTAL_ entries",
+
+                        paginate: {
+
+                            previous: "←",
+
+                            next: "→"
+                        }
+                    }
+
+                });
+
+                $('.dataTables_filter input')
+                    .addClass('form-control');
+
+            },
+
+            error: function (xhr) {
+
+                console.log(xhr.responseText);
+
+                alert('Load Failed');
+
+            }
+
+        });
+
+    }
+</script>
+@* <script>
     $(document).ready(function () {
         LoadData();
     });
@@ -260,67 +571,66 @@
     }
 
     // ✅ OPEN MODAL + LOAD DATA
-  $(document).on('click', '.assign-btn', function () {
-
-        var id = $(this).data('id');
-
-        var modal = new bootstrap.Modal(document.getElementById('assignModal'));
-        modal.show();
-
-        $.ajax({
-            url: '/ComplainList/GetComplainSingle',
-            type: 'GET',
-            data: { id: id },
-            success: function (res) {
-                debugger;
-                console.log(res);
-                 var data = res.complainList[0];
-
-                    $('#txtTicketID').val(data.TicketID);
-                    $('#txtcustomername').val(data.CustomerName);
-                    $('#txtproductname').val(data.ProductName);
-                    $('#txtContactNumber').val(data.ContactNo);
-                    $('#txtlocationname').val(data.Location);
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
-            }
-        });
-    });
-  $(document).on('change', '#AssingedZone', function () {
-
-        var zoneId = $(this).val();
-
-        $.ajax({
-            url: '/ComplainList/GetZoneWiseSupervisor',
-            type: 'GET',
-            data: { zoneId: zoneId },
-            dataType: 'json',
-            success: function (res) {
-
-                console.log(res);
-
-                var ddl = $('#AssingedZonesupervisor');
-                ddl.empty();
-                ddl.append('<option value="">Select Supervisor</option>');
-
-                    $.each(res.SupervisorList, function (i, item) {
-
-                        ddl.append(
-                            '<option value="' + item.SupervisorId + '">' +
-                            item.SupervisorName +
-                            '</option>'
-                        );
-                    });
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
-            }
-        });
-    });
-
-</script>
+</script> *@
 <script>
+        $(document).on('click', '.assign-btn', function () {
+
+          var id = $(this).data('id');
+
+          var modal = new bootstrap.Modal(document.getElementById('assignModal'));
+          modal.show();
+
+          $.ajax({
+              url: '/ComplainList/GetComplainSingle',
+              type: 'GET',
+              data: { id: id },
+              success: function (res) {
+                  debugger;
+                  console.log(res);
+                   var data = res.complainList[0];
+
+                      $('#txtTicketID').val(data.TicketID);
+                      $('#txtcustomername').val(data.CustomerName);
+                      $('#txtproductname').val(data.ProductName);
+                      $('#txtContactNumber').val(data.ContactNo);
+                      $('#txtlocationname').val(data.Location);
+              },
+              error: function (xhr) {
+                  console.log(xhr.responseText);
+              }
+          });
+      });
+    $(document).on('change', '#AssingedZone', function () {
+
+          var zoneId = $(this).val();
+
+          $.ajax({
+              url: '/ComplainList/GetZoneWiseSupervisor',
+              type: 'GET',
+              data: { zoneId: zoneId },
+              dataType: 'json',
+              success: function (res) {
+
+                  console.log(res);
+
+                  var ddl = $('#AssingedZonesupervisor');
+                  ddl.empty();
+                  ddl.append('<option value="">Select Supervisor</option>');
+
+                      $.each(res.SupervisorList, function (i, item) {
+
+                          ddl.append(
+                              '<option value="' + item.SupervisorId + '">' +
+                              item.SupervisorName +
+                              '</option>'
+                          );
+                      });
+              },
+              error: function (xhr) {
+                  console.log(xhr.responseText);
+              }
+          });
+      });
     $('#btnSaveAssign').click(function () {
 
         var errors = [];
