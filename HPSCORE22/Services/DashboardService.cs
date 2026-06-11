@@ -61,5 +61,10 @@ public class DashboardService : IDashboardService
     {
         return await _repository.GetWarrantyChartAsync();
     }
+    public async Task<List<ServiceOperationPerformanceDto>> GetServiceOperationPerformance()
+    {
+        return await _repository.GetServiceOperationPerformanceAsync();
+    }
+        
 
 }

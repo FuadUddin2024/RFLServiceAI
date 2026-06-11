@@ -112,4 +112,10 @@ public class DashboardController : ControllerBase
 
         return Ok(data);
     }
+
+    [HttpGet("service-operation-performance")]
+    public async Task<IActionResult> GetServiceOperationPerformance()
+    {
+            return Ok(await _service.GetServiceOperationPerformance());
+    }
 }

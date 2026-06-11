@@ -35,5 +35,8 @@
         public decimal ThisMonthSolvedPercentage { get; set; }
         public decimal LastMonthSolvedPercentage { get; set; }
         public decimal TotalSolvedPercentage { get; set; }
+        public decimal SolveGrowthPercentage { get; set; }
+        public decimal Last3MonthAvgSolvePercentage { get; set; }
+        
     }
 }
