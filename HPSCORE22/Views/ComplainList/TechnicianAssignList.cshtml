@@ -10,6 +10,7 @@
     .dt-buttons.btn-group.flex-wrap {
         display: none;
     }
+
     .table-container {
         background: white;
         padding: 25px;
@@ -125,13 +126,12 @@
     .modal-header {
         display: flex;
         justify-content: center;
-        align-content: center ; 
+        align-content: center;
         background-color: cornflowerblue;
     }
 
-    .assignlable
-    {
-        font-size:14px;
+    .assignlable {
+        font-size: 14px;
     }
 </style>
 <partial name="~/Views/Shared/PartialView/_CSSCDNLink.cshtml" />
@@ -148,7 +148,9 @@
 
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Compalin List</h3>
+        <h3 class="card-title">
+            Complain List For Assign Person
+        </h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -193,117 +195,119 @@
 <div class="modal fade" id="assignModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            @using (Html.BeginForm("SaveAssignData", "ComplainList", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
-        {
-            <div class="modal-header">
+            @using (Html.BeginForm("SaveAssignDataWithTechnician", "ComplainList", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm" }))
+            {
+                <div class="modal-header">
                     <h5 class="modal-title" style="text-align:center !important">
-                        Assign Setup
+                        Assign Technician
                     </h5>
-            </div>
-
-            <div class="modal-body">
-
-               @*  <input type="hidden" id="ticketId" /> *@
-                <div class="row">
-                    <div class="col-md-4 mb-2">
-                        <label class="assignlable">Ticket ID</label>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <label class="assignlable">Ticket ID</label>
                             @Html.TextBoxFor(m => m.AssignModel.TicketID, new { @class = "form-control", @readonly = "readonly", id = "txtTicketID" })
-                       @*  <input type="text" id="ticketDisplay" class="form-control" disabled /> *@
-                    </div>
-
-                    <div class="col-md-4 mb-2">
-                        <label class="assignlable">Customer Name</label>
+                            @*  <input type="text" id="ticketDisplay" class="form-control" disabled /> *@
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="assignlable">Customer Name</label>
                             @Html.TextBoxFor(m => m.AssignModel.CustomerName, new { @class = "form-control", @readonly = "readonly", id = "txtcustomername" })
-                       @*  <input type="text" id="customerName" class="form-control" disabled /> *@
-                    </div>
-
-                    <div class="col-md-4 mb-2">
-                        <label class="assignlable">Product Name</label>
-                            @Html.TextBoxFor(m => m.AssignModel.ProductName, new { @class = "form-control", id = "txtproductname" })
-                       @*  <input type="text" id="productName" class="form-control" disabled /> *@
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 mb-2">
-                        <label class="assignlable">Assign Zone <span style="color:red;">*</span></label>
-                            @Html.DropDownListFor(
-                            m => m.AssignModel.AssignZoneId,
-                                                new SelectList(Model.ZoneList, "ZoneId", "ZoneName"),
-                                                "Select Zone",
-                                                new { @class = "form-control", @readonly = "readonly", id = "AssingedZone" }
-                                                )
-                        @Html.ValidationMessageFor(m => m.AssignModel.AssignZoneId, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-4 mb-2">
+                            @*  <input type="text" id="customerName" class="form-control" disabled /> *@
+                        </div>
+                        <div class="col-md-4 mb-2">
                         <label class="assignlable">Customer ContactNo</label>
-                        @Html.TextBoxFor(m => m.AssignModel.CustomerContactNo, new { @class = "form-control", @readonly = "readonly", id = "txtContactNumber" })
-                      @*   <input type="text" id="productName" class="form-control" disabled /> *@
+                            @Html.TextBoxFor(m => m.AssignModel.CustomerContactNo, new { @class = "form-control", @readonly = "readonly", id = "txtContactNumber" })
+                        @*   <input type="text" id="productName" class="form-control" disabled /> *@
                     </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="assignlable">Assign Company <span style="color:red;">*</span></label>
-                        @Html.DropDownListFor(
-                                                m => m.AssignModel.CompanyId,
-                                                new SelectList(Model.CompanyList, "CompanyId", "CompanyName"),
-                                                "Select Company",
-                                                new { @class = "form-control" }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <label class="assignlable">Location</label>
+                            @*  <input type="text" id="productName" class="form-control" disabled /> *@
+                            @Html.TextBoxFor(m => m.AssignModel.CustomerAddress, new { @class = "form-control", id = "txtlocationname" })
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="assignlable">Product Name</label>
+                            @Html.TextBoxFor(m => m.AssignModel.ProductName, new { @class = "form-control", id = "txtproductname" })
+                            @*  <input type="text" id="productName" class="form-control" disabled /> *@
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="assignlable">Status <span style="color:red;">*</span></label>
+                           @Html.HiddenFor(m => m.AssignModel.StatusId,new {id="hiddenstatus"})
+                            @Html.DropDownListFor(
+                            m => m.AssignModel.StatusId,
+                                                new SelectList(Model.StatusList, "StatusId", "StatusName"),
+                                                "Select Status",
+                                                new { @class = "form-control", disabled = "disabled", id = "txtStatusID" }
                                                 )
-                       @*  <input type="text" id="productName" class="form-control" disabled /> *@
-                        @Html.ValidationMessageFor(m => m.AssignModel.CompanyId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(m => m.AssignModel.StatusId, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 mb-2">
-                        <label class="assignlable">Location</label>
-                       @*  <input type="text" id="productName" class="form-control" disabled /> *@
-                        @Html.TextBoxFor(m => m.AssignModel.CustomerAddress, new { @class = "form-control", id = "txtlocationname" })
+                    </div>
+                    <div class="row">
+                     <div class="col-md-4 mb-2">
+                        <label class="assignlable">Assign To</label>
+                        @Html.DropDownListFor(
+                                                m => m.AssignModel.TechnicianId,
+                                                new SelectList(Model.TechnicianList, "RacTid", "TechName"),
+                                                "Select Technician",
+                                                new { @class = "form-control", id = "txtTechnician" }
+                                                )
+                        @Html.ValidationMessageFor(m => m.AssignModel.TechnicianId, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-4 mb-2">
                         <label class="assignlable">Assign Supervisor <span style="color:red;">*</span></label>
+                        @Html.HiddenFor(m => m.AssignModel.SupervisorId, new { id = "hiddensupervisor" })
                         @Html.DropDownListFor(
                                                 m => m.AssignModel.SupervisorId,
                                                 new SelectList(Model.SuperVisorList, "SupervisorId", "SupervisorName"),
                                                 "Select SuperVisor",
-                                                new { @class = "form-control", id = "AssingedZonesupervisor" }
+                                                new { @class = "form-control txtSupervisorName", disabled = "disabled", id = "AssingedZonesupervisor" }
                                                 )
-                        @Html.ValidationMessageFor(m => m.AssignModel.SupervisorId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(m => m.AssignModel.SupervisorId, "", new { @class = "text-danger"  })
                     </div>
                     <div class="col-md-4 mb-2">
-                        <label class="assignlable">Status <span style="color:red;">*</span></label>
+                        <label class="assignlable">Assign Company <span style="color:red;">*</span></label>
+                        @Html.HiddenFor(m => m.AssignModel.CompanyId, new { id = "hiddenCompanyID" })
                         @Html.DropDownListFor(
-                                                m => m.AssignModel.StatusId,
-                                                new SelectList(Model.StatusList, "StatusId", "StatusName"),
-                                                "Select Status",
-                                                new { @class = "form-control" }
+                                                m => m.AssignModel.CompanyId,
+                                                new SelectList(Model.CompanyList, "CompanyId", "CompanyName"),
+                                                "Select Company",
+                                                new { @class = "form-control", id = "txtCompany", disabled = "disabled" }
                                                 )
-                        @Html.ValidationMessageFor(m => m.AssignModel.StatusId, "", new { @class = "text-danger" })
+                        @*  <input type="text" id="productName" class="form-control" disabled /> *@
+                        @Html.ValidationMessageFor(m => m.AssignModel.CompanyId, "", new { @class = "text-danger", @readonly = "readonly" })
                     </div>
-                </div>
-                <div class="row">
+                    </div>
+                    <div class="row">
+                    <div class="col-md-4 mb-2">
+                            <label class="assignlable">Assign Zone <span style="color:red;">*</span></label>
+                        @Html.HiddenFor(m => m.AssignModel.AssignZoneId, new { id = "hiddenZoneID" })
+                            @Html.DropDownListFor(
+                            m => m.AssignModel.AssignZoneId,
+                                                new SelectList(Model.ZoneList, "ZoneId", "ZoneName"),
+                                                "Select Zone",
+                                                new { @class = "form-control", id = "AssingedZone", disabled = "disabled" }
+                                                )
+                        @Html.ValidationMessageFor(m => m.AssignModel.AssignZoneId, "", new { @class = "text-danger" })
+                    </div>
                     <div class="col-md-4 mb-2">
                         <label class="assignlable">Finish Date <span style="color:red;">*</span></label>
-                        @Html.TextBoxFor(m => m.AssignModel.FinishDate, new { @class = "form-control", type = "date" })
-                      @*   <input type="date" id="productName" class="form-control" disabled /> *@
+                        @Html.TextBoxFor(m => m.AssignModel.FinishDate, new { @class = "form-control", type = "date", id = "txtFinishDate" })
+                        @*   <input type="date" id="productName" class="form-control" disabled /> *@
                     </div>
-                  @*   <div class="col-md-4 mb-2">
-                        <label class="assignlable">Assign To</label>
-                        <select id="assignTo" class="form-control">
-                            <option value="1">Technician A</option>
-                            <option value="2">Technician B</option>
-                        </select>
-                    </div> *@
                     <div class="col-md-4 mb-2">
                         <label class="assignlable">Remarks</label>
-                            @Html.TextBoxFor(m => m.AssignModel.Remarks, new { @class = "form-control" })
-                     @*    <input type="text" id="productName" class="form-control" disabled /> *@
+                        @Html.TextBoxFor(m => m.AssignModel.Remarks, new { @class = "form-control", id = "txtremark" })
+                        @*    <input type="text" id="productName" class="form-control" disabled /> *@
                     </div>
                 </div>
-            </div>
+                </div>
 
             <div class="modal-footer">
                 <button class="btn btn-success" type="button" id="btnSaveAssign">Assign</button>
                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" style="background-color:red">Close</button>
             </div>
-        }
+                        }
         </div>
     </div>
 </div>
@@ -332,7 +336,7 @@
 
         $.ajax({
 
-            url: '/ComplainList/GetAllComplainList',
+            url: '/ComplainList/GetAllAssignZone',
 
             type: 'POST',
 
@@ -381,14 +385,14 @@
                         },
 
                         {
-                            title: "Contact No",
-                            data: "ContactNo",
+                            title: "Customer ContactNo",
+                            data: "CustomerContactNo",
                             defaultContent: ""
                         },
 
                         {
                             title: "Location",
-                            data: "Location",
+                            data: "CustomerAddress",
                             defaultContent: ""
                         },
 
@@ -403,7 +407,16 @@
                             data: "ProblemName",
                             defaultContent: ""
                         },
-
+                       {
+                            title: "Zone Name",
+                            data: "ZoneName",
+                            defaultContent: ""
+                        },
+                         {
+                            title: "Supervisor Name",
+                            data: "SupervisorName",
+                            defaultContent: ""
+                        },
                         {
                             title: "Complain Date",
 
@@ -573,33 +586,93 @@
     // ✅ OPEN MODAL + LOAD DATA
 </script> *@
 <script>
-        $(document).on('click', '.assign-btn', function () {
+    $(document).on('click', '.assign-btn', function () {
 
-          var id = $(this).data('id');
+        var id = $(this).data('id');
 
-          var modal = new bootstrap.Modal(document.getElementById('assignModal'));
-          modal.show();
+        $.ajax({
+            url: '/ComplainList/GetAssignSingle',
+            type: 'GET',
+            data: { id: id },
 
-          $.ajax({
-              url: '/ComplainList/GetComplainSingle',
-              type: 'GET',
-              data: { id: id },
-              success: function (res) {
-                  debugger;
-                  console.log(res);
-                   var data = res.complainList[0];
+            success: function (res) {
 
-                      $('#txtTicketID').val(data.TicketID);
-                      $('#txtcustomername').val(data.CustomerName);
-                      $('#txtproductname').val(data.ProductName);
-                      $('#txtContactNumber').val(data.ContactNo);
-                      $('#txtlocationname').val(data.Location);
-              },
-              error: function (xhr) {
-                  console.log(xhr.responseText);
-              }
-          });
-      });
+                debugger;
+                console.log("Response:", res);
+
+                if (!res || !res.complainList) {
+                    alert("No data found");
+                    return;
+                }
+
+                var data = res.complainList;
+
+                console.log("Data:", data);
+
+                // Inputs
+                $('#txtTicketID').val(data.TicketID || '');
+                $('#txtcustomername').val(data.CustomerName || '');
+                $('#txtContactNumber').val(data.CustomerContactNo || '');
+                $('#txtlocationname').val(data.CustomerAddress || '');
+                $('#txtproductname').val(data.ProductName || '');
+
+                // Dropdowns
+                $('#txtStatusID').val(data.StatusId).trigger('change');
+                $('#hiddenstatus').val(data.StatusId);
+
+                $('#AssingedZonesupervisor').val(data.SupervisorId).trigger('change');
+                $('#hiddensupervisor').val(data.SupervisorId);
+
+                $('#txtCompany').val(data.CompanyId).trigger('change');
+                $('#hiddenCompanyID').val(data.CompanyId);
+
+                $('#AssingedZone').val(data.AssignZoneId).trigger('change');
+                $('#hiddenZoneID').val(data.AssignZoneId);
+
+                // Technician dropdown
+                var ddl = $('#txtTechnician');
+
+                ddl.empty();
+                ddl.append('<option value="">Select Technician</option>');
+
+                if (res.TechnicianList && res.TechnicianList.length > 0) {
+
+                    $.each(res.TechnicianList, function (i, item) {
+
+                        ddl.append(
+                            `<option value="${item.RacTid}">
+                                ${item.TechName}
+                            </option>`
+                        );
+
+                    });
+
+                    ddl.val(data.TechnicianId).trigger('change');
+                }
+
+                // Date
+                if (data.FinishDate) {
+                    $('#txtFinishDate').val(data.FinishDate.substring(0, 10));
+                } else {
+                    $('#txtFinishDate').val('');
+                }
+
+                $('#txtremark').val(data.Remarks || '');
+
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.getElementById('assignModal')
+                    )
+                    .show();
+            },
+
+            error: function (xhr) {
+                console.log(xhr);
+                alert('Error: ' + xhr.responseText);
+            }
+        });
+
+    });
     $(document).on('change', '#AssingedZone', function () {
 
           var zoneId = $(this).val();
@@ -673,8 +746,8 @@
         transition: 0.3s;
     }
 
-    .fa-user-plus:hover {
-        color: #0d6efd;
-        transform: scale(1.2);
-    }
+        .fa-user-plus:hover {
+            color: #0d6efd;
+            transform: scale(1.2);
+        }
 </style>

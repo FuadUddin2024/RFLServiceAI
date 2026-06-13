@@ -47,5 +47,11 @@ namespace CSWMS.Models
         public decimal? Amount { get; set; }
         public string? fsp { get; set; }
         public string? staffid { get; set; }
+
+        // Navigation properties
+        public string ? ZoneName { get; set; }
+        public string ? SupervisorName { get; set; }
+        public string ? CompanyName { get; set; }
+        public string ? StatusName { get; set; }
     }
 }

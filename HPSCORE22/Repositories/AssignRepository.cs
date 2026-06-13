@@ -86,5 +86,90 @@ namespace CSWMS.Repositories
 
             return assignId;
         }
+
+        // Compain Technician Assign Person
+        public List<AssignModel> GetAllZoneAssingComplainList()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection connection = _db.GetConnection())
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT
+                a.AssignId,
+                a.TicketID,
+                a.AssignDate,
+                a.AssignZoneId,
+                a.StatusId,
+                a.SupervisorId,
+                a.CompanyId,
+                a.CustomerName,
+                a.CustomerAddress,
+                a.CustomerContactNo,
+                a.FinishDate,
+                a.ProductName,
+                a.Remarks,
+                a.IsAssign,
+                a.SendFeedback,
+                st.StatusName,
+                z.ZoneName,
+                su.SupervisorName,
+                c.CompanyName,
+                com.EntryDate,
+                com.ProblemName
+            FROM dbo.Assign a
+            INNER JOIN dbo.Complain com
+                ON com.TicketCode = a.TicketID
+            INNER JOIN dbo.Status st
+                ON st.StatusId = a.StatusId
+            INNER JOIN dbo.Zone z
+                ON z.ZoneId = a.AssignZoneId
+            INNER JOIN dbo.Company c
+                ON c.CompanyId = a.CompanyId
+            INNER JOIN dbo.Supervisor su
+                ON su.SupervisorId = a.SupervisorId
+where a.IsAssign=0";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandTimeout = 300;
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(command))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+
+            return ExtractData.Convert<AssignModel>(dt).ToList();
+        }
+        public List<AssignModel> GetAllZoneSingleAssing(string ticketCode)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection Connection = _db.GetConnection())
+            {
+                Connection.Open();
+
+                using (SqlCommand Command = new SqlCommand("sp_GetAssignDetailsByTicketID", Connection))
+                {
+                    Command.CommandType = CommandType.StoredProcedure;
+                    Command.CommandTimeout = 300;
+
+                    // Send parameter
+                    Command.Parameters.AddWithValue("@TicketID", ticketCode);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(Command))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+
+            return ExtractData.Convert<AssignModel>(dt).ToList();
+        }
     }
 }
