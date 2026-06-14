@@ -130,7 +130,7 @@ namespace CSWMS.Repositories
                 ON c.CompanyId = a.CompanyId
             INNER JOIN dbo.Supervisor su
                 ON su.SupervisorId = a.SupervisorId
-where a.IsAssign=0";
+where a.IsAssign=0 ORDER BY com.EntryDate DESC";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -170,6 +170,38 @@ where a.IsAssign=0";
             }
 
             return ExtractData.Convert<AssignModel>(dt).ToList();
+        }
+        public bool AssignPerson(AssignModel AssignModel)
+        {
+            bool isUpdated = true;
+            try
+            {
+                using (SqlConnection connection = _db.GetConnection())
+                {
+                    connection.Open();
+                    using (SqlCommand cmd = new SqlCommand("sp_UpdateAssignlISTPerson", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@CustomerAddress", AssignModel.CustomerAddress ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@ProductName", AssignModel.ProblemName ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@TechnicianId", AssignModel.TechnicianId);
+                        cmd.Parameters.AddWithValue("@FinishDate", AssignModel.FinishDate ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Remarks", AssignModel.Remarks ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@SendFeedback", AssignModel.SendFeedback ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@IsAssign", AssignModel.IsAssign ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@TicketID", AssignModel.TicketID);
+                        int rows = cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                isUpdated = false;
+                // Log the exception (you can use a logging framework here)
+                Console.WriteLine($"Error in AssignPerson: {ex.Message}");
+            }
+            return isUpdated;
         }
     }
 }

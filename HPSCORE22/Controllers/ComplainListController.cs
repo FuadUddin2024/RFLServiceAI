@@ -42,7 +42,7 @@ namespace CSWMS.Controllers
         [HttpPost]
         public JsonResult GetAllComplainList()
         {
-            var data = _complainListRepository.GetALlComplainListForAssing();
+            var data = _complainListRepository.GetALlComplainListForAssing().OrderByDescending(x => x.EntryDate).ToList();
 
             return Json(new
             {
@@ -135,7 +135,7 @@ namespace CSWMS.Controllers
         [HttpPost]
         public JsonResult GetAllAssignZone()
         {
-            var data = _AssignList.GetAllZoneAssingComplainList();
+            var data = _AssignList.GetAllZoneAssingComplainList().OrderByDescending(x => x.EntryDate);
 
             return Json(new
             {
@@ -161,26 +161,18 @@ namespace CSWMS.Controllers
             {
                 if (AssignDataFrom.TicketID > 0)
                 {
-                    var AssingData = _AssignList.GetAllComplainList(AssignDataFrom.TicketID.ToString()).FirstOrDefault();
-                    if (AssingData != null)
+                    if(AssignDataFrom.TechnicianId>0)
                     {
-                        TempData["ERRORMSG"] = "This Ticket ID is already exists for assign, please update this Ticket ID.";
-                    }
-                    else
-                    {
-                        AssignDataFrom.AssignDate = DateTime.Now;
-                        AssignDataFrom.IsAssign = false;
-                        AssignDataFrom.EntryDate = DateTime.Now;
-                        AssignDataFrom.EntryBy = HttpContext.Session.GetString("USER_TEXT") ?? "Admin";
-                        var AssingID = _AssignList.InsertAssign(AssignDataFrom);
-                        if (AssingID > 0)
+                        var AssignData = _AssignList.GetAllZoneSingleAssing(AssignDataFrom.TicketID.ToString()).FirstOrDefault();
+                        if (AssignData != null)
                         {
-                            var data = _complainListRepository.GetAllComplainList(AssignDataFrom.TicketID.ToString()).FirstOrDefault();
-                            data.SendAssign = true;
-                            var UpdatedData = _complainListRepository.UpdateComplain(data);
-                            if (UpdatedData)
+                            AssignData.IsAssign = true;
+                            AssignData.SendFeedback = false;
+                            AssignData.FinishDate = DateTime.Now;
+                            var Updateddata = _AssignList.AssignPerson(AssignDataFrom);
+                            if (Updateddata)
                             {
-                                TempData["SuccessMSG"] = "Successfully Inserted.";
+                                TempData["SuccessMSG"] = "Successfully Updated.";
                             }
                             else
                             {
@@ -189,20 +181,21 @@ namespace CSWMS.Controllers
                         }
                         else
                         {
-                            TempData["ERRORMSG"] = "!!!! ERROR !!!";
+                            TempData["ERRORMSG"] = "ERROR";
                         }
+                    }
+                    else
+                    {
+                        TempData["ERRORMSG"] = "Please Add Technician";
                     }
                 }
                 else
                 {
                     TempData["ERRORMSG"] = "!!!! ERROR !!!";
                 }
+                
             }
-            else
-            {
-                TempData["ERRORMSG"] = "!!!! ERROR !!!";
-            }
-            return RedirectToAction("ComplainListData", "ComplainList");
+            return RedirectToAction("TechnicianAssignList", "ComplainList");
         }
     }
 }
