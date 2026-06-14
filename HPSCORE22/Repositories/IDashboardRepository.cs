@@ -6,6 +6,7 @@
 //}
 
 using CSWMS.ViewModel;
+using Microsoft.AspNetCore.Mvc;
 
 public interface IDashboardRepository
 {
@@ -23,4 +24,7 @@ public interface IDashboardRepository
     Task<List<CancelledTicketDto>>GetCancelledDetailsAsync(string type);
     Task<WarrantyDashboardDto> GetWarrantyDashboardAsync();
     Task<WarrantyDashboardDto> GetWarrantyChartAsync();
+    Task<List<ServiceOperationPerformanceDto>> GetServiceOperationPerformanceAsync();
+
+    
 }

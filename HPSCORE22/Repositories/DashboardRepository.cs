@@ -20,147 +20,212 @@ namespace CSWMS.Repositories
             DashboardKpiDto model = new DashboardKpiDto();
 
             string query = @"
-                 DECLARE @ThisMonthStart DATE = DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1);
-            DECLARE @NextMonthStart DATE = DATEADD(MONTH, 1, @ThisMonthStart);
+                      DECLARE @ThisMonthStart DATE = DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1);
+                        DECLARE @NextMonthStart DATE = DATEADD(MONTH, 1, @ThisMonthStart);
 
-            DECLARE @LastMonthStart DATE = DATEADD(MONTH, -1, @ThisMonthStart);
-            DECLARE @LastMonthEnd DATE = @ThisMonthStart;
+                        DECLARE @LastMonthStart DATE = DATEADD(MONTH, -1, @ThisMonthStart);
+                        DECLARE @LastMonthEnd DATE = @ThisMonthStart;
 
-            SELECT
+                        SELECT
 
-            -- ================= TOTAL =================
-            (SELECT COUNT(*) FROM Complain) AS TotalTickets,
+                        -- ================= TOTAL =================
+                        (SELECT COUNT(*) FROM Complain) AS TotalTickets,
 
-            (SELECT COUNT(*) FROM Assign) AS TotalAssign,
+                        (SELECT COUNT(*) FROM Assign) AS TotalAssign,
 
-            (SELECT COUNT(*) FROM Assign WHERE StatusId = 1) AS Solved,
+                        (SELECT COUNT(*) FROM Assign WHERE StatusId = 1) AS Solved,
 
-            (SELECT COUNT(*) FROM Assign WHERE StatusId = 2) AS Pending,
+                        (SELECT COUNT(*) FROM Assign WHERE StatusId = 2) AS Pending,
 
-            (SELECT COUNT(*) FROM Assign WHERE StatusId = 3) AS Cancelled,
+                        (SELECT COUNT(*) FROM Assign WHERE StatusId = 3) AS Cancelled,
 
-            (SELECT COUNT(*) FROM Technician WHERE Active=1) AS TotalTechnician,
+                        (SELECT COUNT(*) FROM Technician WHERE Active=1) AS TotalTechnician,
 
-            (SELECT COUNT(*) FROM Supervisor) AS TotalSupervisor,
+                        (SELECT COUNT(*) FROM Supervisor) AS TotalSupervisor,
 
-            (SELECT COUNT(*) FROM Zone) AS TotalServiceCenter,
-             
-            CAST(
-                ROUND(
-                    (
+                        (SELECT COUNT(*) FROM Zone) AS TotalServiceCenter,
+ 
+                        CAST(
+                            ROUND(
+                                (
+                                    (SELECT COUNT(*)
+                                     FROM Assign
+                                     WHERE StatusId = 1) * 100.0
+                                )
+                                /
+                                NULLIF(
+                                    (SELECT COUNT(*)
+                                     FROM Complain),
+                                    0
+                                ),
+                                2
+                            )
+                        AS DECIMAL(10,2)) AS TotalSolvedPercentage,
+
+                        -- ================= THIS MONTH =================
                         (SELECT COUNT(*)
-                         FROM Assign
-                         WHERE StatusId = 1) * 100.0
-                    )
-                    /
-                    NULLIF(
-                        (SELECT COUNT(*)
-                         FROM Complain),
-                        0
-                    ),
-                    2
-                )
-            AS DECIMAL(10,2)) AS TotalSolvedPercentage,
+                         FROM Complain
+                         WHERE EntryDate >= @ThisMonthStart
+                           AND EntryDate < @NextMonthStart
+                        ) AS ThisMonthTickets,
 
-            -- ================= THIS MONTH =================
-            (SELECT COUNT(*)
-             FROM Complain
-             WHERE EntryDate >= @ThisMonthStart
-               AND EntryDate < @NextMonthStart
-            ) AS ThisMonthTickets,
-
-            (SELECT COUNT(*)
-             FROM Assign
-             WHERE StatusId = 1
-               AND EntryDate >= @ThisMonthStart
-               AND EntryDate < @NextMonthStart
-            ) AS ThisMonthSolved,
-
-            (SELECT COUNT(*)
-             FROM Assign
-             WHERE StatusId = 2
-               AND EntryDate >= @ThisMonthStart
-               AND EntryDate < @NextMonthStart
-            ) AS ThisMonthPending,
-
-            (SELECT COUNT(*)
-             FROM Assign
-             WHERE StatusId = 3
-               AND EntryDate >= @ThisMonthStart
-               AND EntryDate < @NextMonthStart
-            ) AS ThisMonthCancelled,
-
-            CAST(
-                ROUND(
-                    (
                         (SELECT COUNT(*)
                          FROM Assign
                          WHERE StatusId = 1
                            AND EntryDate >= @ThisMonthStart
-                           AND EntryDate < @NextMonthStart) * 100.0
-                    )
-                    /
-                    NULLIF(
+                           AND EntryDate < @NextMonthStart
+                        ) AS ThisMonthSolved,
+
+                        (SELECT COUNT(*)
+                         FROM Assign
+                         WHERE StatusId = 2
+                           AND EntryDate >= @ThisMonthStart
+                           AND EntryDate < @NextMonthStart
+                        ) AS ThisMonthPending,
+
+                        (SELECT COUNT(*)
+                         FROM Assign
+                         WHERE StatusId = 3
+                           AND EntryDate >= @ThisMonthStart
+                           AND EntryDate < @NextMonthStart
+                        ) AS ThisMonthCancelled,
+
+                        CAST(
+                            ROUND(
+                                (
+                                    (SELECT COUNT(*)
+                                     FROM Assign
+                                     WHERE StatusId = 1
+                                       AND EntryDate >= @ThisMonthStart
+                                       AND EntryDate < @NextMonthStart) * 100.0
+                                )
+                                /
+                                NULLIF(
+                                    (SELECT COUNT(*)
+                                     FROM Complain
+                                     WHERE EntryDate >= @ThisMonthStart
+                                       AND EntryDate < @NextMonthStart),
+                                    0
+                                ),
+                                2
+                            )
+                        AS DECIMAL(10,2)) AS ThisMonthSolvedPercentage,
+
+
+                        -- ================= LAST MONTH =================
                         (SELECT COUNT(*)
                          FROM Complain
-                         WHERE EntryDate >= @ThisMonthStart
-                           AND EntryDate < @NextMonthStart),
-                        0
-                    ),
-                    2
-                )
-            AS DECIMAL(10,2)) AS ThisMonthSolvedPercentage,
+                         WHERE EntryDate >= @LastMonthStart
+                           AND EntryDate < @LastMonthEnd
+                        ) AS LastMonthTickets,
 
-
-            -- ================= LAST MONTH =================
-            (SELECT COUNT(*)
-             FROM Complain
-             WHERE EntryDate >= @LastMonthStart
-               AND EntryDate < @LastMonthEnd
-            ) AS LastMonthTickets,
-
-            (SELECT COUNT(*)
-             FROM Assign
-             WHERE StatusId = 1
-               AND EntryDate >= @LastMonthStart
-               AND EntryDate < @LastMonthEnd
-            ) AS LastMonthSolved,
-
-            (SELECT COUNT(*)
-             FROM Assign
-             WHERE StatusId = 2
-               AND EntryDate >= @LastMonthStart
-               AND EntryDate < @LastMonthEnd
-            ) AS LastMonthPending,
-
-            (SELECT COUNT(*)
-             FROM Assign
-             WHERE StatusId = 3
-               AND EntryDate >= @LastMonthStart
-               AND EntryDate < @LastMonthEnd
-            ) AS LastMonthCancelled,
-
-            CAST(
-                ROUND(
-                    (
                         (SELECT COUNT(*)
                          FROM Assign
                          WHERE StatusId = 1
                            AND EntryDate >= @LastMonthStart
-                           AND EntryDate < @LastMonthEnd) * 100.0
-                    )
-                    /
-                    NULLIF(
+                           AND EntryDate < @LastMonthEnd
+                        ) AS LastMonthSolved,
+
                         (SELECT COUNT(*)
-                         FROM Complain
-                         WHERE EntryDate >= @LastMonthStart
-                           AND EntryDate < @LastMonthEnd),
-                        0
-                    ),
-                    2
-                )
-            AS DECIMAL(10,2)) AS LastMonthSolvedPercentage;
-                    ";
+                         FROM Assign
+                         WHERE StatusId = 2
+                           AND EntryDate >= @LastMonthStart
+                           AND EntryDate < @LastMonthEnd
+                        ) AS LastMonthPending,
+
+                        (SELECT COUNT(*)
+                         FROM Assign
+                         WHERE StatusId = 3
+                           AND EntryDate >= @LastMonthStart
+                           AND EntryDate < @LastMonthEnd
+                        ) AS LastMonthCancelled,
+
+                        CAST(
+                            ROUND(
+                                (
+                                    (SELECT COUNT(*)
+                                     FROM Assign
+                                     WHERE StatusId = 1
+                                       AND EntryDate >= @LastMonthStart
+                                       AND EntryDate < @LastMonthEnd) * 100.0
+                                )
+                                /
+                                NULLIF(
+                                    (SELECT COUNT(*)
+                                     FROM Complain
+                                     WHERE EntryDate >= @LastMonthStart
+                                       AND EntryDate < @LastMonthEnd),
+                                    0
+                                ),
+                                2
+                            )
+                        AS DECIMAL(10,2)) AS LastMonthSolvedPercentage,
+
+                        -- ================= This Vs Last MONTH SOLVE Groth % =================
+
+                        CAST(
+                        (
+                            (
+                                (
+                                    (SELECT COUNT(*)
+                                     FROM Assign
+                                     WHERE StatusId = 1
+                                     AND EntryDate >= @ThisMonthStart
+                                     AND EntryDate < @NextMonthStart
+                                    ) * 100.0
+                                )
+                                /
+                                NULLIF(
+                                    (
+                                        SELECT COUNT(*)
+                                        FROM Complain
+                                        WHERE EntryDate >= @ThisMonthStart
+                                        AND EntryDate < @NextMonthStart
+                                    ),0
+                                )
+                            )
+
+                            -
+
+                            (
+                                (
+                                    (SELECT COUNT(*)
+                                     FROM Assign
+                                     WHERE StatusId = 1
+                                     AND EntryDate >= @LastMonthStart
+                                     AND EntryDate < @LastMonthEnd
+                                    ) * 100.0
+                                )
+                                /
+                                NULLIF(
+                                    (
+                                        SELECT COUNT(*)
+                                        FROM Complain
+                                        WHERE EntryDate >= @LastMonthStart
+                                        AND EntryDate < @LastMonthEnd
+                                    ),0
+                                )
+                            )
+                        )
+                        AS DECIMAL(10,2)
+                        ) AS SolveGrowthPercentage,
+
+                        -- ================= LAST 3 MONTH AVG SOLVE % =================
+
+                        CAST(ISNULL(
+                        (
+                            SELECT AVG(MonthSolvePercentage)
+                            FROM
+                            (
+                                SELECT
+                                    (SUM(CASE WHEN StatusId = 1 THEN 1 ELSE 0 END) * 100.0)
+                                    / NULLIF(COUNT(*),0) AS MonthSolvePercentage
+                                FROM Assign
+                                WHERE EntryDate >= DATEADD(MONTH,-3,@ThisMonthStart)
+                                  AND EntryDate < @NextMonthStart
+                                GROUP BY YEAR(EntryDate), MONTH(EntryDate)
+                            ) X
+                        ),0) AS DECIMAL(10,2)) AS Last3MonthAvgSolvePercentage; ";
 
             DataTable dt = await _databaseService.ExecuteQueryAsync(query);
 
@@ -214,6 +279,9 @@ namespace CSWMS.Repositories
                 model.ThisMonthSolvedPercentage = Convert.ToDecimal(dr["ThisMonthSolvedPercentage"]);
                 model.LastMonthSolvedPercentage = Convert.ToDecimal(dr["LastMonthSolvedPercentage"]);
                 model.TotalSolvedPercentage = Convert.ToDecimal(dr["TotalSolvedPercentage"]);
+
+                model.Last3MonthAvgSolvePercentage = Convert.ToDecimal(dr["Last3MonthAvgSolvePercentage"]);
+                model.SolveGrowthPercentage = Convert.ToDecimal(dr["SolveGrowthPercentage"]);
 
                 // Ticket Growth %
                 model.TicketGrowth =
@@ -952,6 +1020,124 @@ namespace CSWMS.Repositories
                         : Convert.ToInt32(dr["OutWarranty"]);
 
               
+            }
+
+            return model;
+        }
+        // ================= Service Operation Data =================
+        public async Task<List<ServiceOperationPerformanceDto>> GetServiceOperationPerformanceAsync()
+        {
+            List<ServiceOperationPerformanceDto> model =
+                new List<ServiceOperationPerformanceDto>();
+
+            string query = @"
+                SELECT
+                    SO.ServiceOperationName,
+
+                    COUNT(A.TicketID) AS TotalTickets,
+
+                    SUM(CASE WHEN A.StatusId = 1 THEN 1 ELSE 0 END) AS Solved,
+
+                    SUM(CASE WHEN A.StatusId = 2 THEN 1 ELSE 0 END) AS Pending,
+
+                    SUM(CASE WHEN A.StatusId = 3 THEN 1 ELSE 0 END) AS Cancelled,
+
+                    CAST(
+                        SUM(CASE WHEN A.StatusId = 1 THEN 1 ELSE 0 END) * 100.0
+                        / NULLIF(COUNT(A.TicketID),0)
+                        AS DECIMAL(10,2)
+                    ) AS SolveRate,
+
+                    CAST(
+                        SUM(CASE WHEN A.StatusId = 2 THEN 1 ELSE 0 END) * 100.0
+                        / NULLIF(COUNT(A.TicketID),0)
+                        AS DECIMAL(10,2)
+                    ) AS PendingRate,
+
+                    CAST(
+                        SUM(CASE WHEN A.StatusId = 3 THEN 1 ELSE 0 END) * 100.0
+                        / NULLIF(COUNT(A.TicketID),0)
+                        AS DECIMAL(10,2)
+                    ) AS CancelledRate,
+
+                    COUNT(DISTINCT T.TechnicianId) AS ActiveTechnicians,
+
+                    CAST(
+                        COUNT(A.TicketID) * 1.0
+                        / NULLIF(COUNT(DISTINCT T.TechnicianId),0)
+                        AS DECIMAL(10,2)
+                    ) AS AvgTicketsPerTechnician,
+
+                    SUM(
+                        CASE
+                            WHEN A.StatusId = 2
+                             AND A.EntryDate < DATEADD(DAY,-7,GETDATE())
+                            THEN 1
+                            ELSE 0
+                        END
+                    ) AS PendingOver7Days,
+
+                    SUM(
+                        CASE
+                            WHEN A.StatusId = 2
+                             AND A.EntryDate < DATEADD(DAY,-30,GETDATE())
+                            THEN 1
+                            ELSE 0
+                        END
+                    ) AS PendingOver30Days
+
+                FROM Assign A
+
+                INNER JOIN Technician T
+                    ON A.TechnicianId = T.TechnicianId
+
+                LEFT JOIN Supervisor S
+                    ON S.SupervisorId = T.SupervisorId
+
+                LEFT JOIN ServiceOperation SO
+                    ON SO.ServiceOperationId = S.ServiceOperationId
+
+                WHERE A.EntryDate >= DATEADD(DAY, -30, CAST(GETDATE() AS DATE))
+                   AND A.EntryDate < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
+
+                GROUP BY SO.ServiceOperationName
+
+                HAVING COUNT(A.TicketID) > 0
+
+                ORDER BY SolveRate DESC
+                ";
+
+            DataTable dt = await _databaseService.ExecuteQueryAsync(query);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                model.Add(new ServiceOperationPerformanceDto
+                {
+                    ServiceOperationName = dr["ServiceOperationName"].ToString(),
+
+                    TotalTickets = Convert.ToInt32(dr["TotalTickets"]),
+
+                    Solved = Convert.ToInt32(dr["Solved"]),
+
+                    Pending = Convert.ToInt32(dr["Pending"]),
+
+                    Cancelled = Convert.ToInt32(dr["Cancelled"]),
+
+                    SolveRate = Convert.ToDecimal(dr["SolveRate"]),
+
+                    PendingRate = Convert.ToDecimal(dr["PendingRate"]),
+
+                    CancelledRate = Convert.ToDecimal(dr["CancelledRate"]),
+
+                    ActiveTechnicians = Convert.ToInt32(dr["ActiveTechnicians"]),
+
+                    AvgTicketsPerTechnician =
+                        Convert.ToDecimal(dr["AvgTicketsPerTechnician"]),
+
+                    PendingOver7Days = Convert.ToInt32(dr["PendingOver7Days"]),
+
+                    PendingOver30Days = Convert.ToInt32(dr["PendingOver30Days"]),
+                });
             }
 
             return model;

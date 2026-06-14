@@ -23,4 +23,5 @@ public interface IDashboardService
     Task<List<CancelledTicketDto>> GetCancelledDetailsAsync(string type);
     Task<WarrantyDashboardDto> GetWarrantyDashboardAsync();
     Task<WarrantyDashboardDto> GetWarrantyChartAsync();
+    Task<List<ServiceOperationPerformanceDto>> GetServiceOperationPerformance();
 }

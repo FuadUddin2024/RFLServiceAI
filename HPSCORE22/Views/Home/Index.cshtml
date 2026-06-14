@@ -69,11 +69,19 @@
     }
 
     .bg-sla-last {
-        background: linear-gradient(135deg,#ea580c,#c2410c);
+        background: linear-gradient(135deg,#22c55e,#16a34a);
     }
 
     .bg-sla-this {
         background: linear-gradient(135deg,#0891b2,#0e7490);
+    }
+
+    .bg-sla-growth {
+        background: linear-gradient(135deg,#ea580c,#c2410c);
+    }
+
+    .bg-sla-avg {
+        background: linear-gradient(135deg,#3b82f6,#2563eb);
     }
     /* ===== KPI CARDS END ===== */
 
@@ -82,7 +90,7 @@
     }
 
     .small-box h4 {
-        font-size: 28px;
+        font-size: 24px;
         font-weight: 700;
     }
 
@@ -135,9 +143,9 @@
         min-height: 300px;
     }
 
-    /* Managers CSS */
+    /* ================= Operation Manager Style Start ================= */
 
-    .operations {
+    /* .operations {
         display: grid;
         grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
         gap: 20px;
@@ -176,7 +184,100 @@
     .manager-stats span {
         font-size: 12px;
         color: #64748b;
+    } */
+
+    
+
+    .operation-body {
+        padding: 12px;
     }
+
+   /*  .operation-card {
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+        transition: all .3s ease;
+        background: #fff;
+    }
+
+    .operation-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0,0,0,.12);
+    }
+
+    .operation-header {
+        background: #0d6efd;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 14px;
+    } */
+
+    .operation-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,.08);
+        transition: .3s;
+        border: 1px solid #e5e7eb;
+    }
+
+    .operation-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0,0,0,.12);
+    }
+
+    .operation-header {
+        background: #0d6efd;
+        color: #fff;
+        padding: 12px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .operation-body {
+        padding: 12px;
+    }
+
+    .operation-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed #dee2e6;
+    }
+
+        .operation-row:last-child {
+            border-bottom: none;
+        }
+
+        .operation-row.solved strong {
+            color: #198754;
+        }
+
+        .operation-row.pending strong {
+            color: #ffc107;
+        }
+
+        .operation-row.cancelled strong {
+            color: #dc3545;
+        }
+
+    .operation-footer {
+        background: #f8f9fa;
+        padding: 12px;
+        text-align: center;
+        border-top: 1px solid #dee2e6;
+    }
+
+        .operation-footer .rate {
+            display: block;
+            font-size: 22px;
+            font-weight: 700;
+            color: #0d6efd;
+        }
+
+    /* ================= Operation Manager Style End ================= */
     
     /*KPI Comparision*/
     .card-body h2 {
@@ -447,7 +548,7 @@
             </div>
 
             <!-- Supervisor -->
-            <div class="col-lg-2 col-md-4 col-6">
+           @*  <div class="col-lg-2 col-md-4 col-6">
                 <div class="kpi-box bg-supervisor">
                     <div class="inner">
                         <h4 id="TotalSupervisor">0</h4>
@@ -457,10 +558,10 @@
                         <i class="fas fa-users"></i>
                     </div>
                 </div>
-            </div>
+            </div> *@
 
             <!-- Total SLA -->
-            <div class="col-lg-2 col-md-4 col-6">
+           @*  <div class="col-lg-2 col-md-4 col-6">
                 <div class="kpi-box bg-sla-total">
                     <div class="inner">
                         <h4 id="TotalSolvedPercentage">0%</h4>
@@ -470,7 +571,7 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                 </div>
-            </div>
+            </div> *@
 
             <!-- Last Month SLA -->
             <div class="col-lg-2 col-md-4 col-6">
@@ -498,133 +599,98 @@
                 </div>
             </div>
 
-        </div>
-        </br>
-        <!-- ================= Managers ================= -->
-
-        @* <div class="container-fluid"> *@
-
-            <div class="row g-3">
-
-                <!-- Manager 1 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                    <div class="manager-card">
-                        <div class="manager-header">
-                            <div>
-                                <h5>Md Riazul Islam</h5>
-                                <p>Operation Manager</p>
-                            </div>
-                        </div>
-
-                        <div class="manager-stats">
-                            <div>
-                                <h5>48</h5>
-                                <span>Technicians</span>
-                            </div>
-
-                            <div>
-                                <h5>354</h5>
-                                <span>Today's Jobs</span>
-                            </div>
-
-                            <div>
-                                <h5>62.9%</h5>
-                                <span>Success Rate</span>
-                            </div>
-                        </div>
+            <!-- Solve Growth Percentage Last vs This Month -->
+            @* <div class="col-lg-2 col-6">
+                <div class="small-box bg-success kpi-box">
+                    <div class="inner">
+                        <h4 id="SolveGrowthPercentage">0%</h4>
+                        <p>Solved SLA Growth (Last vs This)</p>
                     </div>
                 </div>
+            </div> *@
 
-                <!-- Manager 2 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                    <div class="manager-card">
-                        <div class="manager-header">
-                            <div>
-                                <h5>Md Nahidul Islam</h5>
-                                <p>Operation Manager</p>
-                            </div>
-                        </div>
-
-                        <div class="manager-stats">
-                            <div>
-                                <h5>44</h5>
-                                <span>Technicians</span>
-                            </div>
-
-                            <div>
-                                <h5>312</h5>
-                                <span>Today's Jobs</span>
-                            </div>
-
-                            <div>
-                                <h5>59.3%</h5>
-                                <span>Success Rate</span>
-                            </div>
-                        </div>
+            <!-- Last 3 Month Avg Solve Percentage -->
+            @* <div class="col-lg-2 col-6">
+                <div class="small-box bg-primary kpi-box">
+                    <div class="inner">
+                        <h4 id="Last3MonthAvgSolvePercentage">0%</h4>
+                        <p>Last 3 Month Solved Avg SLA</p>
                     </div>
                 </div>
+            </div> *@
 
-                <!-- Manager 3 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                    <div class="manager-card">
-                        <div class="manager-header">
-                            <div>
-                                <h5>Md Riazul Islam</h5>
-                                <p>Operation Manager</p>
-                            </div>
-                        </div>
+            <!-- Solve Growth Percentage Last vs This Month -->
+            <div class="col-lg-2 col-md-4 col-6">
 
-                        <div class="manager-stats">
-                            <div>
-                                <h5>48</h5>
-                                <span>Technicians</span>
-                            </div>
+                <div class="kpi-box bg-sla-growth">
 
-                            <div>
-                                <h5>354</h5>
-                                <span>Today's Jobs</span>
-                            </div>
+                    <div class="inner">
 
-                            <div>
-                                <h5>62.9%</h5>
-                                <span>Success Rate</span>
-                            </div>
-                        </div>
+                        <h4 id="SolveGrowthPercentage">0%</h4>
+
+                        <p>Solved SLA Growth (Last vs This)</p>
+
                     </div>
-                </div>
 
-                <!-- Manager 4 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                    <div class="manager-card">
-                        <div class="manager-header">
-                            <div>
-                                <h5>Md Nahidul Islam</h5>
-                                <p>Operation Manager</p>
-                            </div>
-                        </div>
+                    <div class="icon">
 
-                        <div class="manager-stats">
-                            <div>
-                                <h5>44</h5>
-                                <span>Technicians</span>
-                            </div>
+                        <i class="fas fa-chart-line"></i>
 
-                            <div>
-                                <h5>312</h5>
-                                <span>Today's Jobs</span>
-                            </div>
-
-                            <div>
-                                <h5>59.3%</h5>
-                                <span>Success Rate</span>
-                            </div>
-                        </div>
                     </div>
+
                 </div>
 
             </div>
 
-        @* </div> *@
+            <!-- Last 3 Month Avg Solve Percentage -->
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <div class="kpi-box bg-sla-avg">
+
+                    <div class="inner">
+
+                        <h4 id="Last3MonthAvgSolvePercentage">0%</h4>
+
+                        <p>Last 3 Month Avg Solved SLA</p>
+
+                    </div>
+
+                    <div class="icon">
+
+                        <i class="fas fa-chart-bar"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- ================= Service Operation Performance ================= -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+
+            <h6 class="mb-0 fw-bold"> 
+                📊 Last 30 Days Summary (Service Operation)
+            </h6>
+
+            <div>
+                <span class="badge bg-success">
+                    Excellent  ≥ 90%
+                </span>
+
+                <span class="badge bg-warning text-dark">
+                    Attention  75% - 89%
+                </span>
+
+                <span class="badge bg-danger">
+                    Critical  < 75%
+                </span>
+            </div>
+
+        </div>
+
+        <div class="row" id="serviceOperationContainer"></div>
+
 
         <!-- ================= KPI COMPARISON ================= -->
 
@@ -1190,16 +1256,28 @@
             $("#TotalServiceCenter").text(data.TotalServiceCenter);
 
             $("#ThisMonthSolvedPercentage").text(
-                Number(data.ThisMonthSolvedPercentage).toFixed(2)
+                Number(data.ThisMonthSolvedPercentage).toFixed(2) + "%"
             );
 
             $("#LastMonthSolvedPercentage").text(
-                Number(data.LastMonthSolvedPercentage).toFixed(2)
+                Number(data.LastMonthSolvedPercentage).toFixed(2) + "%"
             );
 
              $("#TotalSolvedPercentage").text(
-                Number(data.TotalSolvedPercentage).toFixed(2)
+                Number(data.TotalSolvedPercentage).toFixed(2) + "%"
             );
+
+            $("#Last3MonthAvgSolvePercentage")
+                .text(parseFloat(data.Last3MonthAvgSolvePercentage).toFixed(2) + "%");
+
+            var growth = parseFloat(data.SolveGrowthPercentage);
+
+            $("#SolveGrowthPercentage")
+                .html(
+                    growth >= 0
+                    ? growth.toFixed(2) + "% ↑"
+                    : Math.abs(growth).toFixed(2) + "% ↓"
+                );
 
              // Growth Circle
 
@@ -1308,6 +1386,19 @@
             $("#totalCancel").text(data.Cancelled);
             $("#lastCancel").text(data.LastMonthCancelled);
             $("#thisCancel").text(data.ThisMonthCancelled);
+
+            if (growth >= 0) {
+                $("#SolveGrowthPercentage")
+                    .closest(".small-box")
+                    .removeClass("bg-danger")
+                    .addClass("bg-success");
+            }
+            else {
+                $("#SolveGrowthPercentage")
+                    .closest(".small-box")
+                    .removeClass("bg-success")
+                    .addClass("bg-danger");
+            }
 
         });
 
@@ -1706,7 +1797,7 @@
 
       // ================= WARRANTY-WISE SERVICE ANALYSIS =================
 
-          $.getJSON('@Url.Content("~/api/dashboard/warranty-kpi")',function(data){
+        $.getJSON('@Url.Content("~/api/dashboard/warranty-kpi")',function(data){
             $("#TotalTickets")
                 .text(data.TotalTickets);
 
@@ -1729,6 +1820,7 @@
                 .text(data.expiringSoon);
         });
 
+        // ================= WARRANTY CHART ANALYSIS =================
         $.getJSON('/api/dashboard/warranty-chart', function(data){
         new Chart(
             $("#warrantyChart"),
@@ -1765,7 +1857,7 @@
 
 
 
-        function loadCancelledDetails(type) {
+    function loadCancelledDetails(type) {
 
         $.getJSON(
             '/api/dashboard/cancelled-details?type=' + type,
@@ -1791,4 +1883,145 @@
             });
     }
 
+     // ================= Service Operation Performance ================= 
+    $.getJSON('@Url.Content("~/api/dashboard/service-operation-performance")',
+    function (data) {
+
+        let html = '';
+
+        $.each(data, function (i, item) {
+
+            let statusBadge = '';
+            let badgeClass = '';
+
+            if (item.SolveRate >= 90) {
+                statusBadge = 'Excellent';
+                badgeClass = 'bg-success';
+            }
+            else if (item.SolveRate >= 75) {
+                statusBadge = 'Attention';
+                badgeClass = 'bg-warning text-dark';
+            }
+            else {
+                statusBadge = 'Critical';
+                badgeClass = 'bg-danger';
+            }
+
+            html += `
+            <div class="col-xl-4 col-lg-4 col-md-6 mb-3">
+
+                <div class="operation-card shadow-sm">
+
+                    <div class="operation-header">
+                        ${item.ServiceOperationName}
+                    </div>
+
+                    <div class="operation-body">
+
+                        <div class="text-center mb-2">
+                            <h4 class="mb-0 fw-bold">
+                                ${item.TotalTickets}
+                            </h4>
+
+                            <small class="text-muted">
+                                Tickets
+                            </small>
+                        </div>
+
+                        <div class="d-flex justify-content-between text-center">
+
+                            <div>
+                                <div class="text-success fw-bold">
+                                    ${item.Solved}
+                                </div>
+                                <small>Solved</small>
+                            </div>
+
+                            <div>
+                                <div class="text-warning fw-bold">
+                                    ${item.Pending}
+                                </div>
+                                <small>Pending</small>
+                            </div>
+
+                            <div>
+                                <div class="text-danger fw-bold">
+                                    ${item.Cancelled}
+                                </div>
+                                <small>Cancel</small>
+                            </div>
+
+                        </div>
+
+                        <hr class="my-2">
+
+                        <div class="small">
+
+                            <div class="d-flex justify-content-between">
+                                <span>Solved Rate</span>
+                                <strong class="text-success">
+                                    ${item.SolveRate}%
+                                </strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Pending Rate</span>
+                                <strong class="text-warning">
+                                    ${item.PendingRate}%
+                                </strong>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Cancelled Rate</span>
+                                <strong class="text-danger">
+                                    ${item.CancelledRate}%
+                                </strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <span>Technicians</span>
+                                <strong>
+                                    ${item.ActiveTechnicians}
+                                </strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <span>Avg. Tickets Per Technician</span>
+                                <strong>
+                                    ${item.AvgTicketsPerTechnician}
+                                </strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <span>Pending >7 Days</span>
+                                <strong>
+                                    ${item.PendingOver7Days}
+                                </strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <span>Pending >30 Days</span>
+                                <strong>
+                                    ${item.PendingOver30Days}
+                                </strong>
+                            </div>
+
+                        </div>
+
+                        <div class="text-center mt-2">
+                            <span class="badge ${badgeClass}">
+                                ${statusBadge}
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>`;
+        });
+
+        $("#serviceOperationContainer").html(html);
+
+    });
+
+    
 </script>
