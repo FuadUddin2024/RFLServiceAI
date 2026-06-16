@@ -724,14 +724,15 @@
                         <table class="table table-bordered text-center">
                             <thead>
                                 <tr>
-                                    <th>Total</th>
+                                    <th>Today</th>
                                     <th>Last Month</th>
                                     <th>This Month</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td id="totalTicketCount">0</td>
+                                    @* <td id="totalTicketCount">0</td> *@
+                                    <td id="todayTicketCount">0</td>
                                     <td id="lastMonthTicketCount">0</td>
                                     <td id="thisMonthTicketCount">0</td>
                                 </tr>
@@ -770,14 +771,15 @@
                         <table class="table table-bordered text-center">
                             <thead>
                                 <tr>
-                                    <th>Total</th>
+                                    <th>Today</th>
                                     <th>Last Month</th>
                                     <th>This Month</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td id="totalSolved">0</td>
+                                    @* <td id="totalSolved">0</td> *@
+                                    <td id="todaySolved">0</td>
                                     <td id="lastSolved">0</td>
                                     <td id="thisSolved">0</td>
                                 </tr>
@@ -808,14 +810,15 @@
                         <table class="table table-bordered text-center">
                             <thead>
                                 <tr>
-                                    <th>Total</th>
+                                    <th>Today</th>
                                     <th>Last Month</th>
                                     <th>This Month</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td id="totalPending">0</td>
+                                    @* <td id="totalPending">0</td> *@
+                                    <td id="todayPending">0</td>
                                     <td id="lastPending">0</td>
                                     <td id="thisPending">0</td>
                                 </tr>
@@ -854,7 +857,7 @@
                         <table class="table table-bordered text-center">
                             <thead>
                                 <tr>
-                                    <th>Total</th>
+                                    <th>Today</th>
                                     <th>Last Month</th>
                                     <th>This Month</th>
                                 </tr>
@@ -864,10 +867,17 @@
                                    @*  <td id="totalCancel">0</td>
                                     <td id="lastCancel">0</td>
                                     <td id="thisCancel">0</td> *@
-                                    <td>
+                                  @*   <td>
                                         <a href="javascript:void(0)"
                                            id="totalCancel"
                                            onclick="loadCancelledDetails('total')">
+                                            0
+                                        </a>
+                                    </td> *@
+                                    <td>
+                                        <a href="javascript:void(0)"
+                                           id="todayCancel"
+                                           onclick="loadCancelledDetails('today')">
                                             0
                                         </a>
                                     </td>
@@ -1329,7 +1339,8 @@
             $("#thisMonthTickets").text(data.ThisMonthTickets);
             $("#lastMonthTickets").text(data.LastMonthTickets);
 
-            $("#totalTicketCount").text(data.TotalTickets);
+            // $("#totalTicketCount").text(data.TotalTickets);
+            $("#todayTicketCount").text(data.TodayTickets);
             $("#lastMonthTicketCount").text(data.LastMonthTickets);
             $("#thisMonthTicketCount").text(data.ThisMonthTickets);
 
@@ -1349,7 +1360,8 @@
             $("#thisMonthSolved").text(data.ThisMonthSolved);
             $("#lastMonthSolved").text(data.LastMonthSolved);
 
-            $("#totalSolved").text(data.Solved);
+            // $("#totalSolved").text(data.Solved);
+             $("#todaySolved").text(data.TodaySolved);
             $("#lastSolved").text(data.LastMonthSolved);
             $("#thisSolved").text(data.ThisMonthSolved);
 
@@ -1361,7 +1373,8 @@
                     : Math.abs(data.PendingGrowth) + "% ↓")
             );
 
-            $("#totalPending").text(data.Pending);
+            // $("#totalPending").text(data.Pending);
+             $("#todayPending").text(data.TodayPending);
 
             $("#lastPending").text(data.LastMonthPending);
 
@@ -1383,7 +1396,8 @@
             $("#thisMonthCancel").text(data.ThisMonthCancelled);
             $("#lastMonthCancel").text(data.LastMonthCancelled);
 
-            $("#totalCancel").text(data.Cancelled);
+            // $("#totalCancel").text(data.Cancelled);
+             $("#todayCancel").text(data.TodayCancelled);
             $("#lastCancel").text(data.LastMonthCancelled);
             $("#thisCancel").text(data.ThisMonthCancelled);
 
@@ -1821,7 +1835,7 @@
         });
 
         // ================= WARRANTY CHART ANALYSIS =================
-        $.getJSON('/api/dashboard/warranty-chart', function(data){
+        $.getJSON('@Url.Content("~/api/dashboard/warranty-chart")',function(data){
         new Chart(
             $("#warrantyChart"),
             {
@@ -1858,10 +1872,7 @@
 
 
     function loadCancelledDetails(type) {
-
-        $.getJSON(
-            '/api/dashboard/cancelled-details?type=' + type,
-            function (data) {
+        $.getJSON('@Url.Content("~/api/dashboard/cancelled-details")' + '?type=' + type, function (data) {
 
                 let rows = '';
 
