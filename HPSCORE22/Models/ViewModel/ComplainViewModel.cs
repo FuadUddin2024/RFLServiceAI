@@ -8,5 +8,6 @@
         public List<SuperVisorModel> SuperVisorList { get; set; }= new List<SuperVisorModel>();
         public List<CompanyModel> CompanyList { get; set; } = new List<CompanyModel>();
         public List<StatusModel> StatusList { get; set; } = new List<StatusModel>();
+        public List<TechnicianModel> TechnicianList { get; set; } = new List<TechnicianModel>();
     }
 }

@@ -13,9 +13,10 @@ namespace CSWMS.Controllers
         private readonly AssignRepository _AssignList;
         private readonly SuperVisorRepository _SuperVisor;
         private readonly Repositories.StatusRepository _StatusDetails;
+        private readonly Repositories.TechnicianRepository _technicians;
         public ComplainListController(ComplainListRepository complainListRepository,
             ZoneRepository Zones, CompanyRepository Company,AssignRepository AssingList,
-            SuperVisorRepository SuperVisor, Repositories.StatusRepository StatusDetails)
+            SuperVisorRepository SuperVisor, Repositories.StatusRepository StatusDetails,TechnicianRepository technicians)
         {
             _complainListRepository = complainListRepository;
             _ZoneDetails = Zones;
@@ -23,8 +24,10 @@ namespace CSWMS.Controllers
             _AssignList = AssingList;
             _SuperVisor = SuperVisor;
             _StatusDetails = StatusDetails;
+            _technicians = technicians;
         }
 
+        // Compalain -> Zone -> Super Visor (Assing)
         public IActionResult ComplainListData()
         {
             ComplainViewModel ComplainViewModel = new ComplainViewModel();
@@ -39,7 +42,7 @@ namespace CSWMS.Controllers
         [HttpPost]
         public JsonResult GetAllComplainList()
         {
-            var data = _complainListRepository.GetALlComplainListForAssing();
+            var data = _complainListRepository.GetALlComplainListForAssing().OrderByDescending(x => x.EntryDate).ToList();
 
             return Json(new
             {
@@ -114,6 +117,85 @@ namespace CSWMS.Controllers
                 TempData["ERRORMSG"] = "!!!! ERROR !!!";
             }
             return RedirectToAction("ComplainListData", "ComplainList");
+        }
+
+        // Compalain -> Zone -> Super Visor-> Technician (Assing)
+
+        public IActionResult TechnicianAssignList()
+        {
+            ComplainViewModel ComplainViewModel = new ComplainViewModel();
+            ComplainViewModel.AssignModel = new AssignModel();
+            ComplainViewModel.ZoneList = _ZoneDetails.GetALlZoneistForAssing();
+            ComplainViewModel.SuperVisorList = _SuperVisor.GetAllSuperVisorList();
+            ComplainViewModel.CompanyList = _CompanyDetails.GetALLCompany();
+            ComplainViewModel.StatusList = _StatusDetails.GetALLStatus();
+            return View(ComplainViewModel);
+            //  return View();
+        }
+        [HttpPost]
+        public JsonResult GetAllAssignZone()
+        {
+            var data = _AssignList.GetAllZoneAssingComplainList().OrderByDescending(x => x.EntryDate);
+
+            return Json(new
+            {
+                complainList = data
+            });
+        }
+        [HttpGet]
+        public JsonResult GetAssignSingle(string id)
+        {
+            var data = _AssignList.GetAllZoneSingleAssing(id).FirstOrDefault();
+            var TechnicianList= _technicians.GetAllTechnicianList().Where(x=>x.ZoneId== data.AssignZoneId).ToList();
+            return Json(new
+            {
+                complainList = data,
+                TechnicianList= TechnicianList
+            });
+        }
+        [HttpPost]
+        public IActionResult SaveAssignDataWithTechnician(ComplainViewModel CompalinViewModel)
+        {
+            var AssignDataFrom = CompalinViewModel.AssignModel;
+            if (ModelState.IsValid)
+            {
+                if (AssignDataFrom.TicketID > 0)
+                {
+                    if(AssignDataFrom.TechnicianId>0)
+                    {
+                        var AssignData = _AssignList.GetAllZoneSingleAssing(AssignDataFrom.TicketID.ToString()).FirstOrDefault();
+                        if (AssignData != null)
+                        {
+                            AssignData.IsAssign = true;
+                            AssignData.SendFeedback = false;
+                            AssignData.FinishDate = DateTime.Now;
+                            var Updateddata = _AssignList.AssignPerson(AssignDataFrom);
+                            if (Updateddata)
+                            {
+                                TempData["SuccessMSG"] = "Successfully Updated.";
+                            }
+                            else
+                            {
+                                TempData["ERRORMSG"] = "!!!! ERROR !!!";
+                            }
+                        }
+                        else
+                        {
+                            TempData["ERRORMSG"] = "ERROR";
+                        }
+                    }
+                    else
+                    {
+                        TempData["ERRORMSG"] = "Please Add Technician";
+                    }
+                }
+                else
+                {
+                    TempData["ERRORMSG"] = "!!!! ERROR !!!";
+                }
+                
+            }
+            return RedirectToAction("TechnicianAssignList", "ComplainList");
         }
     }
 }

@@ -29,7 +29,7 @@ builder.Services.AddScoped<ZoneRepository>();
 builder.Services.AddScoped<CompanyRepository>();
 builder.Services.AddScoped<SuperVisorRepository>();
 builder.Services.AddScoped<StatusRepository>();
-
+builder.Services.AddScoped<TechnicianRepository>();
 
 
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
