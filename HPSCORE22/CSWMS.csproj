@@ -39,7 +39,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Custome JS\" />
-    <Folder Include="wwwroot\CustomeCSS\" />
   </ItemGroup>
 
 </Project>
