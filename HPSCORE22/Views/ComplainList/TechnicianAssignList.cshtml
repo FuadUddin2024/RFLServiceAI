@@ -146,16 +146,58 @@
     </div>
 </div> *@
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">
+@* <div class="card TableHeader">
+    <div class="card-header TableHeader">
+        <h3 class="card-title tableheadertext">
             Complain List For Assign Person
         </h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
         <div class="table-responsive-custom">
-            <table id="example1" class="table table-bordered table-striped table-hover w-100">
+            <table id="example1" class="table table-bordered table-striped table-hover w-100 tablerows">
+            </table>
+        </div>
+        @*  <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Customer Name</th>
+                                <th>Contact No</th>
+                                <th>Location</th>
+                                <th>Product Name</th>
+                                <th>Problem Name</th>
+                                <th>Complain Date</th>
+                                <th>Assign Tasks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Customer Name</th>
+                                <th>Contact No</th>
+                                <th>Location</th>
+                                <th>Product Name</th>
+                                <th>Problem Name</th>
+                                <th>Complain Date</th>
+                                <th>Assign Tasks</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+    </div>
+    <!-- /.card-body -->
+</div> *@
+<div class="card tablebody">
+    <div class="card-header TableHeader">
+        <h3 class="card-title tableheadertext">Assign Technicians</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="table-responsive-custom">
+            <table id="example1" class="table table-bordered table-striped table-hover w-100 tablerows">
             </table>
         </div>
         @*  <table id="example1" class="table table-bordered table-striped">
@@ -190,7 +232,6 @@
     </div>
     <!-- /.card-body -->
 </div>
-
 <!-- ✅ ASSIGN MODAL (BOOTSTRAP 5) -->
 <div class="modal fade" id="assignModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -199,7 +240,7 @@
             {
                 <div class="modal-header">
                     <h5 class="modal-title" style="text-align:center !important">
-                        Assign Technician
+                        Assign Technician <i class='fas fa-user-tie'></i>
                     </h5>
                 </div>
                 <div class="modal-body">

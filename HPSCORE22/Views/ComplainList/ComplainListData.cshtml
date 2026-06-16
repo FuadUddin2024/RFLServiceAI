@@ -118,9 +118,9 @@
         width: 100% !important;
     }
 
-    .table.table-bordered.table-striped.table-hover.w-100.dataTable.no-footer {
+/*     .table.table-bordered.table-striped.table-hover.w-100.dataTable.no-footer {
         margin-left: -6px !important;
-    }
+    } */
 
     .modal-header {
         display: flex;
@@ -146,14 +146,14 @@
     </div>
 </div> *@
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Compalin List</h3>
+<div class="card tablebody">
+    <div class="card-header TableHeader">
+        <h3 class="card-title tableheadertext">Assign Supervisor</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
         <div class="table-responsive-custom">
-            <table id="example1" class="table table-bordered table-striped table-hover w-100">
+            <table id="example1" class="table table-bordered table-striped table-hover w-100 tablerows">
             </table>
         </div>
         @*  <table id="example1" class="table table-bordered table-striped">
@@ -197,7 +197,7 @@
         {
             <div class="modal-header">
                     <h5 class="modal-title" style="text-align:center !important">
-                        Assign Setup
+                        Assign Supervisor <i class='fas fa-user-tie'></i>
                     </h5>
             </div>
 
@@ -457,7 +457,7 @@
                     dom:
                         "<'row mb-3'<'col-lg-6 col-md-8 col-sm-12'f>>" +
                         "<'row'<'col-12'tr>>" +
-                        "<'row mt-3'<'col-lg-6 col-md-12'i><'col-lg-6 col-md-12'p>>",
+                        "<'row'<'col-lg-6 col-md-12'i><'col-lg-6 col-md-12'p>>",
 
                     language: {
 
