@@ -675,14 +675,14 @@
 
                 ddl.empty();
                 ddl.append('<option value="">Select Technician</option>');
-
+				console.log("Technician List:", res.TechnicianList);
                 if (res.TechnicianList && res.TechnicianList.length > 0) {
 
                     $.each(res.TechnicianList, function (i, item) {
 
                         ddl.append(
-                            `<option value="${item.RacTid}">
-                                ${item.TechName}
+                            `<option value="${item.TechnicianId}">
+                                ${item.TechnicianName}
                             </option>`
                         );
 

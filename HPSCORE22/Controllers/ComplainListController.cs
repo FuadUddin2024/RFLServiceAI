@@ -170,9 +170,9 @@ namespace CSWMS.Controllers
                         var AssignData = _AssignList.GetAllZoneSingleAssing(AssignDataFrom.TicketID.ToString()).FirstOrDefault();
                         if (AssignData != null)
                         {
-                            AssignData.IsAssign = true;
-                            AssignData.SendFeedback = false;
-                            AssignData.FinishDate = DateTime.Now;
+                            AssignDataFrom.IsAssign = true;
+                            AssignDataFrom.SendFeedback = false;
+                            AssignDataFrom.FinishDate = DateTime.Now;
                             var Updateddata = _AssignList.AssignPerson(AssignDataFrom);
                             if (Updateddata)
                             {
