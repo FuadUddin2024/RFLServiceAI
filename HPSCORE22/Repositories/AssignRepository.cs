@@ -75,7 +75,7 @@ namespace CSWMS.Repositories
                     cmd.Parameters.AddWithValue("@EntryBy", AssingModel.EntryBy);
                     cmd.Parameters.AddWithValue("@EntryDate", AssingModel.EntryDate);
                     cmd.Parameters.AddWithValue("@SendFeedback", AssingModel.SendFeedback);
-
+                  //-----  gsfdhjddhjdjhd
                     cmd.Parameters.AddWithValue("@Remarks",
                         string.IsNullOrEmpty(AssingModel.Remarks)
                         ? (object)DBNull.Value
