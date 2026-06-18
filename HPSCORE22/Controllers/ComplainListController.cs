@@ -124,7 +124,7 @@ namespace CSWMS.Controllers
         }
 
         // Compalain -> Zone -> Super Visor-> Technician (Assing)
-
+        // Technician assign list
         public IActionResult TechnicianAssignList()
         {
             ComplainViewModel ComplainViewModel = new ComplainViewModel();
