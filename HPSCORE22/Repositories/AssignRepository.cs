@@ -120,6 +120,7 @@ namespace CSWMS.Repositories
                 c.CompanyName,
                 com.EntryDate,
                 com.ProblemName
+    
             FROM dbo.Assign a
             INNER JOIN dbo.Complain com
                 ON com.TicketCode = a.TicketID
