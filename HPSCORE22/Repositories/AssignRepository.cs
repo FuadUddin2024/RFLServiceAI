@@ -251,12 +251,10 @@ where a.IsAssign=0 ORDER BY com.EntryDate DESC";
 	INNER JOIN dbo.Technician as Technician
 	ON Technician.TechnicianId=a.TechnicianId
    where a.IsAssign=1 and a.SendFeedback=0 and a.TechnicianId is not null ORDER BY com.EntryDate DESC";
-
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandTimeout = 300;
-                    // trail
                     using (SqlDataAdapter da = new SqlDataAdapter(command))
                     {
                         da.Fill(dt);
