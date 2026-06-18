@@ -1,0 +1,50 @@
+﻿/*ALl Table CSS Start*/
+.TableHeader {
+    background: linear-gradient(135deg,#3b82f6,#2563eb);
+    color: white;
+}
+.tableheadertext {
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px gray;
+}
+.tablebody {
+    margin-top: 1%;
+}
+.sorting_disabled {
+    /*width: 0% !important;*/
+    font-size: 12px !important;
+    font-weight: bold !important;
+}
+.tablerows tr{
+    line-height:1.5;
+}
+#example1 tbody td {
+    padding: 5px !important;
+
+}
+.table.table-bordered.table-striped.table-hover.w-100.dataTable.no-footer {
+    line-height: 1;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 1 em !important;
+    padding: unset !important;
+    margin-left: 2px;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    color: inherit !important;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    background: transparent;
+}
+
+/*ALl Table CSS End*/
+
+/*POP UP Modal*/
+.fas .fa-user-tie {
+    color: white;
+    font-size: 25px;
+}

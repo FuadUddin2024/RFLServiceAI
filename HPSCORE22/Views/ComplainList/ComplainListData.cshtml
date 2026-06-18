@@ -118,9 +118,9 @@
         width: 100% !important;
     }
 
-    .table.table-bordered.table-striped.table-hover.w-100.dataTable.no-footer {
+/*     .table.table-bordered.table-striped.table-hover.w-100.dataTable.no-footer {
         margin-left: -6px !important;
-    }
+    } */
 
     .modal-header {
         display: flex;
@@ -146,14 +146,14 @@
     </div>
 </div> *@
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Compalin List</h3>
+<div class="card tablebody">
+    <div class="card-header TableHeader">
+        <h3 class="card-title tableheadertext">Assign Supervisor</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
         <div class="table-responsive-custom">
-            <table id="example1" class="table table-bordered table-striped table-hover w-100">
+            <table id="example1" class="table table-bordered table-striped table-hover w-100 tablerows">
             </table>
         </div>
         @*  <table id="example1" class="table table-bordered table-striped">
@@ -197,7 +197,7 @@
         {
             <div class="modal-header">
                     <h5 class="modal-title" style="text-align:center !important">
-                        Assign Setup
+                        Assign Supervisor <i class='fas fa-user-tie'></i>
                     </h5>
             </div>
 
@@ -213,49 +213,48 @@
 
                     <div class="col-md-4 mb-2">
                         <label class="assignlable">Customer Name</label>
-                            @Html.TextBoxFor(m => m.AssignModel.CustomerName, new { @class = "form-control", @readonly = "readonly", id = "txtcustomername" })
+                            @Html.TextBoxFor(m => m.AssignModel.CustomerName, new { @class = "form-control", id = "txtcustomername" })
                        @*  <input type="text" id="customerName" class="form-control" disabled /> *@
                     </div>
-
-                    <div class="col-md-4 mb-2">
-                        <label class="assignlable">Product Name</label>
-                            @Html.TextBoxFor(m => m.AssignModel.ProductName, new { @class = "form-control", id = "txtproductname" })
-                       @*  <input type="text" id="productName" class="form-control" disabled /> *@
-                    </div>
+                     <div class="col-md-4 mb-2">
+                         <label class="assignlable">Customer ContactNo</label>
+                         @Html.TextBoxFor(m => m.AssignModel.CustomerContactNo, new { @class = "form-control", @readonly = "readonly", id = "txtContactNumber" })
+                            @*   <input type="text" id="productName" class="form-control" disabled /> *@
+                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 mb-2">
-                        <label class="assignlable">Assign Zone <span style="color:red;">*</span></label>
+                        <div class="col-md-4 mb-2">
+                            <label class="assignlable">Location</label>
+                            @*  <input type="text" id="productName" class="form-control" disabled /> *@
+                            @Html.TextBoxFor(m => m.AssignModel.CustomerAddress, new { @class = "form-control", id = "txtlocationname" })
+                        </div>                    
+                        <div class="col-md-4 mb-2">
+                         <label class="assignlable">Product Name</label>
+                         @Html.TextBoxFor(m => m.AssignModel.ProductName, new { @class = "form-control", id = "txtproductname" })
+                          @*  <input type="text" id="productName" class="form-control" disabled /> *@
+                    </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="assignlable">Assign Company <span style="color:red;">*</span></label>
                             @Html.DropDownListFor(
-                            m => m.AssignModel.AssignZoneId,
-                                                new SelectList(Model.ZoneList, "ZoneId", "ZoneName"),
-                                                "Select Zone",
-                                                new { @class = "form-control", @readonly = "readonly", id = "AssingedZone" }
-                                                )
-                        @Html.ValidationMessageFor(m => m.AssignModel.AssignZoneId, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="assignlable">Customer ContactNo</label>
-                        @Html.TextBoxFor(m => m.AssignModel.CustomerContactNo, new { @class = "form-control", @readonly = "readonly", id = "txtContactNumber" })
-                      @*   <input type="text" id="productName" class="form-control" disabled /> *@
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="assignlable">Assign Company <span style="color:red;">*</span></label>
-                        @Html.DropDownListFor(
-                                                m => m.AssignModel.CompanyId,
+                            m => m.AssignModel.CompanyId,
                                                 new SelectList(Model.CompanyList, "CompanyId", "CompanyName"),
                                                 "Select Company",
                                                 new { @class = "form-control" }
                                                 )
-                       @*  <input type="text" id="productName" class="form-control" disabled /> *@
+                        @*  <input type="text" id="productName" class="form-control" disabled /> *@
                         @Html.ValidationMessageFor(m => m.AssignModel.CompanyId, "", new { @class = "text-danger" })
-                    </div>
+                    </div>          
                 </div>
                 <div class="row">
                     <div class="col-md-4 mb-2">
-                        <label class="assignlable">Location</label>
-                       @*  <input type="text" id="productName" class="form-control" disabled /> *@
-                        @Html.TextBoxFor(m => m.AssignModel.CustomerAddress, new { @class = "form-control", id = "txtlocationname" })
+                        <label class="assignlable">Assign Zone <span style="color:red;">*</span></label>
+                        @Html.DropDownListFor(
+                                                m => m.AssignModel.AssignZoneId,
+                                                new SelectList(Model.ZoneList, "ZoneId", "ZoneName"),
+                                                "Select Zone",
+                                                new { @class = "form-control", id = "AssingedZone" }
+                                                )
+                        @Html.ValidationMessageFor(m => m.AssignModel.AssignZoneId, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-4 mb-2">
                         <label class="assignlable">Assign Supervisor <span style="color:red;">*</span></label>
@@ -370,7 +369,7 @@
 
                         {
                             title: "Ticket ID",
-                            data: "TicketID",
+                            data: "TicketCode",
                             defaultContent: ""
                         },
 
@@ -457,7 +456,7 @@
                     dom:
                         "<'row mb-3'<'col-lg-6 col-md-8 col-sm-12'f>>" +
                         "<'row'<'col-12'tr>>" +
-                        "<'row mt-3'<'col-lg-6 col-md-12'i><'col-lg-6 col-md-12'p>>",
+                        "<'row'<'col-lg-6 col-md-12'i><'col-lg-6 col-md-12'p>>",
 
                     language: {
 
@@ -589,7 +588,7 @@
                   console.log(res);
                    var data = res.complainList[0];
 
-                      $('#txtTicketID').val(data.TicketID);
+                      $('#txtTicketID').val(data.TicketCode);
                       $('#txtcustomername').val(data.CustomerName);
                       $('#txtproductname').val(data.ProductName);
                       $('#txtContactNumber').val(data.ContactNo);

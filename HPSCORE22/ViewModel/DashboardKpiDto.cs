@@ -37,6 +37,11 @@
         public decimal TotalSolvedPercentage { get; set; }
         public decimal SolveGrowthPercentage { get; set; }
         public decimal Last3MonthAvgSolvePercentage { get; set; }
-        
+
+        public int TodayTickets { get; set; }
+        public int TodaySolved { get; set; }
+        public int TodayPending { get; set; }
+        public int TodayCancelled { get; set; }
+
     }
 }
