@@ -859,7 +859,11 @@ namespace CSWMS.Repositories
 
                 C.CustomerName,
 
+                C.ContactNo,
+
                 ISNULL(I.ItemName,'N/A') ItemName,
+
+                C.ProblemName,
 
                 A.EntryDate,
 
@@ -892,8 +896,9 @@ namespace CSWMS.Repositories
                 {
                     TicketCode = dr["TicketCode"].ToString(),
                     CustomerName = dr["CustomerName"].ToString(),
-                    //MobileNo = dr["MobileNo"].ToString(),
+                    ContactNo = dr["ContactNo"].ToString(),
                     ItemName = dr["ItemName"].ToString(),
+                    ProblemName = dr["ProblemName"].ToString(),
                     StatusName = dr["StatusName"].ToString(),
                     EntryDate = Convert.ToDateTime(dr["EntryDate"])
                 });

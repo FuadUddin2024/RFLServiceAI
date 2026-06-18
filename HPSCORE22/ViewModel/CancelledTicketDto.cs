@@ -6,9 +6,10 @@
 
         public string CustomerName { get; set; }
 
-        public string MobileNo { get; set; }
+        public string ContactNo { get; set; }
 
         public string ItemName { get; set; }
+        public string ProblemName { get; set; }
 
         public string StatusName { get; set; }
 

@@ -578,7 +578,7 @@
                 <div class="kpi-box bg-sla-last">
                     <div class="inner">
                         <h4 id="LastMonthSolvedPercentage">0%</h4>
-                        <p>Last Month Solved  SLA</p>
+                        <p>Last Month Solved SLA</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-calendar-minus"></i>
@@ -1160,7 +1160,9 @@
                         <tr>
                             <th>Ticket No</th>
                             <th>Customer</th>
+                            <th>Contact No</th>
                             <th>Product</th>
+                            <th>Problem Name</th>
                             <th>Entry Date</th>
                             <th>Status</th>
                         </tr>
@@ -1882,7 +1884,9 @@
                         <tr>
                             <td>${item.TicketCode}</td>
                             <td>${item.CustomerName}</td>
+                            <td>${item.ContactNo}</td>
                             <td>${item.ItemName}</td>
+                            <td>${item.ProblemName}</td>
                             <td>${item.EntryDate}</td>
                             <td>${item.StatusName}</td>
                         </tr>`;
