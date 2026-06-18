@@ -74,6 +74,7 @@ namespace CSWMS.Repositories
 
                     cmd.Parameters.AddWithValue("@EntryBy", AssingModel.EntryBy);
                     cmd.Parameters.AddWithValue("@EntryDate", AssingModel.EntryDate);
+                    cmd.Parameters.AddWithValue("@SendFeedback", AssingModel.SendFeedback);
 
                     cmd.Parameters.AddWithValue("@Remarks",
                         string.IsNullOrEmpty(AssingModel.Remarks)
@@ -202,6 +203,94 @@ where a.IsAssign=0 ORDER BY com.EntryDate DESC";
                 Console.WriteLine($"Error in AssignPerson: {ex.Message}");
             }
             return isUpdated;
+        }
+
+        // Zone and Technician Trasfer
+       public List<AssignModel> GetALLPendingToken()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection connection = _db.GetConnection())
+            {
+                connection.Open();
+
+                string query = @"
+   SELECT
+       a.AssignId,
+       a.TicketID,
+       a.AssignDate,
+       a.AssignZoneId,
+       a.StatusId,
+       a.SupervisorId,
+       a.CompanyId,
+       a.CustomerName,
+       a.CustomerAddress,
+       a.CustomerContactNo,
+       a.FinishDate,
+       a.ProductName,
+       a.Remarks,
+       a.IsAssign,
+       a.SendFeedback,
+       st.StatusName,
+       z.ZoneName,
+       su.SupervisorName,
+       c.CompanyName,
+       com.EntryDate,
+       com.ProblemName,
+	   Technician.TechnicianName
+   FROM dbo.Assign a
+   INNER JOIN dbo.Complain com
+       ON com.TicketCode = a.TicketID
+   INNER JOIN dbo.Status st
+       ON st.StatusId = a.StatusId
+   INNER JOIN dbo.Zone z
+       ON z.ZoneId = a.AssignZoneId
+   INNER JOIN dbo.Company c
+       ON c.CompanyId = a.CompanyId
+   INNER JOIN dbo.Supervisor su
+       ON su.SupervisorId = a.SupervisorId
+	INNER JOIN dbo.Technician as Technician
+	ON Technician.TechnicianId=a.TechnicianId
+   where a.IsAssign=1 and a.SendFeedback=0 and a.TechnicianId is not null ORDER BY com.EntryDate DESC";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandTimeout = 300;
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(command))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+
+            return ExtractData.Convert<AssignModel>(dt).ToList();
+        }
+       public List<AssignModel> GetAllZoneSingleAssingPending(string ticketCode)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection Connection = _db.GetConnection())
+            {
+                Connection.Open();
+
+                using (SqlCommand Command = new SqlCommand("sp_GetAssignDetailsByTicketIDPending", Connection))
+                {
+                    Command.CommandType = CommandType.StoredProcedure;
+                    Command.CommandTimeout = 300;
+
+                    // Send parameter
+                    Command.Parameters.AddWithValue("@TicketID", ticketCode);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(Command))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+
+            return ExtractData.Convert<AssignModel>(dt).ToList();
         }
     }
 }

@@ -192,7 +192,7 @@
 </div> *@
 <div class="card tablebody">
     <div class="card-header TableHeader">
-        <h3 class="card-title tableheadertext">Assign Technicians</h3>
+        <h3 class="card-title tableheadertext">Zone and Technician Transfer</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -240,7 +240,7 @@
             {
                 <div class="modal-header">
                     <h5 class="modal-title" style="text-align:center !important">
-                        Assign Technician <i class='fas fa-user-tie'></i>
+                        Assign Transfer <i class="fa fa-exchange"></i>
                     </h5>
                 </div>
                 <div class="modal-body">
@@ -256,10 +256,10 @@
                             @*  <input type="text" id="customerName" class="form-control" disabled /> *@
                         </div>
                         <div class="col-md-4 mb-2">
-                        <label class="assignlable">Customer ContactNo</label>
+                            <label class="assignlable">Customer ContactNo</label>
                             @Html.TextBoxFor(m => m.AssignModel.CustomerContactNo, new { @class = "form-control", @readonly = "readonly", id = "txtContactNumber" })
-                        @*   <input type="text" id="productName" class="form-control" disabled /> *@
-                    </div>
+                            @*   <input type="text" id="productName" class="form-control" disabled /> *@
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-2">
@@ -274,7 +274,7 @@
                         </div>
                         <div class="col-md-4 mb-2">
                             <label class="assignlable">Status <span style="color:red;">*</span></label>
-                           @Html.HiddenFor(m => m.AssignModel.StatusId,new {id="hiddenstatus"})
+                            @Html.HiddenFor(m => m.AssignModel.StatusId, new { id = "hiddenstatus" })
                             @Html.DropDownListFor(
                             m => m.AssignModel.StatusId,
                                                 new SelectList(Model.StatusList, "StatusId", "StatusName"),
@@ -283,17 +283,18 @@
                                                 )
                         @Html.ValidationMessageFor(m => m.AssignModel.StatusId, "", new { @class = "text-danger" })
                     </div>
-                    </div>
-                    <div class="row">
-                     <div class="col-md-4 mb-2">
-                        <label class="assignlable">Assign To</label>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Assign Zone <span style="color:red;">*</span></label>
+                        @Html.HiddenFor(m => m.AssignModel.AssignZoneId, new { id = "hiddenZoneID" })
                         @Html.DropDownListFor(
-                                                m => m.AssignModel.TechnicianId,
-                                                new SelectList(Model.TechnicianList, "TechnicianId", "TechName"),
-                                                "Select Technician",
-                                                new { @class = "form-control", id = "txtTechnician" }
+                                                m => m.AssignModel.AssignZoneId,
+                                                new SelectList(Model.ZoneList, "ZoneId", "ZoneName"),
+                                                "Select Zone",
+                                                new { @class = "form-control", id = "AssingedZone" }
                                                 )
-                        @Html.ValidationMessageFor(m => m.AssignModel.TechnicianId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(m => m.AssignModel.AssignZoneId, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-4 mb-2">
                         <label class="assignlable">Assign Supervisor <span style="color:red;">*</span></label>
@@ -302,10 +303,22 @@
                                                 m => m.AssignModel.SupervisorId,
                                                 new SelectList(Model.SuperVisorList, "SupervisorId", "SupervisorName"),
                                                 "Select SuperVisor",
-                                                new { @class = "form-control txtSupervisorName", disabled = "disabled", id = "AssingedZonesupervisor" }
+                                                new { @class = "form-control txtSupervisorName", id = "AssingedZonesupervisor" }
                                                 )
-                        @Html.ValidationMessageFor(m => m.AssignModel.SupervisorId, "", new { @class = "text-danger"  })
+                        @Html.ValidationMessageFor(m => m.AssignModel.SupervisorId, "", new { @class = "text-danger" })
                     </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="assignlable">Assign To <span style="color:red;">*</span></label>
+                        @Html.DropDownListFor(
+                                                m => m.AssignModel.TechnicianId,
+                                                new SelectList(Model.TechnicianList, "TechnicianId", "TechName"),
+                                                "Select Technician",
+                                                new { @class = "form-control", id = "txtTechnician" }
+                                                )
+                        @Html.ValidationMessageFor(m => m.AssignModel.TechnicianId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-4 mb-2">
                         <label class="assignlable">Assign Company <span style="color:red;">*</span></label>
                         @Html.HiddenFor(m => m.AssignModel.CompanyId, new { id = "hiddenCompanyID" })
@@ -313,23 +326,10 @@
                                                 m => m.AssignModel.CompanyId,
                                                 new SelectList(Model.CompanyList, "CompanyId", "CompanyName"),
                                                 "Select Company",
-                                                new { @class = "form-control", id = "txtCompany", disabled = "disabled" }
+                                                new { @class = "form-control", id = "txtCompany" }
                                                 )
                         @*  <input type="text" id="productName" class="form-control" disabled /> *@
-                        @Html.ValidationMessageFor(m => m.AssignModel.CompanyId, "", new { @class = "text-danger", @readonly = "readonly" })
-                    </div>
-                    </div>
-                    <div class="row">
-                    <div class="col-md-4 mb-2">
-                            <label class="assignlable">Assign Zone <span style="color:red;">*</span></label>
-                        @Html.HiddenFor(m => m.AssignModel.AssignZoneId, new { id = "hiddenZoneID" })
-                            @Html.DropDownListFor(
-                            m => m.AssignModel.AssignZoneId,
-                                                new SelectList(Model.ZoneList, "ZoneId", "ZoneName"),
-                                                "Select Zone",
-                                                new { @class = "form-control", id = "AssingedZone", disabled = "disabled" }
-                                                )
-                        @Html.ValidationMessageFor(m => m.AssignModel.AssignZoneId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(m => m.AssignModel.CompanyId, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-4 mb-2">
                         <label class="assignlable">Finish Date <span style="color:red;">*</span></label>
@@ -342,13 +342,12 @@
                         @*    <input type="text" id="productName" class="form-control" disabled /> *@
                     </div>
                 </div>
-                </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-success" type="button" id="btnSaveAssign">Assign</button>
-                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" style="background-color:red">Close</button>
             </div>
-                        }
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" id="btnSaveAssign">  Transfer</button>
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" style="background-color:red">Close</button>
+            </div>     
+            }
         </div>
     </div>
 </div>
@@ -377,7 +376,7 @@
 
         $.ajax({
 
-            url: '/ComplainList/GetAllAssignZone',
+            url: '/ComplainList/GetAllPendingTask',
 
             type: 'POST',
 
@@ -459,6 +458,11 @@
                             defaultContent: ""
                         },
                         {
+                            title: "Technician Name",
+                            data: "TechnicianName",
+                            defaultContent: ""
+                        },
+                        {
                             title: "Complain Date",
 
                             data: "EntryDate",
@@ -484,7 +488,7 @@
                         },
 
                         {
-                            title: "Assign",
+                            title: "Transfer",
 
                             data: "TicketID",
 
@@ -500,7 +504,7 @@
                                     <button
                                         class="btn btn-primary btn-sm assign-btn"
                                         data-id="${data}">
-                                        <i class="fas fa-user-plus"></i>
+                                       <i class="fa fa-exchange"></i>
                                     </button>
                                 `;
                             }
@@ -556,83 +560,13 @@
 
     }
 </script>
-@* <script>
-    $(document).ready(function () {
-        LoadData();
-    });
-
-    function LoadData() {
-
-        var complainData = [];
-
-        if ($.fn.DataTable.isDataTable('#example1')) {
-            $('#example1').DataTable().destroy();
-        }
-
-        $.ajax({
-            url: '/ComplainList/GetAllComplainList',
-            type: 'POST',
-            success: function (data) {
-
-                $.each(data.complainList, function (key, value) {
-
-                    function formatDate(dateString) {
-                        if (!dateString) return "";
-
-                        const date = new Date(dateString);
-                        const day = date.getDate();
-                        const month = date.toLocaleString('default', { month: 'long' });
-                        const year = date.getFullYear();
-
-                        return `${day} ${month}, ${year}`;
-                    }
-
-                    var actionButton =
-                        '<button class="btn btn-primary btn-sm assign-btn" data-id="' + value.TicketID + '">' +
-                              '<i class="fas fa-user-plus" style="width: 70%;height: 15px;"></i>' +
-                        '</button>';
-
-                    complainData.push([
-                        value.TicketID,
-                        value.CustomerName,
-                        value.ContactNo,
-                        value.Location,
-                        value.ProductName,
-                        value.ProblemName,
-                        formatDate(value.EntryDate),
-                        actionButton
-                    ]);
-                });
-
-                $('#example1').DataTable({
-                    data: complainData,
-                    columns: [
-                        { title: "Ticket ID" },
-                        { title: "Customer Name" },
-                        { title: "Contact No" },
-                        { title: "Location" },
-                        { title: "Product Name" },
-                        { title: "Problem Name" },
-                        { title: "Complain Date" },
-                        { title: "Assign Tasks" }
-                    ],
-                    responsive: true,
-                    autoWidth: false,
-                    destroy: true
-                });
-            }
-        });
-    }
-
-    // ✅ OPEN MODAL + LOAD DATA
-</script> *@
 <script>
     $(document).on('click', '.assign-btn', function () {
 
         var id = $(this).data('id');
 
         $.ajax({
-            url: '/ComplainList/GetAssignSingle',
+            url: '/ComplainList/GetSingleAssingTokenPending',
             type: 'GET',
             data: { id: id },
 
@@ -714,6 +648,7 @@
         });
 
     });
+    
     $(document).on('change', '#AssingedZone', function () {
 
           var zoneId = $(this).val();
@@ -745,6 +680,39 @@
               }
           });
       });
+    $(document).on('change', '#AssingedZonesupervisor', function () {
+
+          var zoneId = $(this).val();
+
+          $.ajax({
+              url: '/ComplainList/GetSupervisorWiseTechnician',
+              type: 'GET',
+              data: { id: zoneId },
+              dataType: 'json',
+              success: function (res) {
+
+                  console.log(res);
+
+                  var ddl = $('#txtTechnician');
+                  ddl.empty();
+                  ddl.append('<option value="">Select Technician</option>');
+
+                      $.each(res.TechnicianList, function (i, item) {
+
+                          ddl.append(
+                              '<option value="' + item.TechnicianId + '">' +
+                              item.TechnicianName +
+                              '</option>'
+                          );
+                      });
+              },
+              error: function (xhr) {
+                  console.log(xhr.responseText);
+              }
+          });
+      });
+
+
     $('#btnSaveAssign').click(function () {
 
         var errors = [];

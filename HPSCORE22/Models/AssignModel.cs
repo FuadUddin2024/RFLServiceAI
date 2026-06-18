@@ -53,5 +53,6 @@ namespace CSWMS.Models
         public string ? SupervisorName { get; set; }
         public string ? CompanyName { get; set; }
         public string ? StatusName { get; set; }
+        public string? TechnicianName { get; set; }
     }
 }
