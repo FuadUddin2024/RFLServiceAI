@@ -1,0 +1,48 @@
+﻿@model CSWMS.Models.ViewModel.FeedBackViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="card shadow-sm border-0 mt-3">
+            <div class="card-header">
+                <h4>
+                    Feedback Info
+                </h4>
+            </div>
+            @using(Html.BeginForm("FeedbackPage", "FeedbackList", FormMethod.Post, new { @class = "form-inline" }))
+            {
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                            <label class="form-label">Ticket ID</label>
+                            @Html.TextBoxFor(m => m.FeedBackDetails.TicketID, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label class="form-label">Customer Name</label>
+                            @Html.TextBoxFor(m => m.FeedBackDetails.CustomerName, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label class="form-label">Contact No</label>
+                            @Html.TextBoxFor(m => m.FeedBackDetails.CustomerContactNo, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label class="form-label">Location</label>
+                            @Html.TextBoxFor(m => m.FeedBackDetails.CustomerAddress, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label class="form-label">Product</label>
+                            @Html.TextBoxFor(m => m.FeedBackDetails.ProductName, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            @*  <label class="form-label">Brand Name</label>
+                        @Html.TextBoxFor(m => m.FeedBackDetails.CustomerAddress, new { @class = "form-control" }) *@
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                        </div>
+                    </div>
+                </div>
+			} 
+        </div>
+    </div>
+</div>

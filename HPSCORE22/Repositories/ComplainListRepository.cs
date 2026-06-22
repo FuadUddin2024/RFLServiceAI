@@ -2,8 +2,8 @@
 using CSWMS.Models;
 using CSWMS.Utility;
 using QCMS.Services;
-using Microsoft.Data.SqlClient;
 using System.Data;
+using Microsoft.Data.SqlClient;
 
 namespace CSWMS.Repositories
 {
@@ -47,7 +47,7 @@ namespace CSWMS.Repositories
             {
                 connection.Open();
 
-                using (SqlCommand command = new SqlCommand("SP_GetComplainByTicketCode", connection))
+                using (SqlCommand command = new SqlCommand("sp_GetDataZoneWiseAssignListNew", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandTimeout = 300;
