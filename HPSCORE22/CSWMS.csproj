@@ -9,12 +9,16 @@
 
   <ItemGroup>
     <Compile Remove="Views\pages\**" />
+    <Compile Remove="wwwroot\Custome JS\**" />
     <Compile Remove="wwwroot\Rotativa\wkhtmltopdf\**" />
     <Content Remove="Views\pages\**" />
+    <Content Remove="wwwroot\Custome JS\**" />
     <Content Remove="wwwroot\Rotativa\wkhtmltopdf\**" />
     <EmbeddedResource Remove="Views\pages\**" />
+    <EmbeddedResource Remove="wwwroot\Custome JS\**" />
     <EmbeddedResource Remove="wwwroot\Rotativa\wkhtmltopdf\**" />
     <None Remove="Views\pages\**" />
+    <None Remove="wwwroot\Custome JS\**" />
     <None Remove="wwwroot\Rotativa\wkhtmltopdf\**" />
   </ItemGroup>
 
@@ -35,10 +39,6 @@
     <Content Update="wwwroot\Rotativa\Rotativa\wkhtmltopdf.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Custome JS\" />
   </ItemGroup>
 
 </Project>
