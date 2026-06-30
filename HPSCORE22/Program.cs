@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Rotativa.AspNetCore;
 using CSWMS.Repositories;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,11 @@ builder.Services.AddScoped<CompanyRepository>();
 builder.Services.AddScoped<SuperVisorRepository>();
 builder.Services.AddScoped<StatusRepository>();
 builder.Services.AddScoped<TechnicianRepository>();
+builder.Services.AddScoped<FeedBackRepository>();
+builder.Services.AddScoped<BrandRepository>();
+builder.Services.AddScoped<ItemRepository>();
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<CommonItemRepository>();
 
 
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();

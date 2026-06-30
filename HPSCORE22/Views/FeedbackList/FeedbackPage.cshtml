@@ -1,0 +1,593 @@
+﻿@model CSWMS.Models.ViewModel.FeedBackViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<partial name="~/Views/Shared/PartialView/_CSSCDNLink.cshtml" />
+
+<!-- ADD JQUERY -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet" />
+<div class="container">
+
+    <div class="row">
+
+        <div class="card shadow-sm border-0 mt-3">
+
+            <div class="card-header" style="background-color: lightskyblue;">
+                <h4>Feedback Info</h4>
+            </div>
+
+            @using (Html.BeginForm("FeedbackSave", "FeedbackList", FormMethod.Post,
+                        new { @class = "form-inline" }))
+            {
+
+                <div class="card-body">
+
+                    <div class="row" style="padding:2%">
+                        <div class="col-md-4">
+                            <label>Ticket ID</label>
+                            @Html.TextBoxFor(
+                            m => m.FeedBackDetails.TicketID,
+                                                new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                        <div class="col-md-4">
+                        <label>Customer Name</label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.CustomerName,
+                                                new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                        <div class="col-md-4">
+                        <label>Contact No</label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.CustomerContactNo,
+                                                new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                        <div class="col-md-4">
+                        <label>Location</label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.CustomerAddress,
+                                                new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                        <div class="col-md-4">
+                        <label>Product</label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.ProductName,
+                                                new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <!-- BRAND -->
+                       <div class="col-md-4">
+                        <label>Brand Name</label>
+
+                        @Html.DropDownList(
+                                                "AssingedZone",
+                                                new SelectList(
+                                                Model.BrandList,
+                                                "GroupId",
+                                                "GroupName"
+                                                ),
+                                                "Select Brand",
+                                                new
+                                                {
+                                                    @class = "form-control",
+                                                    id = "BrandID"
+                                                })
+                    </div>
+                    <!-- CLASS -->
+                         <div class="col-md-4">
+
+                        <label>Class Name</label>
+
+                        @Html.DropDownListFor(
+                                                m => m.FeedBackDetails.ItemId,
+                                                new SelectList(
+                                                Model.ItemList,
+                                                "ItemId",
+                                                "ItemName"
+                                                ),
+                                                "Select Class",
+                                                new
+                                                {
+                                                    @class = "form-control",
+                                                    id = "classID"
+                                                })
+
+                    </div>
+                    <!-- PRODUCT -->
+                    <div class="col-md-4">
+                        <label>Product Name</label>
+                        @Html.DropDownListFor(
+                                                m => m.FeedBackDetails.ProductId,
+                                                new SelectList(
+                                                Model.ProductList,
+                                                "ProductId",
+                                                "ProductName"
+                                                ),
+                                                "Select Product",
+                                                new
+                                                {
+                                                    @class = "form-control",
+                                                    id = "productID"
+                                                })
+
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Product Serial No
+                        </label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.SerialNo,
+                                                new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Product Qty
+                        </label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.ProductQty,
+                                                new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Sales Date
+                        </label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.PurchaseDate,
+                                                new { @class = "form-control", @type = "date" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Actual Problem</label>
+                        @Html.DropDownListFor(
+                                                m => m.FeedBackDetails.ActualProblemId,
+                                                Enumerable.Empty<SelectListItem>(),
+                                                "Select Actual Problem",
+                                                new
+                                                {
+                                                    @class = "form-control",
+                                                    id = "actualproID"
+                                                })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Sub Problem</label>
+                        <select class="select2" multiple="multiple" data-placeholder="Select a Sub Problem" style="width: 100%;" id="subproblemID">
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Solved By
+                        </label>
+                        @Html.DropDownListFor(
+                                                m => m.FeedBackDetails.SolvedBy,
+                                                new SelectList(
+                                                Model.SolvedBy,
+                                                "TechnicianId",
+                                                "TechnicianName"
+                                                ),
+                                                "Select Solved by",
+                                                new
+                                                {
+                                                    @class = "form-control",
+                                                })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Assist 1
+                        </label>
+                        @Html.DropDownListFor(
+                                                m => m.FeedBackDetails.AssistId1,
+                                                new SelectList(
+                                                Model.AssistBy1,
+                                                "TechnicianId",
+                                                "TechnicianName"
+                                                ),
+                                                "Select Assist by",
+                                                new
+                                                {
+                                                    @class = "form-control",
+                                                })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Assist 2
+                        </label>
+                        @Html.DropDownListFor(
+                                                m => m.FeedBackDetails.AssistId2,
+                                                new SelectList(
+                                                Model.AssistBy2,
+                                                "TechnicianId",
+                                                "TechnicianName"
+                                                ),
+                                                "Select Assist by",
+                                                new
+                                                {
+                                                    @class = "form-control",
+                                                })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Status
+                        </label>
+                        @Html.DropDownListFor(
+                                                m => m.FeedBackDetails.StatusId,
+                                                new SelectList(
+                                                Model.StatusList,
+                                                "StatusId",
+                                                "StatusName"
+                                                ),
+                                                "Select Status",
+                                                new
+                                                {
+                                                    @class = "form-control",
+                                                })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Status
+                        </label>
+                        @Html.DropDownListFor(
+                                                m => m.FeedBackDetails.StatusId,
+                                                new SelectList(
+                                                Model.StatusList,
+                                                "StatusId",
+                                                "StatusName"
+                                                ),
+                                                "Select Status",
+                                                new
+                                                {
+                                                    @class = "form-control",
+                                                })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Complain Type
+                        </label>
+                        @Html.DropDownListFor(
+                                                m => m.FeedBackDetails.StatusId,
+                                                new SelectList(
+                                                Model.ComplainTypes,
+                                                "CTypeId",
+                                                "ComTypeName"
+                                                ),
+                                                "Select Complain Type",
+                                                new
+                                                {
+                                                    @class = "form-control",
+                                                })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Bill Amount
+                        </label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.BillAmount,
+                                                new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Transaction ID
+                        </label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.TransactionId,
+                                                new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Remarks
+                        </label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.Remarks,
+                                                new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Barcode No
+                        </label>
+                        @Html.TextBoxFor(
+                                                m => m.FeedBackDetails.BarcodeNo,
+                                                new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            File Upload
+                        </label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+                </div>
+
+            </div>
+
+                        }
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+    $("#subproblemID").select2({
+        placeholder: "Select Sub Problems",
+        allowClear: true,
+        width: "100%"
+    });
+        // BRAND CHANGE
+        $("#BrandID").change(function () {
+
+            var brandId = $(this).val();
+
+            $("#classID").empty();
+            $("#classID").append(
+                '<option value="">Select Class</option>'
+            );
+
+            $("#productID").empty();
+            $("#productID").append(
+                '<option value="">Select Product</option>'
+            );
+
+            if (brandId != "") {
+
+                $.ajax({
+
+                    url: '@Url.Action("GetAllClassProducts", "FeedbackList")',
+
+                    type: "POST",
+
+                    data: {
+                        BrandID: brandId
+                    },
+
+                    success: function (data) {
+
+                        $.each(data.Filtereddata,
+                            function (i, item) {
+
+                                $("#classID").append(
+
+                                    '<option value="' +
+                                    item.ItemId +
+                                    '">' +
+                                    item.ItemName +
+                                    '</option>'
+
+                                );
+
+                            });
+                    },
+
+                    error: function () {
+
+                        alert("Class Load Failed");
+
+                    }
+
+                });
+
+            }
+
+        });
+        // CLASS CHANGE
+        $("#classID").change(function () {
+            var classId = $(this).val();
+
+            $("#productID").empty();
+
+            $("#productID").append(
+                '<option value="">Select Product</option>'
+            );
+
+            if (classId != "") {
+
+                $.ajax({
+
+                    url: '@Url.Action("GetAllProducts", "FeedbackList")',
+
+                    type: "POST",
+
+                    data: {
+                        ItemID: classId
+                    },
+
+                    success: function (data) {
+
+                        $.each(data.Filtereddata,
+                            function (i, item) {
+
+                                $("#productID").append(
+
+                                    '<option value="' +
+                                    item.ProductId +
+                                    '">' +
+                                    item.ProductName +
+                                    '</option>'
+
+                                );
+
+                            });
+                               $.each(data.NatureofProblem,
+                            function (i, item) {
+
+                                $("#productID").append(
+
+                                    '<option value="' +
+                                    item.problemId +
+                                    '">' +
+                                    item.ProblemName +
+                                    '</option>'
+
+                                );
+
+                            });
+
+                    },
+
+                    error: function () {
+
+                        alert("Product Load Failed");
+
+                    }
+
+                });
+
+            }
+
+        });
+        $("#productID").change(function () {
+            var classId = $(this).val();
+
+            $("#actualproID").empty();
+
+            $("#actualproID").append(
+                '<option value="">Select Product</option>'
+            );
+
+            if (classId != "") {
+
+                $.ajax({
+
+                    url: '@Url.Action("GetAllActualProblem", "FeedbackList")',
+
+                    type: "POST",
+
+                    data: {
+                        productID: classId
+                    },
+
+                    success: function (data) {
+                               $.each(data.NatureofProblem,
+                            function (i, item) {
+
+                                $("#actualproID").append(
+
+                                    '<option value="' +
+                                    item.problemId +
+                                    '">' +
+                                    item.ProblemName +
+                                    '</option>'
+
+                                );
+
+                            });
+
+                    },
+
+                    error: function () {
+
+                        alert("Product Load Failed");
+
+                    }
+
+                });
+
+            }
+
+        });
+        $("#productID").change(function () {
+            var classId = $(this).val();
+
+            $("#actualproID").empty();
+
+            $("#actualproID").append(
+                '<option value="">Select Product</option>'
+            );
+
+            if (classId != "") {
+
+                $.ajax({
+
+                    url: '@Url.Action("GetAllActualProblem", "FeedbackList")',
+
+                    type: "POST",
+
+                    data: {
+                        productID: classId
+                    },
+
+                    success: function (data) {
+                               $.each(data.NatureofProblem,
+                            function (i, item) {
+
+                                $("#actualproID").append(
+
+                                    '<option value="' +
+                                    item.problemId +
+                                    '">' +
+                                    item.ProblemName +
+                                    '</option>'
+
+                                );
+
+                            });
+
+                    },
+
+                    error: function () {
+
+                        alert("Product Load Failed");
+
+                    }
+
+                });
+
+            }
+
+        });
+        $("#actualproID").change(function () {
+
+        var classId = $(this).val();
+
+        $("#subproblemID").empty();
+
+        if (classId != "") {
+
+            $.ajax({
+
+                url: '@Url.Action("GetAllSubProblems", "FeedbackList")',
+
+                type: "POST",
+
+                data: {
+                    ProblemID: classId
+                },
+
+                success: function (data) {
+
+                    $.each(data.NatureofSubProblem, function (i, item) {
+
+                        $("#subproblemID").append(
+
+                            $('<option>', {
+                                value: item.SubProblemID,
+                                text: item.SubProblemName
+                            })
+
+                        );
+
+                    });
+
+                    // Refresh Select2
+                    $("#subproblemID").trigger("change");
+
+                },
+
+                error: function () {
+
+                    alert("Sub Problem Load Failed");
+
+                }
+
+            });
+
+        }
+
+    });
+    });
+
+</script>

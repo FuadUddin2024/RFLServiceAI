@@ -290,5 +290,32 @@ where a.IsAssign=0 ORDER BY com.EntryDate DESC";
 
             return ExtractData.Convert<AssignModel>(dt).ToList();
         }
+
+        // Feedback Module
+        public AssignModel GetAllZoneSingleAssingDetails(string ticketCode)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection Connection = _db.GetConnection())
+            {
+                Connection.Open();
+
+                using (SqlCommand Command = new SqlCommand("SP_GetAssignByTicketID", Connection))
+                {
+                    Command.CommandType = CommandType.StoredProcedure;
+                    Command.CommandTimeout = 300;
+
+                    // Send parameter
+                    Command.Parameters.AddWithValue("@TicketID", ticketCode);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(Command))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+
+            return ExtractData.Convert<AssignModel>(dt).FirstOrDefault();
+        }
     }
 }
