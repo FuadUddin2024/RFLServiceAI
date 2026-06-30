@@ -2,7 +2,7 @@
 {
     public class SalesReturnViewModel
     {
-        public FeedabackModel FeedbackData { get; set; }
+        public FeedabackModel FeedBackDetails { get; set; }
         public List<DepotModel> DepotList { get; set; }
     }
 }

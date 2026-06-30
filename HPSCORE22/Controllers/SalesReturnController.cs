@@ -18,7 +18,7 @@ namespace CSWMS.Controllers
         public IActionResult SalesReturnIndex()
         {
             SalesReturnViewModel SalesReturn = new SalesReturnViewModel();
-            SalesReturn.FeedbackData = new FeedabackModel();
+            SalesReturn.FeedBackDetails = new FeedabackModel();
             SalesReturn.DepotList = _DepoNames.GetALLDepotName();
             return View("~/Views/SalesReturn/SalesReturnIndex.cshtml", SalesReturn);
         }

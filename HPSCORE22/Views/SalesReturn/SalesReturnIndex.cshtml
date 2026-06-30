@@ -1,4 +1,4 @@
-﻿@model CSWMS.Models.ViewModel.FeedBackViewModel
+﻿@model CSWMS.Models.ViewModel.SalesReturnViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -18,11 +18,12 @@
         <div class="card shadow-sm border-0 mt-3">
 
             <div class="card-header" style="background-color: lightskyblue;">
-                <h4>Feedback Info</h4>
+                <h4>
+                    Sales Return Info
+                </h4>
             </div>
 
-            @using (Html.BeginForm("FeedbackSave", "FeedbackList", FormMethod.Post,
-                        new { @class = "form-inline" }))
+            @using (Html.BeginForm("FeedbackSave", "FeedbackList", FormMethod.Post, new { @class = "form-inline" }))
             {
 
                 <div class="card-body">
@@ -46,7 +47,7 @@
                     </div>
                     <div class="col-md-4">
                         <label>Location</label>
-                        @Html.TextBoxFor(
+                        @Html.TextAreaFor(
                                                 m => m.FeedBackDetails.CustomerAddress,
                                                 new { @class = "form-control", @readonly = "readonly" })
                     </div>
@@ -56,77 +57,16 @@
                                                 m => m.FeedBackDetails.ProductName,
                                                 new { @class = "form-control", @readonly = "readonly" })
                     </div>
-                    <!-- BRAND -->
                     <div class="col-md-4">
-                        <label>Brand Name</label>
-
-                        @Html.DropDownList(
-                                                "AssingedZone",
-                                                new SelectList(
-                                                Model.BrandList,
-                                                "GroupId",
-                                                "GroupName"
-                                                ),
-                                                "Select Brand",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                    id = "BrandID"
-                                                })
-                    </div>
-                    <!-- CLASS -->
-                    <div class="col-md-4">
-
-                        <label>Class Name</label>
-
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.ItemId,
-                                                new SelectList(
-                                                Model.ItemList,
-                                                "ItemId",
-                                                "ItemName"
-                                                ),
-                                                "Select Class",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                    id = "classID"
-                                                })
-
-                    </div>
-                    <!-- PRODUCT -->
-                    <div class="col-md-4">
-                        <label>Product Name</label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.ProductId,
-                                                new SelectList(
-                                                Model.ProductList,
-                                                "ProductId",
-                                                "ProductName"
-                                                ),
-                                                "Select Product",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                    id = "productID"
-                                                })
-
+                        <label>Model Name</label>
+                        @Html.HiddenFor(m => m.FeedBackDetails.PrModelId, new { @class = "form-control", @readonly = "readonly" })
+                        <input type="text" id="fname" name="fname" readonly>
                     </div>
                     <div class="col-md-4">
                         <label>
                             Product Serial No
                         </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.SerialNo,
-                                                new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Product Qty
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.ProductQty,
-                                                new { @class = "form-control", @readonly = "readonly" })
+                        @Html.TextBoxFor(m => m.FeedBackDetails.SerialNo,new { @class = "form-control" })
                     </div>
                     <div class="col-md-4">
                         <label>
@@ -137,156 +77,39 @@
                                                 new { @class = "form-control", @type = "date" })
                     </div>
                     <div class="col-md-4">
-                        <label>Actual Problem</label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.ActualProblemId,
-                                                Enumerable.Empty<SelectListItem>(),
-                                                "Select Actual Problem",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                    id = "actualproID"
-                                                })
+                        <label>Problem Name</label>
+                        @Html.HiddenFor(m => m.FeedBackDetails.ActualProblemId, new { @class = "form-control", @readonly = "readonly" })
+                        <input type="text" id="pname" name="fname" readonly>
                     </div>
                     <div class="col-md-4">
-                        <label>Sub Problem</label>
-                        <select class="select2" multiple="multiple" data-placeholder="Select a Sub Problem" style="width: 100%;" id="subproblemID">
-                        </select>
+                        <label>Location</label>
+                        @Html.TextAreaFor(m => m.FeedBackDetails.SRInfo, new { @class = "form-control" })
                     </div>
                     <div class="col-md-4">
-                        <label>
-                            Solved By
-                        </label>
+                        <label>Dealer Code</label>
+                        @Html.TextAreaFor(m => m.FeedBackDetails.DillerCode, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Dealer Code</label>
+                        @Html.TextAreaFor(m => m.FeedBackDetails.DillerCode, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Depot Name</label>
                         @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.SolvedBy,
+                                                m => m.FeedBackDetails.DillerCode,
                                                 new SelectList(
-                                                Model.SolvedBy,
-                                                "TechnicianId",
-                                                "TechnicianName"
+                                                Model.DepotList,
+                                                "DepotId",
+                                                "DepotName"
                                                 ),
-                                                "Select Solved by",
+                                                "Select Depot",
                                                 new
                                                 {
                                                     @class = "form-control",
+                                                    id = "BrandID"
                                                 })
                     </div>
-                    <div class="col-md-4">
-                        <label>
-                            Assist 1
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.AssistId1,
-                                                new SelectList(
-                                                Model.AssistBy1,
-                                                "TechnicianId",
-                                                "TechnicianName"
-                                                ),
-                                                "Select Assist by",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Assist 2
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.AssistId2,
-                                                new SelectList(
-                                                Model.AssistBy2,
-                                                "TechnicianId",
-                                                "TechnicianName"
-                                                ),
-                                                "Select Assist by",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Status
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.StatusId,
-                                                new SelectList(
-                                                Model.StatusList,
-                                                "StatusId",
-                                                "StatusName"
-                                                ),
-                                                "Select Status",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Status
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.StatusId,
-                                                new SelectList(
-                                                Model.StatusList,
-                                                "StatusId",
-                                                "StatusName"
-                                                ),
-                                                "Select Status",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Complain Type
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.StatusId,
-                                                new SelectList(
-                                                Model.ComplainTypes,
-                                                "CTypeId",
-                                                "ComTypeName"
-                                                ),
-                                                "Select Complain Type",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Bill Amount
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.BillAmount,
-                                                new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Transaction ID
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.TransactionId,
-                                                new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Remarks
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.Remarks,
-                                                new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Barcode No
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.BarcodeNo,
-                                                new { @class = "form-control" })
-                    </div>
+
                     <div class="col-md-4">
                         <label>
                             File Upload
@@ -313,8 +136,8 @@
         allowClear: true,
         width: "100%"
     });
-        // BRAND CHANGE
-        $("#BrandID").change(function () {
+        // Ticket ID CHANGE
+        $("#TickedID").change(function () {
 
             var brandId = $(this).val();
 
