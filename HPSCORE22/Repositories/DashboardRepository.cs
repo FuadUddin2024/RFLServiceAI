@@ -1078,81 +1078,249 @@ namespace CSWMS.Repositories
             List<ServiceOperationPerformanceDto> model =
                 new List<ServiceOperationPerformanceDto>();
 
+            //string query = @"
+            //    SELECT
+            //        SO.ServiceOperationName,
+
+            //        COUNT(A.TicketID) AS TotalTickets,
+
+            //        SUM(CASE WHEN A.StatusId = 1 THEN 1 ELSE 0 END) AS Solved,
+
+            //        SUM(CASE WHEN A.StatusId = 2 THEN 1 ELSE 0 END) AS Pending,
+
+            //        SUM(CASE WHEN A.StatusId = 3 THEN 1 ELSE 0 END) AS Cancelled,
+
+            //        CAST(
+            //            SUM(CASE WHEN A.StatusId = 1 THEN 1 ELSE 0 END) * 100.0
+            //            / NULLIF(COUNT(A.TicketID),0)
+            //            AS DECIMAL(10,2)
+            //        ) AS SolveRate,
+
+            //        CAST(
+            //            SUM(CASE WHEN A.StatusId = 2 THEN 1 ELSE 0 END) * 100.0
+            //            / NULLIF(COUNT(A.TicketID),0)
+            //            AS DECIMAL(10,2)
+            //        ) AS PendingRate,
+
+            //        CAST(
+            //            SUM(CASE WHEN A.StatusId = 3 THEN 1 ELSE 0 END) * 100.0
+            //            / NULLIF(COUNT(A.TicketID),0)
+            //            AS DECIMAL(10,2)
+            //        ) AS CancelledRate,
+
+            //        COUNT(DISTINCT T.TechnicianId) AS ActiveTechnicians,
+
+            //        CAST(
+            //            COUNT(A.TicketID) * 1.0
+            //            / NULLIF(COUNT(DISTINCT T.TechnicianId),0)
+            //            AS DECIMAL(10,2)
+            //        ) AS AvgTicketsPerTechnician,
+
+            //        SUM(
+            //            CASE
+            //                WHEN A.StatusId = 2
+            //                 AND A.EntryDate < DATEADD(DAY,-7,GETDATE())
+            //                THEN 1
+            //                ELSE 0
+            //            END
+            //        ) AS PendingOver7Days,
+
+            //        SUM(
+            //            CASE
+            //                WHEN A.StatusId = 2
+            //                 AND A.EntryDate < DATEADD(DAY,-30,GETDATE())
+            //                THEN 1
+            //                ELSE 0
+            //            END
+            //        ) AS PendingOver30Days
+
+            //    FROM Assign A
+
+            //    INNER JOIN Technician T
+            //        ON A.TechnicianId = T.TechnicianId
+
+            //    LEFT JOIN Supervisor S
+            //        ON S.SupervisorId = T.SupervisorId
+
+            //    LEFT JOIN ServiceOperation SO
+            //        ON SO.ServiceOperationId = S.ServiceOperationId
+
+            //    WHERE A.EntryDate >= DATEADD(DAY, -30, CAST(GETDATE() AS DATE))
+            //       AND A.EntryDate < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
+
+            //    GROUP BY SO.ServiceOperationName
+
+            //    HAVING COUNT(A.TicketID) > 0
+
+            //    ORDER BY SolveRate DESC
+            //    ";
+
+            //string query = @"
+            //    SELECT
+            //    SO.ServiceOperationName,
+
+            //    COUNT(A.TicketID) AS TotalTickets,
+            //    SUM(CASE WHEN A.StatusId = 1 THEN 1 ELSE 0 END) AS Solved,
+            //    SUM(CASE WHEN A.StatusId = 2 THEN 1 ELSE 0 END) AS Pending,
+            //    SUM(CASE WHEN A.StatusId = 3 THEN 1 ELSE 0 END) AS Cancelled,
+            //    CAST(
+            //        SUM(CASE WHEN A.StatusId = 1 THEN 1 ELSE 0 END) * 100.0
+            //        / NULLIF(COUNT(A.TicketID), 0)
+            //        AS DECIMAL(10,2)
+            //    ) AS SolveRate,
+
+            //    CAST(
+            //        SUM(CASE WHEN A.StatusId = 2 THEN 1 ELSE 0 END) * 100.0
+            //        / NULLIF(COUNT(A.TicketID), 0)
+            //        AS DECIMAL(10,2)
+            //    ) AS PendingRate,
+
+            //    CAST(
+            //        SUM(CASE WHEN A.StatusId = 3 THEN 1 ELSE 0 END) * 100.0
+            //        / NULLIF(COUNT(A.TicketID), 0)
+            //        AS DECIMAL(10,2)
+            //    ) AS CancelledRate,
+
+            //    COUNT(DISTINCT T.TechnicianId) AS ActiveTechnicians,
+
+            //    CAST(
+            //        COUNT(A.TicketID) * 1.0
+            //        / NULLIF(COUNT(DISTINCT T.TechnicianId), 0)
+            //        AS DECIMAL(10,2)
+            //    ) AS AvgTicketsPerTechnician,
+
+            //    SUM(
+            //        CASE
+            //            WHEN A.StatusId = 2
+            //             AND A.EntryDate < DATEADD(DAY, -7, GETDATE())
+            //            THEN 1
+            //            ELSE 0
+            //        END
+            //    ) AS PendingOver7Days,
+
+            //    SUM(
+            //        CASE
+            //            WHEN A.StatusId = 2
+            //             AND A.EntryDate < DATEADD(DAY, -30, GETDATE())
+            //            THEN 1
+            //            ELSE 0
+            //        END
+            //    ) AS PendingOver30Days
+
+            //FROM Assign A
+
+            //INNER JOIN Technician T
+            //    ON A.TechnicianId = T.TechnicianId
+
+            //LEFT JOIN Supervisor S
+            //    ON S.SupervisorId = T.SupervisorId
+
+            //LEFT JOIN ITEM_CRM I
+            //    ON A.ProductName = I.ItemNameCRM
+
+            //LEFT JOIN ServiceOperationWiseSupervisor SOS
+            //    ON SOS.SupervisorId = S.SupervisorId
+            //   AND SOS.CompanyId = I.CompanyId
+
+            //LEFT JOIN ServiceOperation SO
+            //    ON SO.ServiceOperationId = SOS.ServiceOperationId
+
+            //WHERE A.EntryDate >= DATEADD(DAY, -30, CAST(GETDATE() AS DATE))
+            //  AND A.EntryDate < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
+
+            //GROUP BY
+            //    SO.ServiceOperationName
+
+            //HAVING COUNT(A.TicketID) > 0
+            //ORDER BY SO.ServiceOperationName DESC
+            //    ";
+
             string query = @"
                 SELECT
-                    SO.ServiceOperationName,
+            SO.ServiceOperationName,
+            COUNT(A.TicketID) AS TotalTickets,
 
-                    COUNT(A.TicketID) AS TotalTickets,
+            SUM(CASE WHEN A.CompanyIdNew = 1 AND A.ServiceOperationId in (3,5)  THEN 1 ELSE 0 END) AS TotalTickets_RAC,
+            SUM(CASE WHEN A.CompanyIdNew = 13 AND A.ServiceOperationId in (1,2) THEN 1 ELSE 0 END) AS TotalTickets_THA,
 
-                    SUM(CASE WHEN A.StatusId = 1 THEN 1 ELSE 0 END) AS Solved,
+            SUM(CASE WHEN A.StatusId = 1 THEN 1 ELSE 0 END) AS Solved,
+            SUM(CASE WHEN A.StatusId = 1 AND A.CompanyIdNew = 1 AND A.ServiceOperationId in (3,5) THEN 1 ELSE 0 END) AS Solved_RAC,
+            SUM(CASE WHEN A.StatusId = 1 AND A.CompanyIdNew = 13 AND A.ServiceOperationId in (1,2) THEN 1 ELSE 0 END) AS Solved_THA,
 
-                    SUM(CASE WHEN A.StatusId = 2 THEN 1 ELSE 0 END) AS Pending,
+            SUM(CASE WHEN A.StatusId = 2 THEN 1 ELSE 0 END) AS Pending,
+            SUM(CASE WHEN A.StatusId = 2 AND A.CompanyIdNew = 1 AND A.ServiceOperationId in (3,5) THEN 1 ELSE 0 END) AS Pending_RAC,
+            SUM(CASE WHEN A.StatusId = 2 AND A.CompanyIdNew = 13 AND A.ServiceOperationId in (1,2) THEN 1 ELSE 0 END) AS Pending_THA,
 
-                    SUM(CASE WHEN A.StatusId = 3 THEN 1 ELSE 0 END) AS Cancelled,
+            SUM(CASE WHEN A.StatusId = 3 THEN 1 ELSE 0 END) AS Cancelled,
+            SUM(CASE WHEN A.StatusId = 3 AND A.CompanyIdNew = 1 AND A.ServiceOperationId in (3,5) THEN 1 ELSE 0 END) AS Cancelled_RAC,
+            SUM(CASE WHEN A.StatusId = 3 AND A.CompanyIdNew = 13 AND A.ServiceOperationId in (1,2) THEN 1 ELSE 0 END) AS Cancelled_THA,
 
-                    CAST(
-                        SUM(CASE WHEN A.StatusId = 1 THEN 1 ELSE 0 END) * 100.0
-                        / NULLIF(COUNT(A.TicketID),0)
-                        AS DECIMAL(10,2)
-                    ) AS SolveRate,
+            CAST(
+                SUM(CASE WHEN A.StatusId = 1 THEN 1 ELSE 0 END) * 100.0
+                / NULLIF(COUNT(A.TicketID), 0)
+                AS DECIMAL(10,2)
+            ) AS SolveRate,
 
-                    CAST(
-                        SUM(CASE WHEN A.StatusId = 2 THEN 1 ELSE 0 END) * 100.0
-                        / NULLIF(COUNT(A.TicketID),0)
-                        AS DECIMAL(10,2)
-                    ) AS PendingRate,
+            CAST(
+                SUM(CASE WHEN A.StatusId = 2 THEN 1 ELSE 0 END) * 100.0
+                / NULLIF(COUNT(A.TicketID), 0)
+                AS DECIMAL(10,2)
+            ) AS PendingRate,
 
-                    CAST(
-                        SUM(CASE WHEN A.StatusId = 3 THEN 1 ELSE 0 END) * 100.0
-                        / NULLIF(COUNT(A.TicketID),0)
-                        AS DECIMAL(10,2)
-                    ) AS CancelledRate,
+            CAST(
+                SUM(CASE WHEN A.StatusId = 3 THEN 1 ELSE 0 END) * 100.0
+                / NULLIF(COUNT(A.TicketID), 0)
+                AS DECIMAL(10,2)
+            ) AS CancelledRate,
 
-                    COUNT(DISTINCT T.TechnicianId) AS ActiveTechnicians,
+            COUNT(DISTINCT T.TechnicianId) AS ActiveTechnicians,
 
-                    CAST(
-                        COUNT(A.TicketID) * 1.0
-                        / NULLIF(COUNT(DISTINCT T.TechnicianId),0)
-                        AS DECIMAL(10,2)
-                    ) AS AvgTicketsPerTechnician,
+            CAST(
+                COUNT(A.TicketID) * 1.0
+                / NULLIF(COUNT(DISTINCT T.TechnicianId), 0)
+                AS DECIMAL(10,2)
+            ) AS AvgTicketsPerTechnician,
 
-                    SUM(
-                        CASE
-                            WHEN A.StatusId = 2
-                             AND A.EntryDate < DATEADD(DAY,-7,GETDATE())
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS PendingOver7Days,
+            SUM(
+                CASE
+                    WHEN A.StatusId = 2
+                     AND A.EntryDate < DATEADD(DAY, -7, GETDATE())
+                    THEN 1
+                    ELSE 0
+                END
+            ) AS PendingOver7Days,
 
-                    SUM(
-                        CASE
-                            WHEN A.StatusId = 2
-                             AND A.EntryDate < DATEADD(DAY,-30,GETDATE())
-                            THEN 1
-                            ELSE 0
-                        END
-                    ) AS PendingOver30Days
+            SUM(
+                CASE
+                    WHEN A.StatusId = 2
+                     AND A.EntryDate < DATEADD(DAY, -30, GETDATE())
+                    THEN 1
+                    ELSE 0
+                END
+            ) AS PendingOver30Days
 
-                FROM Assign A
+        FROM Assign_Report A
 
-                INNER JOIN Technician T
-                    ON A.TechnicianId = T.TechnicianId
+        INNER JOIN Technician T
+            ON A.TechnicianId = T.TechnicianId
 
-                LEFT JOIN Supervisor S
-                    ON S.SupervisorId = T.SupervisorId
+        LEFT JOIN Supervisor S
+            ON S.SupervisorId = T.SupervisorId
 
-                LEFT JOIN ServiceOperation SO
-                    ON SO.ServiceOperationId = S.ServiceOperationId
+        LEFT JOIN ServiceOperation SO
+            ON A.ServiceOperationId = SO.ServiceOperationId
 
-                WHERE A.EntryDate >= DATEADD(DAY, -30, CAST(GETDATE() AS DATE))
-                   AND A.EntryDate < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
+        WHERE A.EntryDate >= DATEADD(DAY, -30, CAST(GETDATE() AS DATE))
+          AND A.EntryDate < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
 
-                GROUP BY SO.ServiceOperationName
+        GROUP BY
 
-                HAVING COUNT(A.TicketID) > 0
+            SO.ServiceOperationName
 
-                ORDER BY SolveRate DESC
+        HAVING COUNT(A.TicketID) > 0
+
+        ORDER BY
+            SO.ServiceOperationName
                 ";
 
             DataTable dt = await _databaseService.ExecuteQueryAsync(query);
