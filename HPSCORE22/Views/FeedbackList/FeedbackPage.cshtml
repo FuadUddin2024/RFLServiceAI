@@ -50,7 +50,7 @@
                     </div>
                         <div class="col-md-4">
                         <label>Location</label>
-                        @Html.TextBoxFor(
+                        @Html.TextAreaFor(
                                                 m => m.FeedBackDetails.CustomerAddress,
                                                 new { @class = "form-control", @readonly = "readonly" })
                     </div>
@@ -298,9 +298,9 @@
                         <input class="form-control" type="file" id="formFile">
                     </div>
                 </div>
-
+                <button type="submit" class="btn btn-outline-success" style="float:right">Submit</button>
             </div>
-
+           
                         }
 
         </div>

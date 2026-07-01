@@ -119,5 +119,29 @@ namespace CSWMS.Repositories
 
             return ExtractData.Convert<FeedabackModel>(dt).ToList();
         }
+        public List<SalesReturnApplication> GetSingleSrinfoForApply(string TickedID)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection Connection = _db.GetConnection())
+            {
+                Connection.Open();
+
+                using (SqlCommand Command = new SqlCommand("CSP_GetSRListForApply", Connection))
+                {
+                    Command.CommandType = CommandType.StoredProcedure;
+                    Command.CommandTimeout = 300;
+
+                    // Send parameter
+                    Command.Parameters.AddWithValue("@TicketID", TickedID);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(Command))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+
+            return ExtractData.Convert<SalesReturnApplication>(dt).ToList();
+        }
     }
 }

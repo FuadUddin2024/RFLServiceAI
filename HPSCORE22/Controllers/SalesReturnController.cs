@@ -22,13 +22,82 @@ namespace CSWMS.Controllers
             SalesReturn.DepotList = _DepoNames.GetALLDepotName();
             return View("~/Views/SalesReturn/SalesReturnIndex.cshtml", SalesReturn);
         }
-        public JsonResult GetFeedBackData(string TokenID)
+        public JsonResult GetFeedBackData(int TokenID)
         {
-            var FeedbackData = _FeedBackData.GetSingleFeedbackModel(TokenID);
-            return Json(new
+            if(TokenID>0)
             {
-                FeedbackData = FeedbackData
-            });
+                var feedbackData = _FeedBackData.GetSingleFeedbackModel(TokenID.ToString()).FirstOrDefault();
+                if(feedbackData.SrDepoId ==0)
+                {
+                    var srlist = _FeedBackData.GetSingleSrinfoForApply(TokenID.ToString());
+                    if(feedbackData != null)
+                    {
+                        return Json(new
+                        {
+                            success = true,
+                            FeedBackDetails = feedbackData
+                        });
+                    }
+                    else
+                     {
+                        return Json(new
+                        {
+                            success = false,
+                            message = "This Ticket ID does not exist."
+                        });
+                    }
+                }
+                else
+                                    {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Already applied by this Ticket ID."
+                    });
+                }
+            }
+            else
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Please input the Ticket ID."
+                });
+            }
         }
+        //public JsonResult GetFeedBackData(int TokenID)
+        //{
+        //    if(TokenID != null)
+        //    {
+        //        var FeedbackData = _FeedBackData.GetSingleFeedbackModel(TokenID.ToString()).FirstOrDefault();
+        //        if(FeedbackData.SrDepoId == null)
+        //        {
+        //            var Srlist= _DepoNames.GetALLDepotName().Where(x => x.DepotId == FeedbackData.PsDepoId).FirstOrDefault();
+        //            if (Srlist != null)
+        //            {
+        //                return Json(new
+        //                {
+        //                    FeedBackDetails = FeedbackData
+        //                });
+        //            }
+        //            else
+        //            {
+        //                TempData["ERRORMSG"] = "This Ticket ID does not exists.";
+        //                return;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            TempData["ERRORMSG"] = "Already apply by this ticket ID.";
+        //            return;
+        //        }
+        //    }
+        //   else
+        //    {
+        //         TempData["ERRORMSG"] = "Please input the ticket ID.";
+        //        return;
+        //    }
+
+        //}
     }
 }
