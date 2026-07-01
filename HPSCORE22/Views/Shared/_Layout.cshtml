@@ -51,6 +51,17 @@
         }
     </style>
     <!-- Scripts -->
+    <script>
+        $(".navbar-nav").click(function () {
+
+            if ($("#sidenavbar").css("min-width") == "239px") {
+                document.getElementById("sidenavbar").style.setProperty("min-width", "168px", "important");
+            } else {
+                document.getElementById("sidenavbar").style.setProperty("min-width", "239px", "important");
+            }
+
+        });
+    </script>
     <script src="~/js/jquery-3.7.1.min.js" asp-append-version="true"></script>
     <script src="~/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/adminlte.js" asp-append-version="true"></script>
