@@ -1236,7 +1236,7 @@ namespace CSWMS.Repositories
             //    ";
 
             string query = @"
-                SELECT
+                SELECT TOP 4
             SO.ServiceOperationName,
             COUNT(A.TicketID) AS TotalTickets,
 
@@ -1320,7 +1320,7 @@ namespace CSWMS.Repositories
         HAVING COUNT(A.TicketID) > 0
 
         ORDER BY
-            SO.ServiceOperationName
+            SO.ServiceOperationName desc
                 ";
 
             DataTable dt = await _databaseService.ExecuteQueryAsync(query);
