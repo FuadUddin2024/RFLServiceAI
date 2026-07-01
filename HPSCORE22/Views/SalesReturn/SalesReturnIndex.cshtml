@@ -1,4 +1,4 @@
-﻿@model CSWMS.Models.ViewModel.FeedBackViewModel
+﻿@model CSWMS.Models.ViewModel.SalesReturnViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -18,11 +18,12 @@
         <div class="card shadow-sm border-0 mt-3">
 
             <div class="card-header" style="background-color: lightskyblue;">
-                <h4>Feedback Info</h4>
+                <h4>
+                    Sales Return Info
+                </h4>
             </div>
 
-            @using (Html.BeginForm("FeedbackSave", "FeedbackList", FormMethod.Post,
-                        new { @class = "form-inline" }))
+            @using (Html.BeginForm("FeedbackSave", "FeedbackList", FormMethod.Post, new { @class = "form-inline" }))
             {
 
                 <div class="card-body">
@@ -36,257 +37,80 @@
                         <label>Customer Name</label>
                         @Html.TextBoxFor(
                                                 m => m.FeedBackDetails.CustomerName,
-                                                new { @class = "form-control", @readonly = "readonly" })
+                                                new { @class = "form-control", @readonly = "readonly",id="customername" })
                     </div>
                     <div class="col-md-4">
                         <label>Contact No</label>
                         @Html.TextBoxFor(
                                                 m => m.FeedBackDetails.CustomerContactNo,
-                                                new { @class = "form-control", @readonly = "readonly" })
+                                                new { @class = "form-control", @readonly = "readonly", id = "Contactnumber" })
                     </div>
                     <div class="col-md-4">
                         <label>Location</label>
-                        @Html.TextBoxFor(
+                        @Html.TextAreaFor(
                                                 m => m.FeedBackDetails.CustomerAddress,
-                                                new { @class = "form-control", @readonly = "readonly" })
+                                                new { @class = "form-control", @readonly = "readonly", id = "customerlocation" })
                     </div>
                     <div class="col-md-4">
                         <label>Product</label>
                         @Html.TextBoxFor(
                                                 m => m.FeedBackDetails.ProductName,
-                                                new { @class = "form-control", @readonly = "readonly" })
+                                                new { @class = "form-control", @readonly = "readonly", id = "customerproduct" })
                     </div>
-                    <!-- BRAND -->
                     <div class="col-md-4">
-                        <label>Brand Name</label>
-
-                        @Html.DropDownList(
-                                                "AssingedZone",
+                        <label>Model Name</label>
+                        @Html.HiddenFor(m => m.FeedBackDetails.PrModelId, new { @class = "form-control", id = "customermodel", @readonly = "readonly" })
+                        <input type="text" class="form-control" id="modelname" name="fname" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Product Serial No
+                        </label>
+                        @Html.TextBoxFor(m => m.FeedBackDetails.SerialNo, new { @class = "form-control", id = "productname", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Sales Date
+                        </label>
+                        @Html.TextBoxFor(m => m.FeedBackDetails.PurchaseDate,
+                                                new { @class = "form-control", @type = "date", id = "purchasedate", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Problem Name</label>
+                        @Html.HiddenFor(m => m.FeedBackDetails.ActualProblemId, new { @class = "form-control", id = "actualprobid" })
+                        <input type="text" id="problemname" name="fname" class="form-control" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label>
+                            Sales Return Info
+                        </label>
+                        @Html.TextAreaFor(m => m.FeedBackDetails.SRInfo, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Dealer Code</label>
+                        @Html.TextBoxFor(m => m.FeedBackDetails.DillerCode, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Dealer Code</label>
+                        @Html.TextBoxFor(m => m.FeedBackDetails.DillerCode, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Depot Name</label>
+                        @Html.DropDownListFor(
+                                                m => m.FeedBackDetails.DillerCode,
                                                 new SelectList(
-                                                Model.BrandList,
-                                                "GroupId",
-                                                "GroupName"
+                                                Model.DepotList,
+                                                "DepotId",
+                                                "DepotName"
                                                 ),
-                                                "Select Brand",
+                                                "Select Depot",
                                                 new
                                                 {
                                                     @class = "form-control",
                                                     id = "BrandID"
                                                 })
                     </div>
-                    <!-- CLASS -->
-                    <div class="col-md-4">
 
-                        <label>Class Name</label>
-
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.ItemId,
-                                                new SelectList(
-                                                Model.ItemList,
-                                                "ItemId",
-                                                "ItemName"
-                                                ),
-                                                "Select Class",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                    id = "classID"
-                                                })
-
-                    </div>
-                    <!-- PRODUCT -->
-                    <div class="col-md-4">
-                        <label>Product Name</label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.ProductId,
-                                                new SelectList(
-                                                Model.ProductList,
-                                                "ProductId",
-                                                "ProductName"
-                                                ),
-                                                "Select Product",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                    id = "productID"
-                                                })
-
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Product Serial No
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.SerialNo,
-                                                new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Product Qty
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.ProductQty,
-                                                new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Sales Date
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.PurchaseDate,
-                                                new { @class = "form-control", @type = "date" })
-                    </div>
-                    <div class="col-md-4">
-                        <label>Actual Problem</label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.ActualProblemId,
-                                                Enumerable.Empty<SelectListItem>(),
-                                                "Select Actual Problem",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                    id = "actualproID"
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>Sub Problem</label>
-                        <select class="select2" multiple="multiple" data-placeholder="Select a Sub Problem" style="width: 100%;" id="subproblemID">
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Solved By
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.SolvedBy,
-                                                new SelectList(
-                                                Model.SolvedBy,
-                                                "TechnicianId",
-                                                "TechnicianName"
-                                                ),
-                                                "Select Solved by",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Assist 1
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.AssistId1,
-                                                new SelectList(
-                                                Model.AssistBy1,
-                                                "TechnicianId",
-                                                "TechnicianName"
-                                                ),
-                                                "Select Assist by",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Assist 2
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.AssistId2,
-                                                new SelectList(
-                                                Model.AssistBy2,
-                                                "TechnicianId",
-                                                "TechnicianName"
-                                                ),
-                                                "Select Assist by",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Status
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.StatusId,
-                                                new SelectList(
-                                                Model.StatusList,
-                                                "StatusId",
-                                                "StatusName"
-                                                ),
-                                                "Select Status",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Status
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.StatusId,
-                                                new SelectList(
-                                                Model.StatusList,
-                                                "StatusId",
-                                                "StatusName"
-                                                ),
-                                                "Select Status",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Complain Type
-                        </label>
-                        @Html.DropDownListFor(
-                                                m => m.FeedBackDetails.StatusId,
-                                                new SelectList(
-                                                Model.ComplainTypes,
-                                                "CTypeId",
-                                                "ComTypeName"
-                                                ),
-                                                "Select Complain Type",
-                                                new
-                                                {
-                                                    @class = "form-control",
-                                                })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Bill Amount
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.BillAmount,
-                                                new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Transaction ID
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.TransactionId,
-                                                new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Remarks
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.Remarks,
-                                                new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">
-                        <label>
-                            Barcode No
-                        </label>
-                        @Html.TextBoxFor(
-                                                m => m.FeedBackDetails.BarcodeNo,
-                                                new { @class = "form-control" })
-                    </div>
                     <div class="col-md-4">
                         <label>
                             File Upload
@@ -297,7 +121,7 @@
 
             </div>
 
-                        }
+             }
 
         </div>
 
@@ -308,54 +132,114 @@
 <script>
 
     $(document).ready(function () {
-    $("#subproblemID").select2({
-        placeholder: "Select Sub Problems",
-        allowClear: true,
-        width: "100%"
-    });
-        // BRAND CHANGE
-        $("#BrandID").change(function () {
+    // $("#subproblemID").select2({
+    //     placeholder: "Select Sub Problems",
+    //     allowClear: true,
+    //     width: "100%"
+    // });
+        // Ticket ID CHANGE
+        $("#TickedID").change(function () {
 
             var brandId = $(this).val();
-
-            $("#classID").empty();
-            $("#classID").append(
-                '<option value="">Select Class</option>'
-            );
-
-            $("#productID").empty();
-            $("#productID").append(
-                '<option value="">Select Product</option>'
-            );
 
             if (brandId != "") {
 
                 $.ajax({
 
-                    url: '@Url.Action("GetAllClassProducts", "FeedbackList")',
+                    url: '@Url.Action("GetFeedBackData", "SalesReturn")',
 
                     type: "POST",
 
                     data: {
-                        BrandID: brandId
+                        TokenID: brandId
                     },
-
                     success: function (data) {
+                        debugger;
+                    console.log(data);
+                    if(data.message)
+                    {
+                      alert(data.message);   // or SweetAlert
+                      return;
+                    }
+                    else
+                    {
+                      var feedback = data.FeedBackDetails;
+                        $("#TickedID").prop("readonly", true);
+                        $("#customername").val(feedback.CustomerName);
+                        $("#Contactnumber").val(feedback.CustomerContactNo);
+                        $("#customerlocation").val(feedback.CustomerAddress);
+                        $("#customerproduct").val(feedback.ProductName);
+                        $("#customermodel").val(feedback.PrModelId);
+                        $("#productname").val(feedback.SerialNo);
+                        $("#purchasedate").val(feedback.PurchaseDate ? feedback.PurchaseDate.split("T")[0]: "");
+                        $("#actualprobid").val(feedback.ActualProblemId);
+                        $("#problemname").val(feedback.problemId);
+                    }
+                      //   if (data.success && data.FeedBackDetails) {
 
-                        $.each(data.Filtereddata,
-                            function (i, item) {
+                      //   var feedback = data.FeedBackDetails;
 
-                                $("#classID").append(
+                      //   $("#TickedID").prop("readonly", true);
 
-                                    '<option value="' +
-                                    item.ItemId +
-                                    '">' +
-                                    item.ItemName +
-                                    '</option>'
+                      //   $("#customername").val(feedback.CustomerName);
+                      //   $("#Contactnumber").val(feedback.CustomerContactNo);
+                      //   $("#customerlocation").val(feedback.CustomerAddress);
+                      //   $("#customerproduct").val(feedback.ProductName);
+                      //   $("#customermodel").val(feedback.PrModelId);
+                      //   $("#productname").val(feedback.SerialNo);
 
-                                );
+                      //   $("#purchasedate").val(
+                      //       feedback.PurchaseDate
+                      //           ? feedback.PurchaseDate.split("T")[0]
+                      //           : ""
+                      //   );
 
-                            });
+                      //   $("#actualprobid").val(feedback.ActualProblemId);
+                      //   $("#problemname").val(feedback.problemId);
+                      // }
+    //                 if (data.FeedBackDetails) {
+
+    //                    var feedback = data.FeedBackDetails;
+
+    //                     $("#TickedID").prop("readonly", true);
+
+    //                     $("#customername").val(feedback.CustomerName);
+    //                     $("#Contactnumber").val(feedback.CustomerContactNo);
+    //                     $("#customerlocation").val(feedback.CustomerAddress);
+    //                     $("#customerproduct").val(feedback.ProductName);
+
+    //                     $("#customermodel").val(feedback.PrModelId);
+
+    //                     $("#productname").val(feedback.SerialNo);
+
+    //                     $("#purchasedate").val(
+    //                         feedback.PurchaseDate
+    //                             ? feedback.PurchaseDate.split("T")[0]
+    //                             : ""
+    //                     );
+
+    //                     $("#actualprobid").val(feedback.ActualProblemId);
+
+    //                     $("#problemname").val(feedback.problemId);
+
+    // }
+                        // console.log(data);
+                        // $("#TickedID").prop("readonly", true);
+                       //  $("#customername").val(data.FeedBackDetails.CustomerName);
+                       //  $("#Contactnumber").val(data.FeedBackDetails.CustomerContactNo);
+                       //  $("#customerlocation").val(data.FeedBackDetails.CustomerAddress);
+                       //  $("#customerproduct").val(data.FeedBackDetails.ProductName);
+                       //  $("#customermodel").val(data.FeedBackDetails.PrModelId);
+                       // // $("#modelname").val(data.FeedBackDetails.PrModelId);
+                       //  $("#productname").val(data.FeedBackDetails.SerialNo);
+                       //  $("#purchasedate").val(data.FeedBackDetails.PurchaseDate);
+                       //  $("#actualprobid").val(data.FeedBackDetails.ActualProblemId);
+                       //  //$("#problemname").val(data.FeedBackDetails.SerialNo);
+                       //   // $("#problemname").val(data.FeedBackDetails.SerialNo);
+                       //   //  $("#problemname").val(data.FeedBackDetails.SerialNo);
+                       //   //   $("#problemname").val(data.FeedBackDetails.SerialNo);
+                        
+                        
                     },
 
                     error: function () {
@@ -369,171 +253,6 @@
             }
 
         });
-        // CLASS CHANGE
-        $("#classID").change(function () {
-            var classId = $(this).val();
-
-            $("#productID").empty();
-
-            $("#productID").append(
-                '<option value="">Select Product</option>'
-            );
-
-            if (classId != "") {
-
-                $.ajax({
-
-                    url: '@Url.Action("GetAllProducts", "FeedbackList")',
-
-                    type: "POST",
-
-                    data: {
-                        ItemID: classId
-                    },
-
-                    success: function (data) {
-
-                        $.each(data.Filtereddata,
-                            function (i, item) {
-
-                                $("#productID").append(
-
-                                    '<option value="' +
-                                    item.ProductId +
-                                    '">' +
-                                    item.ProductName +
-                                    '</option>'
-
-                                );
-
-                            });
-                               $.each(data.NatureofProblem,
-                            function (i, item) {
-
-                                $("#productID").append(
-
-                                    '<option value="' +
-                                    item.problemId +
-                                    '">' +
-                                    item.ProblemName +
-                                    '</option>'
-
-                                );
-
-                            });
-
-                    },
-
-                    error: function () {
-
-                        alert("Product Load Failed");
-
-                    }
-
-                });
-
-            }
-
-        });
-        $("#productID").change(function () {
-            var classId = $(this).val();
-
-            $("#actualproID").empty();
-
-            $("#actualproID").append(
-                '<option value="">Select Product</option>'
-            );
-
-            if (classId != "") {
-
-                $.ajax({
-
-                    url: '@Url.Action("GetAllActualProblem", "FeedbackList")',
-
-                    type: "POST",
-
-                    data: {
-                        productID: classId
-                    },
-
-                    success: function (data) {
-                               $.each(data.NatureofProblem,
-                            function (i, item) {
-
-                                $("#actualproID").append(
-
-                                    '<option value="' +
-                                    item.problemId +
-                                    '">' +
-                                    item.ProblemName +
-                                    '</option>'
-
-                                );
-
-                            });
-
-                    },
-
-                    error: function () {
-
-                        alert("Product Load Failed");
-
-                    }
-
-                });
-
-            }
-
-        });
-        $("#actualproID").change(function () {
-
-        var classId = $(this).val();
-
-        $("#subproblemID").empty();
-
-        if (classId != "") {
-
-            $.ajax({
-
-                url: '@Url.Action("GetAllSubProblems", "FeedbackList")',
-
-                type: "POST",
-
-                data: {
-                    ProblemID: classId
-                },
-
-                success: function (data) {
-
-                    $.each(data.NatureofSubProblem, function (i, item) {
-
-                        $("#subproblemID").append(
-
-                            $('<option>', {
-                                value: item.SubProblemID,
-                                text: item.SubProblemName
-                            })
-
-                        );
-
-                    });
-
-                    // Refresh Select2
-                    $("#subproblemID").trigger("change");
-
-                },
-
-                error: function () {
-
-                    alert("Sub Problem Load Failed");
-
-                }
-
-            });
-
-        }
-
-    });
     });
 
 </script>

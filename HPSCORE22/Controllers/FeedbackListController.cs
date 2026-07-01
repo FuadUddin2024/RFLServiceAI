@@ -34,7 +34,7 @@ namespace QCMS.Controllers
         public IActionResult Index()
         {
             FeedBackViewModel FeedbackDetails= new FeedBackViewModel();
-            FeedbackDetails.FeedBackList = _FeedbackRepo.GetZoneWiseFeedBack(1);
+            FeedbackDetails.FeedBackList = _FeedbackRepo.GetZoneWiseFeedBack(1).OrderByDescending(x=>x.EntryDate).ToList();
             return View("~/Views/FeedbackList/Index.cshtml", FeedbackDetails);
         }
         public IActionResult FeedBackPage(string id)

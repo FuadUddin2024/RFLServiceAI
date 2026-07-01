@@ -36,6 +36,7 @@ builder.Services.AddScoped<BrandRepository>();
 builder.Services.AddScoped<ItemRepository>();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<CommonItemRepository>();
+builder.Services.AddScoped<DepotRepository>();
 
 
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
