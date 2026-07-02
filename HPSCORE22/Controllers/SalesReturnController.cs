@@ -65,39 +65,14 @@ namespace CSWMS.Controllers
                 });
             }
         }
-        //public JsonResult GetFeedBackData(int TokenID)
-        //{
-        //    if(TokenID != null)
-        //    {
-        //        var FeedbackData = _FeedBackData.GetSingleFeedbackModel(TokenID.ToString()).FirstOrDefault();
-        //        if(FeedbackData.SrDepoId == null)
-        //        {
-        //            var Srlist= _DepoNames.GetALLDepotName().Where(x => x.DepotId == FeedbackData.PsDepoId).FirstOrDefault();
-        //            if (Srlist != null)
-        //            {
-        //                return Json(new
-        //                {
-        //                    FeedBackDetails = FeedbackData
-        //                });
-        //            }
-        //            else
-        //            {
-        //                TempData["ERRORMSG"] = "This Ticket ID does not exists.";
-        //                return;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            TempData["ERRORMSG"] = "Already apply by this ticket ID.";
-        //            return;
-        //        }
-        //    }
-        //   else
-        //    {
-        //         TempData["ERRORMSG"] = "Please input the ticket ID.";
-        //        return;
-        //    }
 
-        //}
+        // <summary> 1st Approval Code start</summary>
+        public IActionResult SalesApprovalIntial()
+        {
+            SalesReturnViewModel SalesReturn = new SalesReturnViewModel();
+            SalesReturn.FeedBackDetails = new FeedabackModel();
+            SalesReturn.DepotList = _DepoNames.GetALLDepotName();
+            return View("~/Views/SalesReturn/SalesApprovalIntial.cshtml", SalesReturn);
+        }
     }
 }

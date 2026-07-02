@@ -34,21 +34,11 @@ namespace CSWMS.Controllers
             ComplainViewModel ComplainViewModel = new ComplainViewModel();
             ComplainViewModel.AssignModel=new AssignModel();
             ComplainViewModel.ZoneList = _ZoneDetails.GetALlZoneistForAssing();
-          //  ComplainViewModel.SuperVisorList = _SuperVisor.GetAllSuperVisorList();
+            ComplainViewModel.SuperVisorList = _SuperVisor.GetAllSuperVisorList();
             ComplainViewModel.CompanyList = _CompanyDetails.GetALLCompany();
-           ComplainViewModel.StatusList = _StatusDetails.GetALLStatus();
-            return View(ComplainViewModel);
-        }
-
-        [HttpPost]
-        public JsonResult GetAllComplainList()
-        {
-            var data = _complainListRepository.GetALlComplainListForAssing().OrderByDescending(x => x.EntryDate).ToList();
-
-            return Json(new
-            {
-                complainList = data
-            });
+            ComplainViewModel.StatusList = _StatusDetails.GetALLStatus();
+            ComplainViewModel.ComplainList = _complainListRepository.GetALlComplainListForAssing().OrderByDescending(x => x.EntryDate).ToList();
+            return View("~/Views/ComplainList/ComplainListData.cshtml", ComplainViewModel);
         }
         [HttpGet]
         public JsonResult GetComplainSingle(string id)
@@ -133,18 +123,8 @@ namespace CSWMS.Controllers
             ComplainViewModel.SuperVisorList = _SuperVisor.GetAllSuperVisorList();
             ComplainViewModel.CompanyList = _CompanyDetails.GetALLCompany();
             ComplainViewModel.StatusList = _StatusDetails.GetALLStatus();
-            return View(ComplainViewModel);
-            //  return View();
-        }
-        [HttpPost]
-        public JsonResult GetAllAssignZone()
-        {
-            var data = _AssignList.GetAllZoneAssingComplainList().OrderByDescending(x => x.EntryDate);
-
-            return Json(new
-            {
-                complainList = data
-            });
+            ComplainViewModel.AssignList = _AssignList.GetAllZoneAssingComplainList().OrderByDescending(x => x.EntryDate).ToList();
+            return View("~/Views/ComplainList/TechnicianAssignList.cshtml", ComplainViewModel);
         }
         [HttpGet]
         public JsonResult GetAssignSingle(string id)
@@ -211,18 +191,8 @@ namespace CSWMS.Controllers
             ComplainViewModel.SuperVisorList = _SuperVisor.GetAllSuperVisorList();
             ComplainViewModel.CompanyList = _CompanyDetails.GetALLCompany();
             ComplainViewModel.StatusList = _StatusDetails.GetALLStatus();
-            return View(ComplainViewModel);
-            //  return View();
-        }
-        [HttpPost]
-        public JsonResult GetAllPendingTask()
-        {
-            var data = _AssignList.GetALLPendingToken().OrderByDescending(x => x.EntryDate);
-
-            return Json(new
-            {
-                complainList = data
-            });
+            ComplainViewModel.AssignList= _AssignList.GetALLPendingToken().OrderByDescending(x => x.EntryDate).ToList();
+            return View("~/Views/ComplainList/TokenTransfer.cshtml", ComplainViewModel);
         }
         [HttpGet]
         public JsonResult GetSingleAssingTokenPending(string id)

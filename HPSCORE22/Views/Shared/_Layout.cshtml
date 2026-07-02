@@ -55,7 +55,7 @@
         $(".navbar-nav").click(function () {
 
             if ($("#sidenavbar").css("min-width") == "239px") {
-                document.getElementById("sidenavbar").style.setProperty("min-width", "168px", "important");
+                document.getElementById("sidenavbar").style.setProperty("min-width", "134px", "important");
             } else {
                 document.getElementById("sidenavbar").style.setProperty("min-width", "239px", "important");
             }
@@ -94,6 +94,7 @@
     <!--Common Alert-->
     <partial name="~/Views/Shared/PartialView/_CustomerJS.cshtml" />
     <partial name="~/Views/Shared/PartialView/_SweetAlert.cshtml" />
-   
+    <!--Common CSS-->
+    <partial name="~/Views/Shared/PartialView/_CommonCSSTable.cshtml" />
 </body>
 </html>

@@ -134,101 +134,57 @@
         font-size: 14px;
     }
 </style>
-<partial name="~/Views/Shared/PartialView/_CSSCDNLink.cshtml" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-@* <div class="container">
-    <div class="row">
-        <div class="" style="display:flex;justify-content:center;align-content:center;">
-            <input type="text" placeholder="Search By Ticket ID For Editing" />
-        </div>
-    </div>
-</div> *@
-
-@* <div class="card TableHeader">
-    <div class="card-header TableHeader">
-        <h3 class="card-title tableheadertext">
-            Complain List For Assign Person
-        </h3>
-    </div>
-    <!-- /.card-header -->
-    <div class="card-body">
-        <div class="table-responsive-custom">
-            <table id="example1" class="table table-bordered table-striped table-hover w-100 tablerows">
-            </table>
-        </div>
-        @*  <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Ticket ID</th>
-                                <th>Customer Name</th>
-                                <th>Contact No</th>
-                                <th>Location</th>
-                                <th>Product Name</th>
-                                <th>Problem Name</th>
-                                <th>Complain Date</th>
-                                <th>Assign Tasks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Ticket ID</th>
-                                <th>Customer Name</th>
-                                <th>Contact No</th>
-                                <th>Location</th>
-                                <th>Product Name</th>
-                                <th>Problem Name</th>
-                                <th>Complain Date</th>
-                                <th>Assign Tasks</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-    </div>
-    <!-- /.card-body -->
-</div> *@
 <div class="card tablebody">
     <div class="card-header TableHeader">
-        <h3 class="card-title tableheadertext">Assign Technicians</h3>
+        <h3 class="card-title tableheadertext" style="color: white !important">Assign Technicians</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <div class="table-responsive-custom">
-            <table id="example1" class="table table-bordered table-striped table-hover w-100 tablerows">
-            </table>
-        </div>
-        @*  <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Ticket ID</th>
-                                <th>Customer Name</th>
-                                <th>Contact No</th>
-                                <th>Location</th>
-                                <th>Product Name</th>
-                                <th>Problem Name</th>
-                                <th>Complain Date</th>
-                                <th>Assign Tasks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+        <table id="locationTable" class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Ticket ID</th>
+                    <th>Customer Name</th>
+                    <th>Contact No</th>
+                    <th>Location</th>
+                    <th>Product Name</th>
+                    <th>Problem Name</th>
+                    <th>Zone Name</th>
+                    <th>Supervisor Name</th>
+                    <th>Complain Date</th>
+                    <th>Assign Tasks</th>
+                </tr>
+            </thead>
 
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Ticket ID</th>
-                                <th>Customer Name</th>
-                                <th>Contact No</th>
-                                <th>Location</th>
-                                <th>Product Name</th>
-                                <th>Problem Name</th>
-                                <th>Complain Date</th>
-                                <th>Assign Tasks</th>
-                            </tr>
-                        </tfoot>
-                    </table> *@
+            <tbody>
+                @foreach (var item in Model.AssignList)
+                {
+                    <tr>
+                        <td>@item.TicketID</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.CustomerContactNo</td>
+                        <td>@item.CustomerAddress</td>
+                        <td>@item.ProductName</td>
+                        <td>@item.ProblemName</td>
+                        <td>@item.ZoneName</td>
+                        <td>@item.SupervisorName</td>
+                        <td>@item.EntryDate</td>
+                        <td class="text-center">
+                            <button class="btn btn-primary btn-sm assign-btn"
+                                    data-id="@item.TicketID">
+                                <i class="fas fa-user-plus"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
     </div>
     <!-- /.card-body -->
 </div>
@@ -353,279 +309,43 @@
     </div>
 </div>
 
-<!-- Scripts -->
-<script src="~/js/jquery-3.7.1.min.js"></script>
-<script src="~/js/jquery.datatables.min.js"></script>
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!--Data Table-->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script>
     $(document).ready(function () {
+        $('#locationTable').DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 25, 50],
+            ordering: true,
+            searching: true,
+            paging: true,
+            info: true,
+            autoWidth: false,
+            responsive: true, // ✅ better UI
 
-        LoadData();
-
-    });
-
-    function LoadData() {
-
-        if ($.fn.DataTable.isDataTable('#example1')) {
-
-            $('#example1')
-                .DataTable()
-                .clear()
-                .destroy();
-
-            $('#example1').empty();
-        }
-
-        $.ajax({
-
-            url: '/ComplainList/GetAllAssignZone',
-
-            type: 'POST',
-
-            dataType: 'json',
-
-            success: function (res) {
-
-                $('#example1').DataTable({
-
-                    data: res.complainList || [],
-
-                    responsive: true,
-
-                    scrollX: true,
-
-                    autoWidth: false,
-
-                    processing: true,
-
-                    destroy: true,
-
-                    pageLength: 10,
-
-                    lengthChange: false,
-
-                    ordering: false,
-                //    order: [[8, 'desc']],
-                    searching: true,
-
-                    info: true,
-
-                    paging: true,
-
-                    columns: [
-
-                        {
-                            title: "Ticket ID",
-                            data: "TicketID",
-                            defaultContent: ""
-                        },
-
-                        {
-                            title: "Customer Name",
-                            data: "CustomerName",
-                            defaultContent: ""
-                        },
-
-                        {
-                            title: "Customer ContactNo",
-                            data: "CustomerContactNo",
-                            defaultContent: ""
-                        },
-
-                        {
-                            title: "Location",
-                            data: "CustomerAddress",
-                            defaultContent: ""
-                        },
-
-                        {
-                            title: "Product Name",
-                            data: "ProductName",
-                            defaultContent: ""
-                        },
-
-                        {
-                            title: "Problem Name",
-                            data: "ProblemName",
-                            defaultContent: ""
-                        },
-                       {
-                            title: "Zone Name",
-                            data: "ZoneName",
-                            defaultContent: ""
-                        },
-                         {
-                            title: "Supervisor Name",
-                            data: "SupervisorName",
-                            defaultContent: ""
-                        },
-                        {
-                            title: "Complain Date",
-
-                            data: "EntryDate",
-
-                            defaultContent: "",
-
-                            render: function (data) {
-
-                                if (!data)
-                                    return "";
-
-                                var d = new Date(data);
-
-                                return d.toLocaleDateString(
-                                    "en-GB",
-                                    {
-                                        day: "2-digit",
-                                        month: "short",
-                                        year: "numeric"
-                                    }
-                                );
-                            }
-                        },
-
-                        {
-                            title: "Assign",
-
-                            data: "TicketID",
-
-                            orderable: false,
-
-                            searchable: false,
-
-                            className: "text-center",
-
-                            render: function (data) {
-
-                                return `
-                                    <button
-                                        class="btn btn-primary btn-sm assign-btn"
-                                        data-id="${data}">
-                                        <i class="fas fa-user-plus"></i>
-                                    </button>
-                                `;
-                            }
-                        }
-
-                    ],
-
-                    dom:
-                        "<'row mb-3'<'col-lg-6 col-md-8 col-sm-12'f>>" +
-                        "<'row'<'col-12'tr>>" +
-                        "<'row mt-3'<'col-lg-6 col-md-12'i><'col-lg-6 col-md-12'p>>",
-
-                    language: {
-
-                        search: "",
-
-                        searchPlaceholder:
-                            "Search complaint...",
-
-                        emptyTable:
-                            "No complaints found",
-
-                        zeroRecords:
-                            "No matching data",
-
-                        info:
-                            "Showing _START_ to _END_ of _TOTAL_ entries",
-
-                        paginate: {
-
-                            previous: "←",
-
-                            next: "→"
-                        }
-                    }
-
-                });
-
-                $('.dataTables_filter input')
-                    .addClass('form-control');
-
+            language: {
+                search: "🔍 Search:",
+                lengthMenu: "Show _MENU_ entries",
+                zeroRecords: "No matching locations found",
+                info: "Showing _START_ to _END_ of _TOTAL_ locations",
+                infoEmpty: "No data available"
             },
 
-            error: function (xhr) {
-
-                console.log(xhr.responseText);
-
-                alert('Load Failed');
-
-            }
-
+            columnDefs: [
+                { orderable: false, targets: 5 } // action column
+            ]
         });
-
-    }
-</script>
-@* <script>
-    $(document).ready(function () {
-        LoadData();
     });
 
-    function LoadData() {
-
-        var complainData = [];
-
-        if ($.fn.DataTable.isDataTable('#example1')) {
-            $('#example1').DataTable().destroy();
-        }
-
-        $.ajax({
-            url: '/ComplainList/GetAllComplainList',
-            type: 'POST',
-            success: function (data) {
-
-                $.each(data.complainList, function (key, value) {
-
-                    function formatDate(dateString) {
-                        if (!dateString) return "";
-
-                        const date = new Date(dateString);
-                        const day = date.getDate();
-                        const month = date.toLocaleString('default', { month: 'long' });
-                        const year = date.getFullYear();
-
-                        return `${day} ${month}, ${year}`;
-                    }
-
-                    var actionButton =
-                        '<button class="btn btn-primary btn-sm assign-btn" data-id="' + value.TicketID + '">' +
-                              '<i class="fas fa-user-plus" style="width: 70%;height: 15px;"></i>' +
-                        '</button>';
-
-                    complainData.push([
-                        value.TicketID,
-                        value.CustomerName,
-                        value.ContactNo,
-                        value.Location,
-                        value.ProductName,
-                        value.ProblemName,
-                        formatDate(value.EntryDate),
-                        actionButton
-                    ]);
-                });
-
-                $('#example1').DataTable({
-                    data: complainData,
-                    columns: [
-                        { title: "Ticket ID" },
-                        { title: "Customer Name" },
-                        { title: "Contact No" },
-                        { title: "Location" },
-                        { title: "Product Name" },
-                        { title: "Problem Name" },
-                        { title: "Complain Date" },
-                        { title: "Assign Tasks" }
-                    ],
-                    responsive: true,
-                    autoWidth: false,
-                    destroy: true
-                });
-            }
-        });
+    function confirmDelete() {
+        return confirm("⚠️ Are you sure you want to delete?");
     }
-
-    // ✅ OPEN MODAL + LOAD DATA
-</script> *@
+</script>
 <script>
     $(document).on('click', '.assign-btn', function () {
 

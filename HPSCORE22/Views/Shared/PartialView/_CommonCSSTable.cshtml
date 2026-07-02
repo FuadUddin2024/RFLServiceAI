@@ -1,0 +1,143 @@
+﻿<style>
+    body {
+        background: #f5f7fb;
+    }
+
+    .dt-buttons.btn-group.flex-wrap {
+        display: none;
+    }
+    .table-container {
+        background: white;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.06);
+        margin-top: 20px;
+    }
+
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .table-header h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+    /* Header */
+    #example1 thead {
+        background: #1f2937;
+        color: white;
+    }
+
+        #example1 thead th {
+            padding: 16px;
+            border: none;
+        }
+
+    /* Rows */
+
+    #example1 tbody tr {
+        transition: .3s;
+    }
+
+        #example1 tbody tr:hover {
+            background: #f0f7ff;
+        }
+
+    #example1 tbody td {
+        padding: 15px;
+        vertical-align: middle;
+    }
+
+    /* Zebra */
+    #example1 tbody tr:nth-child(even) {
+        background: #fafafa;
+    }
+
+    /* Search */
+    .dataTables_filter input {
+        border-radius: 10px !important;
+        padding: 10px !important;
+        border: 1px solid #ddd !important;
+    }
+
+    /* Length */
+    .dataTables_length select {
+        border-radius: 8px;
+    }
+
+    /* Pagination */
+
+    .dataTables_paginate .paginate_button {
+        border-radius: 8px !important;
+        margin: 2px !important;
+    }
+
+        .dataTables_paginate .paginate_button.current {
+            background: #0d6efd !important;
+            color: white !important;
+            border: none !important;
+        }
+
+    /* Info */
+
+    .dataTables_info {
+        color: #777;
+    }
+
+    /* Buttons */
+
+    .action-btn {
+        border: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+    }
+
+    .edit {
+        background: #198754;
+        color: white;
+    }
+
+    .view {
+        background: #0dcaf0;
+    }
+
+    .delete {
+        background: #dc3545;
+        color: white;
+    }
+
+    .dataTables_scrollHeadInner {
+        width: 100% !important;
+    }
+
+/*     .table.table-bordered.table-striped.table-hover.w-100.dataTable.no-footer {
+        margin-left: -6px !important;
+    } */
+
+    .modal-header {
+        display: flex;
+        justify-content: center;
+        align-content: center ; 
+        background-color: cornflowerblue;
+    }
+
+    .assignlable
+    {
+        font-size:14px;
+    }
+</style>
+<style>
+    .fa-user-plus {
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .fa-user-plus:hover {
+        color: #0d6efd;
+        transform: scale(1.2);
+    }
+</style>

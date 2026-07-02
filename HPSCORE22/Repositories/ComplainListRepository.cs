@@ -47,7 +47,7 @@ namespace CSWMS.Repositories
             {
                 connection.Open();
 
-                using (SqlCommand command = new SqlCommand("sp_GetDataZoneWiseAssignListNew", connection))
+                using (SqlCommand command = new SqlCommand("CSP_GetComplainByTicketCode", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandTimeout = 300;
