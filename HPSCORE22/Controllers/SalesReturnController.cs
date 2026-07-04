@@ -70,8 +70,7 @@ namespace CSWMS.Controllers
         public IActionResult SalesApprovalIntial()
         {
             SalesReturnViewModel SalesReturn = new SalesReturnViewModel();
-            SalesReturn.FeedBackDetails = new FeedabackModel();
-            SalesReturn.DepotList = _DepoNames.GetALLDepotName();
+
             return View("~/Views/SalesReturn/SalesApprovalIntial.cshtml", SalesReturn);
         }
     }

@@ -40,5 +40,29 @@ namespace CSWMS.Repositories
 
             return ExtractData.Convert<ItemModel>(dt).ToList();
         }
+        public List<ItemModel> GetAllItemNames()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection Connection = _db.GetConnection())
+            {
+                Connection.Open();
+
+                using (SqlCommand Command = new SqlCommand("sp_GetAllItems", Connection))
+                {
+                    Command.CommandType = CommandType.StoredProcedure;
+
+                    // Increase timeout (in seconds)
+                    Command.CommandTimeout = 300;
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(Command))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+
+            return ExtractData.Convert<ItemModel>(dt).ToList();
+        }
     }
 }

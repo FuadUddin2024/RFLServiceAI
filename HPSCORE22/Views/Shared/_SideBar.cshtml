@@ -17,30 +17,29 @@
             <!--begin::Sidebar Menu-->
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
                 <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="nav-icon fa-solid fa-house"></i>Setup Management<i class="nav-arrow bi bi-chevron-right fs-6"></i></a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item"><a asp-area="" asp-controller="ApprovalSetup" asp-action="SalesRetrunSetup" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Assign Supervisor</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link"><i class="nav-icon fa-solid fa-house"></i>Assign Management<i class="nav-arrow bi bi-chevron-right fs-6"></i></a>
                     <ul class="nav nav-treeview">
-                        @* <li class="nav-item"><a asp-area="" asp-controller="FeedbackList" asp-action="index" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Assign list</a></li> *@
                         <li class="nav-item"><a asp-area="" asp-controller="ComplainList" asp-action="ComplainListData" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Assign Supervisor</a></li>
                         <li class="nav-item"><a asp-area="" asp-controller="ComplainList" asp-action="TechnicianAssignList" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Assign Technicians</a></li>
                         <li class="nav-item"><a asp-area="" asp-controller="ComplainList" asp-action="TokenTransfer" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Assign Transfer</a></li>
-                        @*  <li class="nav-item"><a asp-area="" asp-controller="QCCompany" asp-action="Company" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Company List New</a></li>
-                        <li class="nav-item"><a asp-area="" asp-controller="QCCompany" asp-action="AddCompany" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Add Test Name</a></li> *@
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link"><i class="nav-icon fa-solid fa-house"></i>Feedback Management<i class="nav-arrow bi bi-chevron-right fs-6"></i></a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item"><a asp-area="" asp-controller="FeedbackList" asp-action="Index" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Feedback List</a></li>
-                       @*  <li class="nav-item"><a asp-area="" asp-controller="ComplainList" asp-action="TechnicianAssignList" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Assign Technicians</a></li>
-                        <li class="nav-item"><a asp-area="" asp-controller="ComplainList" asp-action="TokenTransfer" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Assign Transfer</a></li> *@
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link"><i class="nav-icon fa-solid fa-house"></i>Approval Management<i class="nav-arrow bi bi-chevron-right fs-6"></i></a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item"><a asp-area="" asp-controller="SalesReturn" asp-action="SalesReturnIndex" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Apply Sales Return</a></li>
-                        @*  <li class="nav-item"><a asp-area="" asp-controller="ComplainList" asp-action="TechnicianAssignList" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Assign Technicians</a></li>
-                        <li class="nav-item"><a asp-area="" asp-controller="ComplainList" asp-action="TokenTransfer" class="nav-link"><i class="nav-icon fa-solid fa-circle-dot"></i>Assign Transfer</a></li> *@
                     </ul>
                 </li>
             </ul>
