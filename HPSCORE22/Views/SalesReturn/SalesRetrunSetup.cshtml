@@ -1,4 +1,186 @@
-﻿@model CSWMS.Models.ViewModel.AppointmentManagementViewModel
+﻿@model CSWMS.Models.ViewModel.ApproverSetupManagementViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .classnameitem
+    {
+		display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+		gap: 10px;
+    }
+
+    .classbox {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        gap: 4px;
+    }
+</style>
+@if (ViewData["Message"] != null)
+{
+    <script>
+        alert('@ViewData["Message"]');
+    </script>
+}
+<div class="container">
+    <div class="row" >
+        <div class="card shadow-sm border-0 mt-3">
+            <div class="card-header" style="background-color: lightskyblue;">
+                <h4>
+                    Sales Return Info
+                </h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("SalesRetrunSetupSave", "ApprovalSetup", FormMethod.Post, new { @class = "form-inline" }))
+                {
+                    <div class="row" style="margin-left: 10%;">
+                     <div class="col-md-5 col-sm-12">
+                            <label class="assignlable">User ID</label>
+                            @Html.DropDownListFor(
+                            m => m.UserWiseSRPermission.UserId,
+                                                new SelectList(Model.UserList, "UserId", "UserId"),
+                                                "Select User ID",
+                                                new { @class = "form-control", id = "UserIDDetails" }
+                                                )
+                    </div>
+                     <div class="col-md-5 col-sm-12 d-flex gap-4">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(
+                                m => m.UserWiseSRPermission.InitialApv, 
+                                new { @class = "form-check-input",id="intialcheck" }
+                            )
+                            <label class="assignlable">
+                                Initial Apv
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            @Html.CheckBoxFor(
+                                                        m => m.UserWiseSRPermission.FirstApv,
+                                                        new { @class = "form-check-input", id = "firaprvcheck" }
+                                                        )
+                            <label class="assignlable">
+                                1st Apv
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            @Html.CheckBoxFor(
+                                                        m => m.UserWiseSRPermission.SecApv,
+                                                        new { @class = "form-check-input", id = "SecApvCheck" }
+                                                        )
+                            <label class="assignlable">
+                                2nd Apv
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            @Html.CheckBoxFor(
+                                                        m => m.UserWiseSRPermission.FinalApv,
+                                                        new { @class = "form-check-input", id = "FinalApvCheck" }
+                                                        )
+                            <label class="assignlable">
+                                Final Apv
+                            </label>
+                        </div>
+                    </div> 
+                    <div class="col-md-2 col-sm-12" style="align-items:center;align-content:center;margin-top: 2%;">
+
+                        @Html.CheckBox(
+                                                "UserWiseSRPermission.Active",
+                                                true, // checked by default
+                                                new
+                                                {
+                                                    id = "chkActive",
+                                                    @class = "form-check-input"
+                                                })
+                        <label class="assignlable">Is Active</label>
+                    </div>
+                   
+                </div>
+                <div class="row mt-3">
+                    <div class="classnameitem">
+                            @foreach (var ClassName in Model.SalesReturnItemList)
+                            {
+                                <div class="classbox">
+                                    <input type="checkbox" id="item_@ClassName.ItemId" name="selectedcls" class="itemCheckbox" value="@ClassName.ItemId">
+                                    <label for="vehicle1" style="font-size: 15px;">@ClassName.ItemName</label><br>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <button type="submit" class="btn btn-primary mt-4">Save</button>
+                            @*       @if(Model.UserWiseSRPermission)
+                            {
+                                <button type="submit" class="btn btn-primary mt-4">Update</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-primary mt-4">Save</button>
+                            } *@
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#UserIDDetails").on("change", function () {
+
+            EditPermission($(this).val());
+
+        });
+
+    });
+
+        function EditPermission(userId) {
+
+        $.ajax({
+            url: '@Url.Action("GetUserWiseSRPermission", "ApprovalSetup")',
+            type: 'GET',
+            data: { userId: userId },
+            success: function (response) {
+
+                // Check whether data exists
+                if (!response.success) {
+
+                    alert(response.message);
+
+                    $(".itemCheckbox").prop("checked", false);
+                    $("#chkActive").prop("checked", false);
+                    $("#intialcheck").prop("checked", false);
+                    $("#firaprvcheck").prop("checked", false);
+                    $("#SecApvCheck").prop("checked", false);
+                    $("#FinalApvCheck").prop("checked", false);
+
+                    return;
+                }
+
+                var userModel = response.data[0];
+
+                $(".itemCheckbox").prop("checked", false);
+
+                $.each(response.data, function (i, item) {
+
+                    if (item.Active) {
+                        $("#item_" + item.ItemId).prop("checked", true);
+                    }
+
+                });
+
+                $("#chkActive").prop("checked", userModel.Active);
+                $("#intialcheck").prop("checked", userModel.InitialApv);
+                $("#firaprvcheck").prop("checked", userModel.FirstApv);
+                $("#SecApvCheck").prop("checked", userModel.SecApv);
+                $("#FinalApvCheck").prop("checked", userModel.FinalApv);
+            }
+        });
+
+    }
+</script>

@@ -1,10 +1,11 @@
-using QCMS.Repositories;
-using QCMS.Services;
+using CSWMS.CommonMethod;
+using CSWMS.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Rotativa.AspNetCore;
-using CSWMS.Repositories;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc;
+using QCMS.Repositories;
+using QCMS.Services;
+using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,10 @@ builder.Services.AddScoped<ItemRepository>();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<CommonItemRepository>();
 builder.Services.AddScoped<DepotRepository>();
+
+builder.Services.AddScoped<UserManagementRepository>();
+builder.Services.AddScoped<ApproverManagementRepository>();
+builder.Services.AddScoped<SessionHelper>();
 
 
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();

@@ -33,5 +33,31 @@ namespace CSWMS.Repositories
             }
             return ExtractData.Convert<UserManagementModel>(dt).ToList();
         }
+        public UserManagementModel GetSingleUserDetails(string BrandID)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection Connection = _db.GetConnection())
+            {
+                Connection.Open();
+
+                using (SqlCommand Command = new SqlCommand("CSP_GetUserInfoByUserId", Connection))
+                {
+                    Command.CommandType = CommandType.StoredProcedure;
+                    Command.CommandTimeout = 300;
+
+                    // Send parameter
+                    Command.Parameters.AddWithValue("@UserId", BrandID);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(Command))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+
+            return ExtractData.Convert<UserManagementModel>(dt).FirstOrDefault();
+        }
+
     }
 }

@@ -309,6 +309,12 @@
                 <h1>Sign In</h1>
                 <p style="margin-bottom: 0;">Central Service Warranty Software</p>
             </div>
+            @if (ViewBag.ErrorMSG != null)
+            {
+                <div class="alert alert-danger">
+                    <p style="color: red; font-size: 0.875rem; margin-bottom: 1rem;" id="errorMessage">@ViewBag.ErrorMSG</p>
+                </div>
+            }
             <!-- Login Form -->
             <form id="loginForm">
                 @Html.AntiForgeryToken()

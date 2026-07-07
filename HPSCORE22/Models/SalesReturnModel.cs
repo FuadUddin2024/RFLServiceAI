@@ -1,18 +1,18 @@
 ﻿namespace CSWMS.Models
 {
-    public class ApprovalSetupModel
+    public class SalesReturnModel
     {
     }
-    public class SalesReturnPermissionSetup
+    public class UserWiseSRPermission
     {
         public int UwSrPid { get; set; }
         public string? UserId { get; set; }
-        public int? ItemId { get; set; }
+        public int ItemId { get; set; }
         public bool? Active { get; set; }
-        public bool? InitialApv { get; set; }
-        public bool? FirstApv { get; set; }
-        public bool? SecApv { get; set; }
-        public bool? FinalApv { get; set; }
+        public bool InitialApv { get; set; }
+        public bool FirstApv { get; set; }
+        public bool SecApv { get; set; }
+        public bool FinalApv { get; set; }
         public string? EntryBy { get; set; }
         public string? ModifiedBy { get; set; }
         public DateTime? EntryDate { get; set; }

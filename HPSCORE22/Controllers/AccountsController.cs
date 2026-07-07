@@ -1,9 +1,11 @@
-﻿using QCMS.Repositories;
-using QCMS.Services;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QCMS.Models;
+using QCMS.Repositories;
+using QCMS.Services;
 using System.Security.Claims;
 
 namespace QCMS.Controllers
@@ -39,9 +41,9 @@ namespace QCMS.Controllers
             if (user == null)
                 return Json(new { success = false, message = "Invalid system credentials" });
 
-            // =========================
-            // SOFTWARE CHECK
-            // =========================
+             //=========================
+             //SOFTWARE CHECK
+             //=========================
             if (user.SOFT_ON == "N")
                 return Json(new { success = false, message = user.INFO_WELCOME_MSG });
 
@@ -49,18 +51,17 @@ namespace QCMS.Controllers
             if (string.IsNullOrEmpty(user.USERID) || string.IsNullOrEmpty(user.USERNAME))
                 return Json(new { success = false, message = "User profile is incomplete. Contact MIS." });
 
-            // =========================
-            // SESSION STORAGE
-            // =========================
+             //=========================
+             //SESSION STORAGE
+             //=========================
             HttpContext.Session.SetString("USERID", user.USERID ?? "");
             HttpContext.Session.SetString("USERNAME", user.USERNAME ?? "");
-            HttpContext.Session.SetString("DUSR_WHID", user.DUSR_WHID ?? "");
-            HttpContext.Session.SetString("DIST_NAME", user.DIST_NAME ?? "");
-            HttpContext.Session.SetString("DUSR_BUSN", user.DUSR_BUSN ?? "");
+            HttpContext.Session.SetInt32("ZoneID", user.ZoneID);
+            HttpContext.Session.SetInt32("CompanyID", user.CompanyID);
 
-            // =========================
-            // COOKIE AUTHENTICATION
-            // =========================
+             //=========================
+             //COOKIE AUTHENTICATION
+             //=========================
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.USERNAME ?? ""),
@@ -83,7 +84,6 @@ namespace QCMS.Controllers
 
             return Json(new { success = true, redirect = Url.Action("Index", "Home") });
         }
-
         // =========================
         // LOGOUT
         // =========================

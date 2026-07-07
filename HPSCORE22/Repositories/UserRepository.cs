@@ -1,8 +1,9 @@
 ﻿using Dapper;
-using QCMS.Models;
-using QCMS.Services;
 using Microsoft.AspNetCore.Mvc;
 using Oracle.ManagedDataAccess.Client;
+using QCMS.Models;
+using QCMS.Services;
+using System.ComponentModel.Design;
 
 namespace QCMS.Repositories
 {
@@ -48,7 +49,7 @@ namespace QCMS.Repositories
             using var conn = _databaseService.GetConnection();
 
             string sql = @"
-                    SELECT U.UserId, U.UserName, U.UserTypeId
+                    SELECT U.UserId, U.UserName, U.UserTypeId,U.CompanyId,U.ZoneId
                     FROM UserInfo U
                     WHERE U.UserId = @Username
                     AND U.Password = @Password
