@@ -9,6 +9,11 @@
         public List<UserManagementModel> UserList { get; set; } = new List<UserManagementModel>();
 
         // Sales Return Process Setup
+        // Panel Permission Setup
+        public List<ZoneModel> ZoneModel { get; set; } = new List<ZoneModel>();
+        public panelPermissionSetupModel panelPermissionSetupModel { get; set; } = new panelPermissionSetupModel();
 
+        // Damage Return Permission Setup
+        public DamageReturnPermissionUserWise DamageReturnUserWisePermission { get; set; } = new DamageReturnPermissionUserWise();
     }
 }
