@@ -186,15 +186,15 @@ namespace CSWMS.Controllers
             {
                 if (selectedcls.Count() > 0)
                 {
-                    var existingPermission = _ApproverManagement.DeletePreviousPermissionsPanel(UserPermission.panelPermissionSetupModel.UserId);
+                    var existingPermission = _ApproverManagement.DeletePreviousPermissionsDamage(UserPermission.DamageReturnUserWisePermission.UserId);
                     if (existingPermission)
                     {
                         foreach (var item in selectedcls)
                         {
-                            UserPermission.panelPermissionSetupModel.ZoneId = item;
-                            UserPermission.panelPermissionSetupModel.EntryBy = SessionUser.USERID;
-                            UserPermission.panelPermissionSetupModel.EntryDate = DateTime.Now;
-                            _ApproverManagement.InsertPanelPermission(UserPermission.panelPermissionSetupModel);
+                            UserPermission.DamageReturnUserWisePermission.ItemId = item;
+                            UserPermission.DamageReturnUserWisePermission.EntryBy = SessionUser.USERID;
+                            UserPermission.DamageReturnUserWisePermission.EntryDate = DateTime.Now;
+                            _ApproverManagement.InsertDamagePermission(UserPermission.panelPermissionSetupModel);
                         }
                         TempData["SuccessMSG"] = "Successfully Inserted.";
                     }
