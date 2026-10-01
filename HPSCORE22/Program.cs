@@ -1,3 +1,4 @@
+using CSWMS.AIServices;
 using CSWMS.CommonMethod;
 using CSWMS.Repositories;
 using Microsoft.AspNetCore.Authentication;
@@ -47,6 +48,13 @@ builder.Services.AddScoped<SessionHelper>();
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+
+// AI CODE
+builder.Services.AddHttpClient<AITaskSystem>();
+builder.Services.AddScoped<IAITaskSystem, AITaskSystem>();
+builder.Services.AddScoped<IAIService, AIService>();
+
+
 
 // ===============================
 // Authentication (Cookie)

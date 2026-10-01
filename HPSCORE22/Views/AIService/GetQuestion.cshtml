@@ -1,0 +1,47 @@
+﻿@model CSWMS.AIServices.AIServiceModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card card-outline card-primary shadow-sm">
+    <div class="card-header d-flex align-items-center">
+        <h3 class="card-title mb-0">
+            <i class="fas fa-vial mr-2"></i> Test Setup Form AI
+        </h3>
+    </div>
+    <form asp-controller="AIService" asp-action="SaveQuestion" method="post">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-tag mr-1"></i> Question
+                        </label>
+
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               placeholder="Enter Question"
+                               asp-for="Question" />
+
+                        <span asp-validation-for="Question"
+                              class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer d-flex justify-content-between">
+            <div>
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="fas fa-save mr-1"></i> Submit
+                </button>
+            </div>
+        </div>
+    </form>
+    @if(Model.Answer != null)
+    {
+        <div class="card-body">
+            <h5 class="card-title">Answer:</h5>
+			<p class="card-text">@Model.Answer</p>
+        </div>
+    }
+</div>
