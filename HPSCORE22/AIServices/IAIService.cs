@@ -2,6 +2,7 @@
 {
     public interface IAIService
     {
-        Task<float[]> GetAnswerAsync(string question);
+        Task<float[]> GenerateQuestionEmbeddingAsync(string question);
+        Task<bool> SaveToQdrantAsync(string question, float[] embedding);
     }
 }

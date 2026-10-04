@@ -1,4 +1,6 @@
 using CSWMS.AIServices;
+using CSWMS.AIServices.BusinessLayer;
+using CSWMS.AIServices.Repository;
 using CSWMS.CommonMethod;
 using CSWMS.Repositories;
 using Microsoft.AspNetCore.Authentication;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc;
 using QCMS.Repositories;
 using QCMS.Services;
+using Qdrant.Client;
 using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,12 +52,14 @@ builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 
-// AI CODE
+// AI CODE Document
 builder.Services.AddHttpClient<AITaskSystem>();
 builder.Services.AddScoped<IAITaskSystem, AITaskSystem>();
 builder.Services.AddScoped<IAIService, AIService>();
-
-
+builder.Services.AddSingleton<QdrantClient>(sp => new QdrantClient("localhost", 6334));
+// AI SQL
+builder.Services.AddScoped<IAITaskSQL, AITaskSQL>();
+builder.Services.AddScoped<IAIServiceSQL, AIBusinessLayer>();
 
 // ===============================
 // Authentication (Cookie)
