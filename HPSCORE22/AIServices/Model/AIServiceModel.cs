@@ -2,6 +2,9 @@
 
 namespace CSWMS.AIServices.Model
 {
+
+
+
     public class AIServiceModel
     {
         public string? Question { get; set; }

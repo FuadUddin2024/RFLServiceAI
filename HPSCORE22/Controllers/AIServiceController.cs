@@ -1,42 +1,91 @@
 ﻿using CSWMS.AIServices;
 using CSWMS.AIServices.BusinessLayer;
+using CSWMS.AIServices.Extracode;
 using CSWMS.AIServices.Model;
-using CSWMS.AIServices.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.AI;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using System.Net.Http.Json;
 namespace CSWMS.Controllers
 {
     public class AIServiceController : Controller
     {
-        public readonly IAIBusinessLayer _aIService;
-      //  public readonly IAIRepository _aIServiceSQL;
-        public AIServiceController(IAIBusinessLayer aIService, IAIRepository aIServiceSQL)
+        public readonly IAIServiceBusinessLayer _AIService;
+        public AIServiceController(IAIServiceBusinessLayer AIService)
         {
-            _aIService=aIService;
-            _aIServiceSQL= aIServiceSQL;
+            _AIService=AIService;
         }
         // GET: AI Question Page
         public IActionResult GetQuestion()
         {
+            GetAIGeneratedDatabaseCode();
             return View("~/Views/AIService/GetQuestion.cshtml");
         }
 
-        // SetUp : Generate Vector Database from SQL Server and Save to Qdrant
-        [HttpGet]
-        public JsonResult GenerateVectorDatabase()
+        public IActionResult GetAnswer(string question)
         {
-            var objects = _aIService.GetDatabaseSchema().Result; // Fetch database objects synchronously
-            var result = objects.Select(x => _aIService.ConvertDataBaseObjectToSting(x)).ToList(); // Convert each DataTable to a string representation and store in a list
-            foreach (var databaseObject in objects)
+            if(!string.IsNullOrWhiteSpace(question))
             {
-                var embedding = _aIService.ConvertingDatabaseTextToEmbedding(databaseObject.ObjectName).Result;  // Generate schema embedding synchronously
-                
-                var QdrantSaveResult = _aIService.SaveToQdrantAsync(databaseObject.ObjectName, databaseObject.ObjectType, databaseObject.Definition, embedding).Result; // Save the converted data and embedding to Qdrant synchronously
+               // GetAIGeneratedUserQuestionCode(question);
             }
-            return Json(new { success = true, message = "Vector database generated successfully." }); // Return a JSON response indicating success
+            else
+            {
+                return View("~/Views/AIService/GetQuestion.cshtml");
+            }
+            return View("~/Views/AIService/GetQuestion.cshtml");
         }
+        public async Task GetAIGeneratedUserQuestionCode(string question)
+        {
+            if(!string.IsNullOrWhiteSpace(question))
+            {
+                var QuestionembeddingAndVector = await _AIService.GenerateQuestionEmbeddingAsync(question);
+                if(QuestionembeddingAndVector != null && QuestionembeddingAndVector.Length > 0)
+                {
+                    var qdrantResults = await SearchQdrantAsync(questionVector);
+                    // Proceed with further processing, such as saving to Qdrant or generating SQL
+                }
+                else
+                {
+                    // Handle the case where embedding generation failed
+                }
+            }
+            else
+            {
+                
+            }
+        }
+        public void GetAIGeneratedDatabaseCode()
+        {
+
+        }
+        public void GetAIGeneratedDocumentCode()
+        {
+
+        }
+        public void GetAnswerData()
+        {
+
+        }
+
+
+
+
+        // SetUp : Generate Vector Database from SQL Server and Save to Qdrant
+        //[HttpGet]
+        //public JsonResult GenerateVectorDatabase()
+        //{
+        //    var objects = _aIService.GetDatabaseSchema().Result; // Fetch database objects synchronously
+        //    var result = objects.Select(x => _aIService.ConvertDataBaseObjectToSting(x)).ToList(); // Convert each DataTable to a string representation and store in a list
+        //    foreach (var databaseObject in objects)
+        //    {
+        //        var embedding = _aIService.ConvertingDatabaseTextToEmbedding(databaseObject.ObjectName).Result;  // Generate schema embedding synchronously
+
+        //        var QdrantSaveResult = _aIService.SaveToQdrantAsync(databaseObject.ObjectName, databaseObject.ObjectType, databaseObject.Definition, embedding).Result; // Save the converted data and embedding to Qdrant synchronously
+        //    }
+        //    return Json(new { success = true, message = "Vector database generated successfully." }); // Return a JSON response indicating success
+        //}
 
         //    public async Task<IActionResult> GetQuestion()
         //    {
@@ -137,88 +186,88 @@ namespace CSWMS.Controllers
         //    // Temporary: return generated SQL
         //    return Content(generatedSQL, "text/plain");
         //}
-        [HttpPost]
-        public async Task<IActionResult> SaveQuestion(string question)
-        {
-            if (string.IsNullOrWhiteSpace(question))
-            {
-                return BadRequest(new
-                {
-                    success = false,
-                    message = "Question is required."
-                });
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> SaveQuestion(string question)
+        //{
+        //    if (string.IsNullOrWhiteSpace(question))
+        //    {
+        //        return BadRequest(new
+        //        {
+        //            success = false,
+        //            message = "Question is required."
+        //        });
+        //    }
 
-            // Step 1: Generate embedding for user's question
-            var embeddingQuestion =
-                await _aIServiceSQL.GenerateQuestionEmbeddingAsyncSqlQuestion(question);
+        //    // Step 1: Generate embedding for user's question
+        //    var embeddingQuestion =
+        //        await _aIServiceSQL.GenerateQuestionEmbeddingAsyncSqlQuestion(question);
 
-            if (embeddingQuestion == null || embeddingQuestion.Length == 0)
-            {
-                return BadRequest(new
-                {
-                    success = false,
-                    message = "Failed to generate embedding for the question."
-                });
-            }
+        //    if (embeddingQuestion == null || embeddingQuestion.Length == 0)
+        //    {
+        //        return BadRequest(new
+        //        {
+        //            success = false,
+        //            message = "Failed to generate embedding for the question."
+        //        });
+        //    }
 
-            // Step 2: Search Qdrant
-            var searchResult =
-                await _aIServiceSQL.SearchQdrantAsync(embeddingQuestion);
+        //    // Step 2: Search Qdrant
+        //    var searchResult =
+        //        await _aIServiceSQL.SearchQdrantAsync(embeddingQuestion);
 
-            // Step 3: Convert Qdrant JSON to C# object
-            var qdrantResponse =
-                JsonSerializer.Deserialize<QdrantSearchResponse>(searchResult);
+        //    // Step 3: Convert Qdrant JSON to C# object
+        //    var qdrantResponse =
+        //        JsonSerializer.Deserialize<QdrantSearchResponse>(searchResult);
 
-            if (qdrantResponse == null ||
-                qdrantResponse.Result == null ||
-                qdrantResponse.Result.Count == 0)
-            {
-                return BadRequest(new
-                {
-                    success = false,
-                    message = "No relevant schema found."
-                });
-            }
+        //    if (qdrantResponse == null ||
+        //        qdrantResponse.Result == null ||
+        //        qdrantResponse.Result.Count == 0)
+        //    {
+        //        return BadRequest(new
+        //        {
+        //            success = false,
+        //            message = "No relevant schema found."
+        //        });
+        //    }
 
-            // Step 4: Extract relevant schema
-            var schemaText = string.Join(
-                "\n\n",
-                qdrantResponse.Result
-                    .Where(x => x.Payload != null &&
-                                !string.IsNullOrWhiteSpace(x.Payload.Text))
-                    .Select(x => x.Payload.Text)
-            );
+        //    // Step 4: Extract relevant schema
+        //    var schemaText = string.Join(
+        //        "\n\n",
+        //        qdrantResponse.Result
+        //            .Where(x => x.Payload != null &&
+        //                        !string.IsNullOrWhiteSpace(x.Payload.Text))
+        //            .Select(x => x.Payload.Text)
+        //    );
 
-            // Step 5: Classify / understand the question
-            var classification =
-                await _aIServiceSQL.ClassifyQuestionAsync(
-                    question,
-                    schemaText
-                );
+        //    // Step 5: Classify / understand the question
+        //    var classification =
+        //        await _aIServiceSQL.ClassifyQuestionAsync(
+        //            question,
+        //            schemaText
+        //        );
 
-            if (string.IsNullOrWhiteSpace(classification))
-            {
-                return BadRequest(new
-                {
-                    success = false,
-                    message = "Failed to understand the question."
-                });
-            }
+        //    if (string.IsNullOrWhiteSpace(classification))
+        //    {
+        //        return BadRequest(new
+        //        {
+        //            success = false,
+        //            message = "Failed to understand the question."
+        //        });
+        //    }
 
-            // Temporary: return classification
-            return Content(classification, "application/json");
+        //    // Temporary: return classification
+        //    return Content(classification, "application/json");
 
-            // Step 6: Generate SQL
-            /*
-            var generatedSQL =
-                await _aIServiceSQL.GenerateSqlAsync(
-                    question,
-                    schemaText
-                );
+        //    // Step 6: Generate SQL
+        //    /*
+        //    var generatedSQL =
+        //        await _aIServiceSQL.GenerateSqlAsync(
+        //            question,
+        //            schemaText
+        //        );
 
-            return Content(generatedSQL, "text/plain");
-            */
-        }
+        //    return Content(generatedSQL, "text/plain");
+        //    */
+        //}
     }
 }

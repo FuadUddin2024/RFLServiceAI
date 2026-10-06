@@ -1,5 +1,6 @@
 using CSWMS.AIServices;
 using CSWMS.AIServices.BusinessLayer;
+using CSWMS.AIServices.Extracode;
 using CSWMS.AIServices.Repository;
 using CSWMS.CommonMethod;
 using CSWMS.Repositories;
@@ -53,13 +54,13 @@ builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 // AI CODE Document
-builder.Services.AddHttpClient<AITaskSystem>();
-builder.Services.AddScoped<IAITaskSystem, AITaskSystem>();
-builder.Services.AddScoped<IAIService, AIService>();
+builder.Services.AddHttpClient<AIServiceRepository>();
+//builder.Services.AddScoped<IAITaskSystem, AITaskSystem>();
+//builder.Services.AddScoped<IAIService, AIService>();
 builder.Services.AddSingleton<QdrantClient>(sp => new QdrantClient("localhost", 6334));
 // AI SQL
-builder.Services.AddScoped<IAITaskSQL, AITaskSQL>();
-builder.Services.AddScoped<IAIServiceSQL, AIBusinessLayer>();
+builder.Services.AddScoped<IAIServiceRepository, AIServiceRepository>();
+builder.Services.AddScoped<IAIServiceBusinessLayer, AIServiceBusinessLayer>();
 
 // ===============================
 // Authentication (Cookie)
